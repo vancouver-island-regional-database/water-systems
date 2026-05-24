@@ -5,10 +5,31 @@
     <title>Vancouver Island Regional Database - Water Systems</title>
     <meta name="description" content="Public record indexes and environmental asset disclosures regarding regional water systems.">
     <meta name="robots" content="index, follow" />
+    <style>
+        /* Small styling addition to make interactive elements feel alive */
+        .clickable-filter:hover {
+            text-decoration: underline !important;
+        }
+        .tag-pill {
+            display: inline-block;
+            background-color: #E2E8F0;
+            color: #4A5568;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-right: 5px;
+            margin-top: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .tag-pill:hover {
+            background-color: #CBD5E0;
+            color: #2D3748;
+        }
+    </style>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'BCSans', 'Helvetica Neue', Arial, sans-serif; color: #313132; background-color: #FAFAFA;">
 
-<!-- PROVINCIAL STYLE TOP BANNER WITH INTEGRATED TABLE FILTER -->
 <header style="background-color: #003366; color: #FFFFFF; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid #FCBA19; flex-wrap: wrap; gap: 15px;">
     <div style="display: flex; align-items: center;">
         <div style="font-size: 20px; font-weight: 700; letter-spacing: 0.5px; border-right: 1px solid rgba(255,255,255,0.3); padding-right: 15px; margin-right: 15px;">
@@ -18,11 +39,12 @@
             Water Systems Registry
         </div>
     </div>
-  
+    
     <div style="display: flex; align-items: center; gap: 15px;">
-        <!-- Live row searching bar -->
-        <input type="text" id="ledgerSearch" onkeyup="filterLedger()" placeholder="Filter reports & files..." style="padding: 8px 15px; font-size: 13px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; background-color: rgba(255,255,255,0.1); color: #FFFFFF; width: 220px; outline: none; font-family: sans-serif;" onfocus="this.style.backgroundColor='#FFFFFF'; this.style.color='#313132';" onblur="if(this.value=='') { this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; }">
+        <input type="text" id="ledgerSearch" onkeyup="filterLedger()" placeholder="Filter reports, jurisdictions, or tags..." style="padding: 8px 15px; font-size: 13px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; background-color: rgba(255,255,255,0.1); color: #FFFFFF; width: 250px; outline: none; font-family: sans-serif;" onfocus="this.style.backgroundColor='#FFFFFF'; this.style.color='#313132';" onblur="if(this.value=='') { this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; }">
         
+        <button onclick="clearFilter()" style="display: inline-flex; align-items: center; color: #FFFFFF; background-color: #A30000; border: none; padding: 6px 12px; border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer; letter-spacing: 0.5px;">CLEAR</button>
+
         <a href="/home/" style="display: inline-flex; align-items: center; color: #FFFFFF; text-decoration: none; font-size: 11px; font-weight: bold; background-color: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); letter-spacing: 0.5px;">
             HOME
         </a>
@@ -31,126 +53,148 @@
 
 <main style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
 
-    <!-- OFF-WHITE REGISTRY INFORMATION BOX -->
     <section style="background-color: #FFFFFF; border: 1px solid #D1D1D4; border-top: 4px solid #003366; padding: 25px; margin-bottom: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
         <h1 style="color: #003366; margin-top: 0; font-size: 24px; font-weight: 600;">System Directory: Multi-Jurisdictional Cross-Reference</h1>
         <p style="font-size: 14px; line-height: 1.6; color: #47474A; margin-bottom: 0;">
             This independent registry serves as a consolidated community archive for public records, environmental asset disclosures, and historical administrative minutes within the Mid-Island region. Files are catalogued chronologically by original publication dates to facilitate structural data continuity across overlapping regional and educational boundaries.
         <br>
-         </p> Notice: Many of these documents have been delisted, intentionally hidden (403), or removed (404/410) from their source URL. Link status has been noted but may change over time.
+         Notice: Many of these documents have been delisted, intentionally hidden (403), or removed (404/410) from their source URL. Link status has been noted but may change over time.
+         </p>
     </section>
 
-    <!-- DATA LEDGER SECTION -->
     <section>
         <h2 style="color: #003366; font-size: 18px; font-weight: 600; border-bottom: 2px solid #D1D1D4; padding-bottom: 8px; margin-bottom: 20px;">
             Water Quality Reports
         </h2>
         
-<table style="width: 100%; border-collapse: collapse; font-size: 13px; background-color: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-    <thead>  <!-- REVISED 4-COLUMN TOP ROW -->
-        <tr style="background-color: #313132; color: #FFFFFF; text-align: left; font-weight: 600;">
-            <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 12%;">Date</th>
-            <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 15%;">Jurisdiction</th>
-            <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 53%;">Document</th>
-            <th style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; width: 20%;">Resource Link</th>
-        </tr>
-    </thead>
-    <tbody id="ledgerBody">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; background-color: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <thead>
+                <tr style="background-color: #313132; color: #FFFFFF; text-align: left; font-weight: 600;">
+                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 12%;">Date</th>
+                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 20%;">Jurisdiction</th>
+                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 48%;">Document</th>
+                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; width: 20%;">Resource Link</th>
+                </tr>
+            </thead>
+            <tbody id="ledgerBody">
 
-                    <!-- Ladysmith 2014 Water Quality Report (delisted by M. Stevens in 2025)-->
-    <tr class="ledger-row" style="background-color: #FFFFFF;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2014</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">Town of Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">2014 Annual Water Quality Report</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-annual-water-report-2014.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
-        </td>
-    </tr>    
-        
-<!-- Ladysmith 2015 Water Quality Report (delisted by M. Stevens in 2025)-->
-    <tr class="ledger-row" style="background-color: #F9F9F9;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2015</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">Town of Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">2015 Annual Water Quality Report</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/your-file-name.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/ladysmith-annual-water-report-2015.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
-        </td>
-    </tr>
+                <tr class="ledger-row" data-tags="annual, report, history" style="background-color: #FFFFFF;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2014</td>
+                    <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>2014 Annual Water Quality Report</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('annual')">annual</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('report')">report</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-annual-water-report-2014.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
+                    </td>
+                </tr>    
+                
+                <tr class="ledger-row" data-tags="annual, report" style="background-color: #F9F9F9;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2015</td>
+                    <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>2015 Annual Water Quality Report</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('annual')">annual</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('report')">report</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/your-file-name.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/ladysmith-annual-water-report-2015.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
+                    </td>
+                </tr>
 
-        <!-- Ladysmith 2016 Water Quality Report (delisted by M. Stevens in 2025)-->
-    <tr class="ledger-row" style="background-color: #FFFFFF;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2016</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">Town of Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">2016 Annual Water Quality Report</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/2016-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
-        </td>
-    </tr>    
+                <tr class="ledger-row" data-tags="annual, report" style="background-color: #FFFFFF;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2016</td>
+                    <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>2016 Annual Water Quality Report</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('annual')">annual</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('report')">report</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/2016-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
+                    </td>
+                </tr>    
 
-        <!-- Ladysmith 2017 Water Quality Report (delisted by M. Stevens in 2025)-->
-    <tr class="ledger-row" style="background-color: #F9F9F9;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">Town of Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">2017 Annual Water Quality Report</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/your-file-name.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2017-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
-        </td>
-    </tr>
+                <tr class="ledger-row" data-tags="annual, report" style="background-color: #F9F9F9;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017</td>
+                    <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>2017 Annual Water Quality Report</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('annual')">annual</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('report')">report</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/your-file-name.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2017-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
+                    </td>
+                </tr>
 
-        <!-- Ladysmith 2018 Water Quality Report (delisted by M. Stevens in 2025)-->
-    <tr class="ledger-row" style="background-color: #FFFFFF;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2018</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">Town of Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">2018 Annual Water Quality Report</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2018-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
-        </td>
-    </tr>   
-        <!-- SD68 Tech LSS Water Investigation Pt.1 (removed from sd68.bc.ca in 2025)-->
-    <tr class="ledger-row" style="background-color: #F9F9F9;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017, Dec 18</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">SD#68 Nanaimo-Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">Tetra Tech Water Investigation 2017 - Ladysmith Secondary School (pt.1)</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/your-file-name.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://www.sd68.bc.ca/wp-content/uploads/Ladysmith-SD-68-Water-Investigation-2017-Part-1.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source (404) ↗]</a>
-        </td>
-    </tr>  
-                <!-- Correspondence: Lead in École Hammond Bay Drinking Water (delisted c.2023)-->
-    <tr class="ledger-row" style="background-color: #FFFFFF;">
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2019, Sept 30</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366;">SD#68 Nanaimo-Ladysmith</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">Re: Lead in École Hammond Bay Drinking Water</td>
-        <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
-            <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
-            <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
-            <a href="https://pub-sd68.escribemeetings.com/filestream.ashx?DocumentId=6234" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
-        </td>
-    </tr>   
+                <tr class="ledger-row" data-tags="annual, report" style="background-color: #FFFFFF;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2018</td>
+                    <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>2018 Annual Water Quality Report</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('annual')">annual</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('report')">report</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2018-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
+                    </td>
+                </tr>   
+                
+                <tr class="ledger-row" data-tags="investigation, lead, audit, facility" style="background-color: #F9F9F9;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017, Dec 18</td>
+                    <td class="clickable-filter" onclick="setSearchValue('SD#68 Nanaimo-Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">SD#68 Nanaimo-Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>Tetra Tech Water Investigation 2017 - Ladysmith Secondary School (pt.1)</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('investigation')">investigation</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('lead')">lead</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('audit')">audit</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/your-file-name.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://www.sd68.bc.ca/wp-content/uploads/Ladysmith-SD-68-Water-Investigation-2017-Part-1.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source (404) ↗]</a>
+                    </td>
+                </tr>  
+                
+                <tr class="ledger-row" data-tags="correspondence, lead, facility" style="background-color: #FFFFFF;">
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2019, Sept 30</td>
+                    <td class="clickable-filter" onclick="setSearchValue('SD#68 Nanaimo-Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">SD#68 Nanaimo-Ladysmith</td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
+                        <div>Re: Lead in École Hammond Bay Drinking Water</div>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('correspondence')">correspondence</span>
+                        <span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('lead')">lead</span>
+                    </td>
+                    <td style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; white-space: nowrap;">
+                        <a href="./files/lsm-wastewater-audit-2022.pdf" style="color: #003366; font-weight: bold; text-decoration: none; border-bottom: 1px dashed #003366;">[PDF File]</a> 
+                        <span style="color: #606062; margin: 0 4px; font-size: 11px;">|</span>
+                        <a href="https://pub-sd68.escribemeetings.com/filestream.ashx?DocumentId=6234" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
+                    </td>
+                </tr>   
             </tbody>
         </table>
     </section>
 </main>
 
-<!-- SYSTEM FOOTER -->
 <footer style="background-color: #003366; color: #FFFFFF; text-align: center; padding: 20px; font-size: 11px; margin-top: 100px; border-top: 4px solid #FCBA19;">
     <p style="margin: 0; opacity: 0.8;">Vancouver Island Regional Database • Independent Public Disclosure Mirror</p>
     <p style="margin: 5px 0 0 0; opacity: 0.6;">All document entries are reproduced directly from statutory public dockets.</p>
 </footer>
 
-<!-- INSTANT JAVASCRIPT TABLE FILTER ENGINE -->
 <script>
+// Main filtering logic (combines inner text and hidden data-tags)
 function filterLedger() {
     var input = document.getElementById('ledgerSearch');
     var filter = input.value.toLowerCase();
@@ -158,17 +202,40 @@ function filterLedger() {
     var rows = tbody.getElementsByClassName('ledger-row');
 
     for (var i = 0; i < rows.length; i++) {
+        // Grab visible text
         var rowText = rows[i].innerText.toLowerCase();
-        if (rowText.indexOf(filter) > -1) {
+        // Grab hidden tags data attribute (fallback to empty string if none set)
+        var rowTags = rows[i].getAttribute('data-tags') ? rows[i].getAttribute('data-tags').toLowerCase() : "";
+        
+        // Combine text content and tags to check against search filter
+        if (rowText.indexOf(filter) > -1 || rowTags.indexOf(filter) > -1) {
             rows[i].style.display = ""; 
         } else {
             rows[i].style.display = "none"; 
         }
     }
 }
+
+// Helper function: Injects filter query when elements are clicked
+function setSearchValue(value) {
+    var input = document.getElementById('ledgerSearch');
+    input.value = value;
+    // Set style background to white as if focused
+    input.style.backgroundColor = '#FFFFFF';
+    input.style.color = '#313132';
+    // Run the filter engine
+    filterLedger();
+}
+
+// Helper function: Clears search instantly
+function clearFilter() {
+    var input = document.getElementById('ledgerSearch');
+    input.value = "";
+    input.style.backgroundColor = 'rgba(255,255,255,0.1)';
+    input.style.color = '#FFFFFF';
+    filterLedger();
+}
 </script>
 
 </body>
 </html>
-
-```
