@@ -6,7 +6,6 @@
     <meta name="description" content="Public record indexes and environmental asset disclosures regarding regional water systems.">
     <meta name="robots" content="index, follow" />
     <style>
-        /* Small styling addition to make interactive elements feel alive */
         .clickable-filter:hover {
             text-decoration: underline !important;
         }
@@ -26,6 +25,14 @@
             background-color: #CBD5E0;
             color: #2D3748;
         }
+        /* Style for the clickable Date header */
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+        }
+        .sortable-header:hover {
+            background-color: #47474A;
+        }
     </style>
 </head>
 <body style="margin: 0; padding: 0; font-family: 'BCSans', 'Helvetica Neue', Arial, sans-serif; color: #313132; background-color: #FAFAFA;">
@@ -39,12 +46,10 @@
             Water Systems Registry
         </div>
     </div>
-    
+   
     <div style="display: flex; align-items: center; gap: 15px;">
-        <input type="text" id="ledgerSearch" onkeyup="filterLedger()" placeholder="Filter reports, jurisdictions, or tags..." style="padding: 8px 15px; font-size: 13px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; background-color: rgba(255,255,255,0.1); color: #FFFFFF; width: 250px; outline: none; font-family: sans-serif;" onfocus="this.style.backgroundColor='#FFFFFF'; this.style.color='#313132';" onblur="if(this.value=='') { this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; }">
-        
-        <button onclick="clearFilter()" style="display: inline-flex; align-items: center; color: #FFFFFF; background-color: #A30000; border: none; padding: 6px 12px; border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer; letter-spacing: 0.5px;">CLEAR</button>
-
+        <input type="text" id="ledgerSearch" onkeyup="filterLedger()" placeholder="Filter reports & files..." style="padding: 8px 15px; font-size: 13px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; background-color: rgba(255,255,255,0.1); color: #FFFFFF; width: 220px; outline: none; font-family: sans-serif;" onfocus="this.style.backgroundColor='#FFFFFF'; this.style.color='#313132';" onblur="if(this.value=='') { this.style.backgroundColor='rgba(255,255,255,0.1)'; this.style.color='#FFFFFF'; }">
+         
         <a href="/home/" style="display: inline-flex; align-items: center; color: #FFFFFF; text-decoration: none; font-size: 11px; font-weight: bold; background-color: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); letter-spacing: 0.5px;">
             HOME
         </a>
@@ -63,15 +68,20 @@
     </section>
 
     <section>
-        <h2 style="color: #003366; font-size: 18px; font-weight: 600; border-bottom: 2px solid #D1D1D4; padding-bottom: 8px; margin-bottom: 20px;">
-            Water Quality Reports
-        </h2>
-        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #D1D1D4; padding-bottom: 8px; margin-bottom: 20px;">
+            <h2 style="color: #003366; font-size: 18px; font-weight: 600; margin: 0;">
+                Water Quality Reports
+            </h2>
+            <button id="clearFilterBtn" onclick="clearFilter()" style="display: none; color: #A30000; background: none; border: 1px solid #A30000; padding: 4px 10px; border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='#A30000'; this.style.color='#FFFFFF';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#A30000';">
+                RESET FILTERS ×
+            </button>
+        </div>
+         
         <table style="width: 100%; border-collapse: collapse; font-size: 13px; background-color: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <thead>
                 <tr style="background-color: #313132; color: #FFFFFF; text-align: left; font-weight: 600;">
-                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 12%;">Date</th>
-                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 20%;">Jurisdiction</th>
+                    <th class="sortable-header" onclick="sortLogByDate()" style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 14%;">Date <span id="sortDirection">↕</span></th>
+                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 18%;">Jurisdiction</th>
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 48%;">Document</th>
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; width: 20%;">Resource Link</th>
                 </tr>
@@ -92,7 +102,7 @@
                         <a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-annual-water-report-2014.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
                     </td>
                 </tr>    
-                
+                 
                 <tr class="ledger-row" data-tags="annual, report" style="background-color: #F9F9F9;">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2015</td>
                     <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
@@ -152,7 +162,7 @@
                         <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2018-water-report.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source Page ↗]</a>
                     </td>
                 </tr>   
-                
+                 
                 <tr class="ledger-row" data-tags="investigation, lead, audit, facility" style="background-color: #F9F9F9;">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017, Dec 18</td>
                     <td class="clickable-filter" onclick="setSearchValue('SD#68 Nanaimo-Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">SD#68 Nanaimo-Ladysmith</td>
@@ -168,7 +178,7 @@
                         <a href="https://www.sd68.bc.ca/wp-content/uploads/Ladysmith-SD-68-Water-Investigation-2017-Part-1.pdf" target="_blank" rel="noopener noreferrer" style="color: #606062; text-decoration: none; font-size: 11px;">[Source (404) ↗]</a>
                     </td>
                 </tr>  
-                
+                 
                 <tr class="ledger-row" data-tags="correspondence, lead, facility" style="background-color: #FFFFFF;">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2019, Sept 30</td>
                     <td class="clickable-filter" onclick="setSearchValue('SD#68 Nanaimo-Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">SD#68 Nanaimo-Ladysmith</td>
@@ -194,43 +204,96 @@
 </footer>
 
 <script>
-// Main filtering logic (combines inner text and hidden data-tags)
+// Tracks the current sort order (false = un-sorted/ascending, true = descending)
+let dateSortDescending = false;
+
 function filterLedger() {
     var input = document.getElementById('ledgerSearch');
     var filter = input.value.toLowerCase();
+    var btn = document.getElementById('clearFilterBtn');
+
+    // Show or hide the reset button based on whether text exists
+    if (filter.length > 0) {
+        btn.style.display = "inline-block";
+    } else {
+        btn.style.display = "none";
+    }
+
+    reapplyRowStylesAndFilter(filter);
+}
+
+// Separate function to filter and force dynamic clean alternating rows
+function reapplyRowStylesAndFilter(filterValue) {
     var tbody = document.getElementById('ledgerBody');
     var rows = tbody.getElementsByClassName('ledger-row');
+    var visibleIndex = 0;
 
     for (var i = 0; i < rows.length; i++) {
-        // Grab visible text
         var rowText = rows[i].innerText.toLowerCase();
-        // Grab hidden tags data attribute (fallback to empty string if none set)
         var rowTags = rows[i].getAttribute('data-tags') ? rows[i].getAttribute('data-tags').toLowerCase() : "";
         
-        // Combine text content and tags to check against search filter
-        if (rowText.indexOf(filter) > -1 || rowTags.indexOf(filter) > -1) {
+        if (rowText.indexOf(filterValue) > -1 || rowTags.indexOf(filterValue) > -1) {
             rows[i].style.display = ""; 
+            // Fix the zebra background layout programmatically on visible elements
+            if (visibleIndex % 2 === 0) {
+                rows[i].style.backgroundColor = "#FFFFFF";
+            } else {
+                rows[i].style.backgroundColor = "#F9F9F9";
+            }
+            visibleIndex++;
         } else {
             rows[i].style.display = "none"; 
         }
     }
 }
 
-// Helper function: Injects filter query when elements are clicked
+// Date Sorting Engine
+function sortLogByDate() {
+    var tbody = document.getElementById('ledgerBody');
+    // Convert HTML collection to standard Array for sorting logic
+    var rows = Array.from(tbody.getElementsByClassName('ledger-row'));
+    var directionIndicator = document.getElementById('sortDirection');
+
+    dateSortDescending = !dateSortDescending;
+
+    rows.sort(function(rowA, rowB) {
+        // Grab the string inside the first column (td) of the row
+        var dateA = rowA.cells[0].innerText.trim();
+        var dateB = rowB.cells[0].innerText.trim();
+        
+        // Return difference for sorting algorithm
+        if (dateSortDescending) {
+            return dateB.localeCompare(dateA);
+        } else {
+            return dateA.localeCompare(dateB);
+        }
+    });
+
+    // Reinsert sorted rows back into the Document Object Model (DOM)
+    rows.forEach(function(row) {
+        tbody.appendChild(row);
+    });
+
+    // Update UI Header text direction indicators
+    directionIndicator.innerText = dateSortDescending ? "↓" : "↑";
+
+    // Run filter cleanup to recalculate row background colors instantly
+    var currentFilter = document.getElementById('ledgerSearch').value.toLowerCase();
+    reapplyRowStylesAndFilter(currentFilter);
+}
+
 function setSearchValue(value) {
     var input = document.getElementById('ledgerSearch');
     input.value = value;
-    // Set style background to white as if focused
     input.style.backgroundColor = '#FFFFFF';
     input.style.color = '#313132';
-    // Run the filter engine
     filterLedger();
 }
 
-// Helper function: Clears search instantly
 function clearFilter() {
     var input = document.getElementById('ledgerSearch');
     input.value = "";
+    // Reset back to original top banner styling properties
     input.style.backgroundColor = 'rgba(255,255,255,0.1)';
     input.style.color = '#FFFFFF';
     filterLedger();
