@@ -83,7 +83,12 @@
                     <th class="sortable-header" onclick="sortLogByDate()" style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 14%;">Date <span id="sortDirection">↕</span></th>
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 18%;">Jurisdiction</th>
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 48%;">Document</th>
-                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; width: 20%;">Resource Link</th>
+                    <th style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; width: 20%;">
+                  <!-- Header text with integrated institutional disclaimer tooltip -->
+                         <span style="cursor: help;" title="NOTICE ON LINK AVAILABILITY:&#10;Source indicators represent the active status verified at the time of archive entry. Original external URLs are managed by third-party public entities and remain subject to alteration, delisting, or structural domain errors over time.">
+           Resource Link <span style="font-size: 11px; margin-left: 2px; opacity: 0.8; font-weight: normal;">ⓘ</span>
+                       </span>
+                    </th>
                 </tr>
             </thead>
             <tbody id="ledgerBody">
