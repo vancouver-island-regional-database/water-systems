@@ -68,12 +68,11 @@
     </section>
 
     <section>
-        <!-- DATA LEDGER HEADING WITH INLINE RESET SYSTEM -->
         <div style="display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #D1D1D4; padding-bottom: 8px; margin-bottom: 20px;">
             <h2 style="color: #003366; font-size: 18px; font-weight: 600; margin: 0;">
                 Water Quality Reports
             </h2>
-        <button id="clearFilterBtn" onclick="clearFilter()" style="display: none; color: #A30000; background: none; border: 1px solid #A30000; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: nowrap; line-height: 1.2;" onmouseover="this.style.backgroundColor='#A30000'; this.style.color='#FFFFFF';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#A30000';">
+            <button id="clearFilterBtn" onclick="clearFilter()" style="display: none; color: #A30000; background: none; border: 1px solid #A30000; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: nowrap; line-height: 1.2;" onmouseover="this.style.backgroundColor='#A30000'; this.style.color='#FFFFFF';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#A30000';">
                 RESET FILTERS ×
             </button>
         </div>
@@ -84,17 +83,15 @@
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 18%;">Jurisdiction</th>
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; width: 48%;">Document</th>
                     <th style="padding: 12px 15px; border: 1px solid #D1D1D4; text-align: center; width: 20%;">
-                  <!-- Header text with integrated institutional disclaimer tooltip -->
                          <span style="cursor: help;" title="NOTICE ON LINK AVAILABILITY:&#10;Source indicators represent the active status verified at the time of archive entry. Original external URLs are managed by third-party public entities and remain subject to alteration, delisting, or structural domain errors over time.">
-           Resource Link <span style="font-size: 11px; margin-left: 2px; opacity: 0.8; font-weight: normal;">ⓘ</span>
-                       </span>
+                            Resource Link <span style="font-size: 11px; margin-left: 2px; opacity: 0.8; font-weight: normal;">ⓘ</span>
+                         </span>
                     </th>
                 </tr>
             </thead>
             <tbody id="ledgerBody">
 
-                <!-- ROW 1: 2014 Water Report [ACTIVE] -->
-                <tr class="ledger-row" data-tags="annual, report, history" style="background-color: #FFFFFF;">
+                <tr class="ledger-row" data-tags="annual, report, history">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2014</td>
                     <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -114,8 +111,7 @@
                     </td>
                 </tr>    
                  
-                <!-- ROW 2: 2015 Water Report [ACTIVE] -->
-                <tr class="ledger-row" data-tags="annual, report" style="background-color: #F9F9F9;">
+                <tr class="ledger-row" data-tags="annual, report">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2015</td>
                     <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -135,8 +131,7 @@
                     </td>
                 </tr>
 
-                <!-- ROW 3: 2016 Water Report [ACTIVE] -->
-                <tr class="ledger-row" data-tags="annual, report" style="background-color: #FFFFFF;">
+                <tr class="ledger-row" data-tags="annual, report">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2016</td>
                     <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -156,8 +151,7 @@
                     </td>
                 </tr>    
 
-                <!-- ROW 4: 2017 Water Report [ACTIVE] -->
-                <tr class="ledger-row" data-tags="annual, report" style="background-color: #F9F9F9;">
+                <tr class="ledger-row" data-tags="annual, report">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017</td>
                     <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -177,8 +171,7 @@
                     </td>
                 </tr>
 
-                <!-- ROW 5: 2018 Water Report [ACTIVE] -->
-                <tr class="ledger-row" data-tags="annual, report" style="background-color: #FFFFFF;">
+                <tr class="ledger-row" data-tags="annual, report">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2018</td>
                     <td class="clickable-filter" onclick="setSearchValue('Town of Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">Town of Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -198,8 +191,7 @@
                     </td>
                 </tr>   
                  
-                <!-- ROW 6: Tetra Tech Investigation [DEAD / 404] -->
-                <tr class="ledger-row" data-tags="investigation, lead, audit, facility" style="background-color: #F9F9F9;">
+                <tr class="ledger-row" data-tags="investigation, lead, audit, facility">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2017, Dec 18</td>
                     <td class="clickable-filter" onclick="setSearchValue('SD#68 Nanaimo-Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">SD#68 Nanaimo-Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -220,8 +212,7 @@
                     </td>
                 </tr>  
                  
-                <!-- ROW 7: École Hammond Bay Correspondence [DELISTED / HIDDEN] -->
-                <tr class="ledger-row" data-tags="correspondence, lead, facility" style="background-color: #FFFFFF;">
+                <tr class="ledger-row" data-tags="correspondence, lead, facility">
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; white-space: nowrap;">2019, Sept 30</td>
                     <td class="clickable-filter" onclick="setSearchValue('SD#68 Nanaimo-Ladysmith')" style="padding: 12px 15px; border: 1px solid #D1D1D4; font-weight: 600; color: #003366; cursor: pointer;">SD#68 Nanaimo-Ladysmith</td>
                     <td style="padding: 12px 15px; border: 1px solid #D1D1D4; color: #313132; line-height: 1.4;">
@@ -325,27 +316,4 @@ function sortLogByDate() {
     directionIndicator.innerText = dateSortDescending ? "↓" : "↑";
 
     // Run filter cleanup to recalculate row background colors instantly
-    var currentFilter = document.getElementById('ledgerSearch').value.toLowerCase();
-    reapplyRowStylesAndFilter(currentFilter);
-}
-
-function setSearchValue(value) {
-    var input = document.getElementById('ledgerSearch');
-    input.value = value;
-    input.style.backgroundColor = '#FFFFFF';
-    input.style.color = '#313132';
-    filterLedger();
-}
-
-function clearFilter() {
-    var input = document.getElementById('ledgerSearch');
-    input.value = "";
-    // Reset back to original top banner styling properties
-    input.style.backgroundColor = 'rgba(255,255,255,0.1)';
-    input.style.color = '#FFFFFF';
-    filterLedger();
-}
-</script>
-
-</body>
-</html>
+    var currentFilter
