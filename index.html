@@ -326,11 +326,17 @@ function reapplyRowStylesAndFilter(filterValue) {
         
         if (rowText.indexOf(filterValue) > -1 || rowTags.indexOf(filterValue) > -1) {
             rows[i].style.display = ""; 
-            // Fix the zebra background layout programmatically on visible elements
-            if (visibleIndex % 2 === 0) {
-                rows[i].style.backgroundColor = "#FFFFFF";
+            
+            // CHECK IF ROW IS AN UNPUBLISHED LOG ENTRY
+            if (rows[i].classList.contains('row-unpublished')) {
+                rows[i].style.backgroundColor = "#F1F2F4"; // Solid neutral light grey
             } else {
-                rows[i].style.backgroundColor = "#F9F9F9";
+                // Fix the zebra background layout programmatically on normal visible elements
+                if (visibleIndex % 2 === 0) {
+                    rows[i].style.backgroundColor = "#FFFFFF";
+                } else {
+                    rows[i].style.backgroundColor = "#F9F9F9";
+                }
             }
             visibleIndex++;
         } else {
