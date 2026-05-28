@@ -364,20 +364,17 @@ function reapplyRowStylesAndFilter(filterValue) {
         var rowText = rows[i].innerText.toLowerCase();
         var rowTags = rows[i].getAttribute('data-tags') ? rows[i].getAttribute('data-tags').toLowerCase() : "";
         
-        if (rowText.indexOf(filterValue) > -1 || rowTags.indexOf(filterValue) > -1) {
-            rows[i].style.display = ""; 
-            
-            // CHECK IF ROW IS AN UNPUBLISHED LOG ENTRY
-            if (rows[i].classList.contains('row-unpublished')) {
-                rows[i].style.backgroundColor = "#F1F2F4"; // Solid neutral light grey
-            } else {
-                // Fix the zebra background layout programmatically on normal visible elements
-                if (visibleIndex % 2 === 0) {
-                    rows[i].style.backgroundColor = "#FFFFFF";
-                } else {
-                    rows[i].style.backgroundColor = "#F9F9F9";
-                }
-            }
+// If the row is one of your unpublished placeholders, keep it grey
+if (rows[i].classList.contains('row-unpublished')) {
+    rows[i].style.backgroundColor = "#F1F2F4"; // Solid neutral light grey
+} else {
+    // Otherwise, apply your normal alternating zebra backgrounds
+    if (visibleIndex % 2 === 0) {
+        rows[i].style.backgroundColor = "#FFFFFF";
+    } else {
+        rows[i].style.backgroundColor = "#F9F9F9";
+    }
+}
             visibleIndex++;
         } else {
             rows[i].style.display = "none"; 
