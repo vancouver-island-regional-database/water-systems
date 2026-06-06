@@ -1,10 +1,3 @@
-The reason the grey background vanished is due to a syntax bug introduced into the loop logic. When the `if (rows[i].classList.contains('row-unpublished'))` statement was added, the code closing bracket `}` for the search query matching condition (`if (rowText.indexOf(filterValue) > -1 ... )`) accidentally got shifted down. This broke the loop structure, preventing the row logic from compiling properly.
-
-Furthermore, to bring the `[Consolidated Report Unpublished]` tag up onto the exact same line as your document title, we simply change the `<span>` element from `display: block;` to `display: inline-block;` and add a left margin so it doesn't slam into the title text.
-
-Here is your complete, fully functional `index.html` file code with the JavaScript logic repaired and the layout text brought onto a single line.
-
-```html
 <!DOCTYPE html>
 <html lang="en-CA">
 <head>
@@ -424,5 +417,3 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 </body>
 </html>
-
-```
