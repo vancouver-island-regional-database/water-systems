@@ -378,11 +378,6 @@
             color: var(--bc-blue);
         }
 
-        .status-toggle-triangle {
-            transition: transform 0.15s ease;
-            display: inline-block;
-        }
-
         .doc-header-status-extension {
             padding: 4px 12px;
             font-size: 0.68rem; 
@@ -415,6 +410,37 @@
             align-items: center;
             gap: 6px;
             flex-shrink: 0;
+        }
+
+        /* STATUS BADGE DROP-TOGGLE BUTTON */
+        .status-badge-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+            line-height: 1.2;
+            border: 1px solid transparent;
+        }
+        
+        .status-badge-toggle:hover {
+            filter: brightness(0.93);
+        }
+        
+        .status-badge-toggle.ext-live { background-color: #d1fae5; color: #065f46; border-color: #a7f3d0; }
+        .status-badge-toggle.ext-orphaned { background-color: #FFFBEB; color: #b45309; border-color: #fde68a; }
+        .status-badge-toggle.ext-removed { background-color: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+        .status-badge-toggle.ext-unpublished { background-color: #e2e8f0; color: #1e293b; border-color: #cbd5e1; }
+
+        .toggle-arrow {
+            transition: transform 0.15s ease;
+            display: inline-block;
+            font-size: 8px;
         }
 
         /* COMPACT BUTTONS DESIGN */
@@ -454,9 +480,10 @@
             border-color: var(--bc-blue-dark);
         }
 
-        .icon-green { color: #065f46; font-weight: 700; margin-right: 2px; }
-        .icon-amber { color: #e6a100; font-weight: 700; margin-right: 2px; }
-        .icon-red { color: #b91c1c; font-weight: 700; margin-right: 2px; }
+        /* Bright checkmarks for dark-blue source button readability */
+        .icon-green { color: #4ADE80; font-weight: 700; margin-right: 2px; }
+        .icon-amber { color: #FBBF24; font-weight: 700; margin-right: 2px; }
+        .icon-red { color: #F87171; font-weight: 700; margin-right: 2px; }
 
         /* Details drawer styling */
         .doc-details-drawer {
@@ -540,8 +567,8 @@
             font-size: 0.78rem;
             color: #991B1B !important;
             line-height: 1.45;
-            border-radius: 0 4px 4px 0;
-            margin: 4px 0 0 0;
+            border-radius: 4px;
+            margin: 4px 0 6px 0; /* Clear bottom margin to separate from title */
         }
 
         .audit-findings-grid {
@@ -2323,15 +2350,16 @@
         }
 
         // Toggle Status Bar
-        function toggleStatusExtension(btn) {
-            const card = btn.closest('.doc-card');
+        function toggleStatusExtension(badge) {
+            const card = badge.closest('.doc-card');
             const ext = card.querySelector('.doc-header-status-extension');
+            const arrow = badge.querySelector('.toggle-arrow');
             if (ext.style.display === 'none' || !ext.style.display) {
                 ext.style.display = 'flex';
-                btn.style.transform = 'rotate(90deg)';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
             } else {
                 ext.style.display = 'none';
-                btn.style.transform = 'none';
+                if (arrow) arrow.style.transform = 'none';
             }
         }
 
@@ -2340,13 +2368,6 @@
             if (status === 'live') return '<span class="icon-green">✓</span>';
             if (status === 'orphaned') return '<span class="icon-amber">⊘</span>';
             return '<span class="icon-red">✕</span>';
-        }
-
-        function getStatusColor(status) {
-            if (status === 'live') return '#065f46';
-            if (status === 'orphaned') return '#D97706';
-            if (status === 'unpublished') return '#475569';
-            return '#B91C1C';
         }
 
         function renderRecords(records) {
@@ -2399,9 +2420,17 @@
 
                 const addJurHtml = r.add_jur ? `<span style="color: #64748b; font-weight: 600; font-size: 0.78rem;"> ${r.add_jur}</span>` : "";
 
-                const triangleColor = getStatusColor(r.status);
-                const statusTriangle = `
-                    <span class="status-toggle-triangle" onclick="toggleStatusExtension(this)" style="color: ${triangleColor}; cursor: pointer; font-size: 0.85rem; font-weight: bold; margin-right: 6px; user-select: none;">▶</span>
+                // Shortened status label for badge button
+                let shortLabel = "LIVE";
+                if (r.status === 'orphaned') shortLabel = "HIDDEN";
+                if (r.status === 'restricted') shortLabel = "RESTRICTED";
+                if (r.status === 'absent') shortLabel = "ABSENT";
+                if (r.status === 'unpublished') shortLabel = "UNPUBLISHED";
+
+                const statusBadge = `
+                    <span class="status-badge-toggle ${r.status_class}" onclick="toggleStatusExtension(this)">
+                        ${defIcon(r.status)} ${shortLabel} <span class="toggle-arrow">▼</span>
+                    </span>
                 `;
 
                 return `
@@ -2409,7 +2438,6 @@
                         <div class="doc-header-composite">
                             <div class="doc-header">
                                 <div>
-                                    ${statusTriangle}
                                     <span class="date-stamped-box">${r.original_date}</span>
                                     <span class="header-format-pill" onclick="setDocTypeFilter('${r.doc_type}')">${r.doc_type}</span>
                                     <span class="doc-jur">${r.jurisdiction}</span>
@@ -2418,6 +2446,7 @@
                                 <div class="card-actions-right">
                                     ${pdfBtn}
                                     ${sourceBtn}
+                                    ${statusBadge}
                                 </div>
                             </div>
                             <div class="doc-header-status-extension ${r.status_class}" style="display: none;">
@@ -2425,8 +2454,8 @@
                             </div>
                         </div>
 
-                        ${detailsHtml}
                         ${disclaimerHtml}
+                        ${detailsHtml}
                     </div>
                 `;
             }).join("");
