@@ -413,46 +413,41 @@
             flex-shrink: 0;
         }
 
-        /* Buttons Redesign - Restored Pill Styling */
-        .pill {
-            display: inline-block;
-            padding: 3px 10px;
-            font-size: 11px;
+        /* Restored New Buttons Design from First Iteration */
+        .btn-mirror, .btn-source {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            font-size: 12px;
             font-weight: 600;
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
+            border-radius: 6px;
             text-decoration: none;
             transition: all 0.15s ease;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
-        .pill-mirror-link {
-            background-color: transparent;
-            color: #475569;
-            border: 1px dashed #cbd5e1;
-        }
-        
-        .pill-mirror-link:hover {
-            background-color: #f8fafc;
-            border-color: #94a3b8;
+        .btn-mirror {
+            background-color: #FFFFFF;
             color: var(--bc-blue);
+            border: 1px solid var(--bc-blue);
         }
 
-        .pill-source-base {
-            background-color: #f1f5f9;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-        }
-        
-        .pill-source-base:hover {
-            background-color: #e2e8f0;
-            border-color: #94a3b8;
-            color: var(--bc-blue-dark);
+        .btn-mirror:hover {
+            background-color: var(--accent-blue-soft);
         }
 
-        .icon-green { color: #065f46; font-weight: 700; margin-right: 2px; }
-        .icon-amber { color: #e6a100; font-weight: 700; margin-right: 2px; }
-        .icon-red { color: #b91c1c; font-weight: 700; margin-right: 2px; }
+        .btn-source {
+            background-color: var(--bc-blue);
+            color: #FFFFFF;
+            border: 1px solid var(--bc-blue);
+        }
+
+        .btn-source:hover {
+            background-color: var(--bc-blue-dark);
+            border-color: var(--bc-blue-dark);
+        }
 
         /* Details drawer styling */
         .doc-details-drawer {
@@ -521,17 +516,49 @@
             background: #FFFFFF;
         }
 
-        /* Abstract/Tooltip detail box with exact format spacing */
-        .doc-tooltip-raw {
+        .doc-abstract {
             font-size: 0.84rem;
             line-height: 1.5;
             color: #334155;
             margin: 0;
-            white-space: pre-line;
-            background-color: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            padding: 12px;
+            font-style: italic;
+        }
+
+        .data-disclaimer-panel {
+            background-color: #f8fafc;
+            border-left: 3px solid var(--text-muted);
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: #475569;
+            line-height: 1.4;
+            border-radius: 0 4px 4px 0;
+            margin: 0;
+        }
+
+        .audit-findings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+            margin: 0;
+        }
+
+        .audit-data-node {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            line-height: 1.4;
+        }
+
+        .audit-data-node strong {
+            color: var(--bc-blue-dark);
+            display: inline-block;
+            background-color: #e2e8f0;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-right: 4px;
         }
 
         .doc-footer-wrapper {
@@ -740,7 +767,14 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "December 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 19, 29, 39, 49, 59: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 27, 29: Raw timestamps indicate water samples were in transit for 26 hours and 5 minutes prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 29: Quality control warnings: identical duplicate water samples yielded conflicting test results.\n\u2022 Page 59: Quality control warnings: laboratory flags anomalies in contamination baseline testing. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 19, 29, 39, 49, 59: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 27, 29: Raw timestamps indicate water samples were in transit for 26 hours and 5 minutes prior to laboratory receipt (unflagged by laboratory).",
+            "Page 29: Quality control warnings: identical duplicate water samples yielded conflicting test results.",
+            "Page 59: Quality control warnings: laboratory flags anomalies in contamination baseline testing."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -748,8 +782,9 @@
         "pdf_link": "./files/december-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/december-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -759,7 +794,15 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "November 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 16: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 19, 29, 39, 49, 59, 69: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 29, 69: Quality control warnings: laboratory flags anomalies in sampling frequency.\n\u2022 Page 49: Quality control warnings: identical duplicate water samples yielded conflicting test results.\n\u2022 Page 69: Quality control warnings: laboratory flags anomalies in contamination baseline testing. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 16: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 19, 29, 39, 49, 59, 69: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 29, 69: Quality control warnings: laboratory flags anomalies in sampling frequency.",
+            "Page 49: Quality control warnings: identical duplicate water samples yielded conflicting test results.",
+            "Page 69: Quality control warnings: laboratory flags anomalies in contamination baseline testing."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -767,8 +810,9 @@
         "pdf_link": "./files/november-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/november-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -778,7 +822,14 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "October 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 9, 19, 29, 49, 59: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 19, 49, 59: Quality control warnings: laboratory flags anomalies in sampling frequency.\n\u2022 Page 37, 39: Raw timestamps indicate water samples were in transit for 25 hours prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 56: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 9, 19, 29, 49, 59: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 19, 49, 59: Quality control warnings: laboratory flags anomalies in sampling frequency.",
+            "Page 37, 39: Raw timestamps indicate water samples were in transit for 25 hours prior to laboratory receipt (unflagged by laboratory).",
+            "Page 56: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -786,8 +837,9 @@
         "pdf_link": "./files/october-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/october-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -797,7 +849,18 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "September 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 6: Laboratory workorder notes: water samples were received with a temperature exceeding 10 \u00b0C.\n\u2022 Page 6, 28, 73: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 7, 9: Raw timestamps indicate water samples were in transit for 25 hours and 40 minutes prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 15, 41, 42, 64, 86: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 29: Analytical data indicates Total Trihalomethanes (THMs) reached 91.2 \u00b5g/L (unflagged by laboratory).\n\u2022 Page 40: Quality control warnings: identical duplicate water samples yielded conflicting test results.\n\u2022 Page 44: Quality control warnings: laboratory flags anomalies in sampling frequency.\n\u2022 Page 51: Raw data indicates procedural omission: mandatory sample container for Dissolved Inorganic Carbon was missing upon receipt, preventing analysis (unflagged by laboratory). ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 6: Laboratory workorder notes: water samples were received with a temperature exceeding 10 \u00b0C.",
+            "Page 6, 28, 73: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 7, 9: Raw timestamps indicate water samples were in transit for 25 hours and 40 minutes prior to laboratory receipt (unflagged by laboratory).",
+            "Page 15, 41, 42, 64, 86: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 29: Analytical data indicates Total Trihalomethanes (THMs) reached 91.2 \u00b5g/L (unflagged by laboratory).",
+            "Page 40: Quality control warnings: identical duplicate water samples yielded conflicting test results.",
+            "Page 44: Quality control warnings: laboratory flags anomalies in sampling frequency.",
+            "Page 51: Raw data indicates procedural omission: mandatory sample container for Dissolved Inorganic Carbon was missing upon receipt, preventing analysis (unflagged by laboratory)."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -805,8 +868,9 @@
         "pdf_link": "./files/september-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/september-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -816,7 +880,17 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "August 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 8, 19, 32, 47, 62, 75: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 17: Analytical data indicates Total Haloacetic Acids (HAA5) reached 77.9 \u00b5g/L (unflagged by laboratory).\n\u2022 Page 17, 19: Raw timestamps indicate water samples were in transit for 25 hours and 35 minutes prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 18: Analytical data indicates Total Trihalomethanes (THMs) reached 87.1 \u00b5g/L (unflagged by laboratory).\n\u2022 Page 19: Quality control warnings: laboratory flags anomalies in sampling frequency.\n\u2022 Page 29: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 75: Quality control warnings: laboratory flags anomalies in verifying if background water composition interferes with accurate chemical recovery. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 8, 19, 32, 47, 62, 75: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 17: Analytical data indicates Total Haloacetic Acids (HAA5) reached 77.9 \u00b5g/L (unflagged by laboratory).",
+            "Page 17, 19: Raw timestamps indicate water samples were in transit for 25 hours and 35 minutes prior to laboratory receipt (unflagged by laboratory).",
+            "Page 18: Analytical data indicates Total Trihalomethanes (THMs) reached 87.1 \u00b5g/L (unflagged by laboratory).",
+            "Page 19: Quality control warnings: laboratory flags anomalies in sampling frequency.",
+            "Page 29: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 75: Quality control warnings: laboratory flags anomalies in verifying if background water composition interferes with accurate chemical recovery."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -824,8 +898,9 @@
         "pdf_link": "./files/august-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/august-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -835,7 +910,15 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "July 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 8: Quality control warnings: identical duplicate water samples yielded conflicting test results.\n\u2022 Page 8, 28, 38, 48, 58: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 36: Laboratory workorder notes: water samples were received with a temperature exceeding 10 \u00b0C.\n\u2022 Page 46: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 48: Raw data indicates anomalies in sampling frequency (unflagged by laboratory). ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 8: Quality control warnings: identical duplicate water samples yielded conflicting test results.",
+            "Page 8, 28, 38, 48, 58: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 36: Laboratory workorder notes: water samples were received with a temperature exceeding 10 \u00b0C.",
+            "Page 46: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 48: Raw data indicates anomalies in sampling frequency (unflagged by laboratory)."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -843,8 +926,9 @@
         "pdf_link": "./files/july-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/july-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -854,7 +938,13 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "June 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 6, 46: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 9, 29, 39, 49: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 40: Raw data indicates anomalies in sampling frequency (unflagged by laboratory). ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 6, 46: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 9, 29, 39, 49: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 40: Raw data indicates anomalies in sampling frequency (unflagged by laboratory)."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -862,8 +952,9 @@
         "pdf_link": "./files/june-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/june-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -873,7 +964,16 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "May 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 7, 8: Raw timestamps indicate water samples were in transit for 24 to 27 hours prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 9, 19, 37, 50, 64, 75, 86: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 16: Laboratory qualifier notes: sample preparation or preservation hold time was exceeded.\n\u2022 Page 61: Laboratory notes procedural omission: mandatory sample submission documentation was missing upon receipt.\n\u2022 Page 61, 83: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 75: Quality control warnings: laboratory flags anomalies in contamination baseline testing. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 7, 8: Raw timestamps indicate water samples were in transit for 24 to 27 hours prior to laboratory receipt (unflagged by laboratory).",
+            "Page 9, 19, 37, 50, 64, 75, 86: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 16: Laboratory qualifier notes: sample preparation or preservation hold time was exceeded.",
+            "Page 61: Laboratory notes procedural omission: mandatory sample submission documentation was missing upon receipt.",
+            "Page 61, 83: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 75: Quality control warnings: laboratory flags anomalies in contamination baseline testing."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -881,8 +981,9 @@
         "pdf_link": "./files/may-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/may-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -892,7 +993,13 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "April 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 6, 21, 26: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 9, 19, 24, 29: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 19, 29: Quality control warnings: laboratory flags anomalies in sampling frequency. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 6, 21, 26: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 9, 19, 24, 29: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 19, 29: Quality control warnings: laboratory flags anomalies in sampling frequency."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -900,8 +1007,9 @@
         "pdf_link": "./files/april-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/april-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -911,7 +1019,17 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "March 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 7, 9: Raw timestamps indicate water samples were in transit for 25 hours and 40 minutes prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 45, 73, 144: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 52, 65, 124, 137, 152: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 123, 137: Quality control warnings: laboratory flags anomalies in contamination baseline testing, sample interference testing, and sampling frequency.\n\u2022 Page 136: Quality control warnings: identical duplicate water samples yielded conflicting test results.\n\u2022 Page 143: Raw analytical data indicates the background method blank contained comparable chemical levels to the treated water sample for Nitrosodimethylamine (unflagged by laboratory).\n\u2022 Page 144: Raw analytical data indicates detection limits for Brodifacoum were manually adjusted due to background chemical interference (unflagged by laboratory). ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 7, 9: Raw timestamps indicate water samples were in transit for 25 hours and 40 minutes prior to laboratory receipt (unflagged by laboratory).",
+            "Page 45, 73, 144: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 52, 65, 124, 137, 152: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 123, 137: Quality control warnings: laboratory flags anomalies in contamination baseline testing, sample interference testing, and sampling frequency.",
+            "Page 136: Quality control warnings: identical duplicate water samples yielded conflicting test results.",
+            "Page 143: Raw analytical data indicates the background method blank contained comparable chemical levels to the treated water sample for Nitrosodimethylamine (unflagged by laboratory).",
+            "Page 144: Raw analytical data indicates detection limits for Brodifacoum were manually adjusted due to background chemical interference (unflagged by laboratory)."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -919,8 +1037,9 @@
         "pdf_link": "./files/march-2024-arbutus-wtp-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/march-2024-arbutus-wtp-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -930,7 +1049,16 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "February 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 27, 29: Raw timestamps indicate water samples were in transit for 25 hours and 40 minutes prior to laboratory receipt (unflagged by laboratory).\n\u2022 Page 31: Quality control warnings: laboratory flags anomalies in contamination baseline testing and sampling frequency.\n\u2022 Page 31, 45, 56, 66, 77: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.\n\u2022 Page 64, 75: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 64: Laboratory notes procedural omission: mandatory sample submission documentation was missing upon receipt.\n\u2022 Page 66: Quality control warnings: identical duplicate water samples yielded conflicting test results. ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 27, 29: Raw timestamps indicate water samples were in transit for 25 hours and 40 minutes prior to laboratory receipt (unflagged by laboratory).",
+            "Page 31: Quality control warnings: laboratory flags anomalies in contamination baseline testing and sampling frequency.",
+            "Page 31, 45, 56, 66, 77: Quality control warnings: water samples exceeded maximum allowable time limits prior to laboratory analysis.",
+            "Page 64, 75: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 64: Laboratory notes procedural omission: mandatory sample submission documentation was missing upon receipt.",
+            "Page 66: Quality control warnings: identical duplicate water samples yielded conflicting test results."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -938,8 +1066,9 @@
         "pdf_link": "./files/february-2024-viha-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/february-2024-viha-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -949,7 +1078,12 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "January 2024 Arbutus Water Treatment Plant Monthly Report",
-        "tooltip": "SUMMARY: Mandated monthly report containing water treatment data and laboratory records for Island Health.\n\n\u24d8 Disclaimer: Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.\n\nKEY DATA:\n\u2022 Page 5, 53: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.\n\u2022 Page 26, 27, 36, 37, 54, 55: Raw timestamps indicate water samples were in transit for over 24 hours prior to laboratory receipt (unflagged by laboratory). ",
+        "summary": "Mandated monthly report containing water treatment data and laboratory records for Island Health.",
+        "disclaimer": "Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.",
+        "key_data": [
+            "Page 5, 53: Compliance warnings: treated water samples exceeded the recommended laboratory holding time prior to testing.",
+            "Page 26, 27, 36, 37, 54, 55: Raw timestamps indicate water samples were in transit for over 24 hours prior to laboratory receipt (unflagged by laboratory)."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants"
@@ -957,8 +1091,9 @@
         "pdf_link": "./files/january-2024-arbutus-wtp-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/january-2024-arbutus-wtp-report.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Monthly Report"
     },
@@ -968,7 +1103,9 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2023 Annual Water Quality Report[Unpublished]",
-        "tooltip": "REPORT STATE:\n\n No verified public release. Document absent from local government records.",
+        "summary": "REPORT STATE: No verified public release. Document absent from local government records.",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -977,7 +1114,8 @@
         "pdf_link": "",
         "source_link": "",
         "status": "unpublished",
-        "status_label": "UNPUBLISHED",
+        "status_label": "\u2715 UNPUBLISHED",
+        "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
         "doc_type": "Technical Record"
@@ -988,7 +1126,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1074-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -996,8 +1136,9 @@
         "pdf_link": "./files/2023-09-29_TOL-WWTP-revoked-notice-17-7_DFO-FN1074-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290749",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1007,7 +1148,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1073-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1015,8 +1158,9 @@
         "pdf_link": "./files/2023-09-29_TOL-WWTP-revoked-notice-17-7_DFO-FN1073-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290745",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1026,7 +1170,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1038-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1034,8 +1180,9 @@
         "pdf_link": "./files/2023-09-21_TOL-WWTP-closure-notice-17-7_DFO-FN1038-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290329",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1045,7 +1192,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1037-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1053,8 +1202,9 @@
         "pdf_link": "./files/2023-09-21_TOL-WWTP-closure-notice-17-7_DFO-FN1037-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290325",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1064,7 +1214,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0929-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1072,8 +1224,9 @@
         "pdf_link": "./files/2023-09-01_TOL-WWTP-revoked-notice-17-7_DFO-FN0929-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288929",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1083,7 +1236,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0928-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1091,8 +1246,9 @@
         "pdf_link": "./files/2023-09-01_TOL-WWTP-revoked-notice-17-7_DFO-FN0928-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288925",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1102,7 +1258,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0870-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1110,8 +1268,9 @@
         "pdf_link": "./files/2023-08-18_TOL-WWTP-closure-notice-17-7_DFO-FN0870-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288275",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1121,7 +1280,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0869-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1129,8 +1290,9 @@
         "pdf_link": "./files/2023-08-18_TOL-WWTP-closure-notice-17-7_DFO-FN0869-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288271",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1140,7 +1302,9 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2022 Annual Water Quality Report[Unpublished]",
-        "tooltip": "REPORT STATE:\n\n No verified public release. Document absent from local government records.",
+        "summary": "REPORT STATE: No verified public release. Document absent from local government records.",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "drinking-water",
             "federal-safety-guidelines"
@@ -1148,7 +1312,8 @@
         "pdf_link": "",
         "source_link": "",
         "status": "unpublished",
-        "status_label": "UNPUBLISHED",
+        "status_label": "\u2715 UNPUBLISHED",
+        "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
         "doc_type": "Technical Record"
@@ -1159,7 +1324,13 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith Wastewater Treatment Plant Conditional Management Plan",
-        "tooltip": "SUMMARY: Agreement between federal and provincial agencies and the Town of Ladysmith outlining emergency wastewater discharge reporting protocols.\n\n\nKEY DATA:\n\u2022 Page 1, 2, 3: Drafted October 31, 2022 (following April 2022 transition to Operational Certificate 110161); expiring January 31, 2026.\n\u2022 Page 2, 3: Federal management oversight for the protection of shellfish ecosystems, based on wastewater treatment plant performance characteristics and hydrographical data.\n\u2022 Page 4, 5: Municipality is required to strictly monitor and report regular operations and discharge exceedances to federal government agencies. ",
+        "summary": "Agreement between federal and provincial agencies and the Town of Ladysmith outlining emergency wastewater discharge reporting protocols.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 1, 2, 3: Drafted October 31, 2022 (following April 2022 transition to Operational Certificate 110161); expiring January 31, 2026.",
+            "Page 2, 3: Federal management oversight for the protection of shellfish ecosystems, based on wastewater treatment plant performance characteristics and hydrographical data.",
+            "Page 4, 5: Municipality is required to strictly monitor and report regular operations and discharge exceedances to federal government agencies."
+        ],
         "tags": [
             "ladysmith-sewage",
             "federal-safety-guidelines"
@@ -1167,7 +1338,8 @@
         "pdf_link": "./files/2022-10-31_Ladysmith-Draft-CMP_Att1-Id=5393.pdf",
         "source_link": "https://pub-ladysmith.escribemeetings.com/FileStream.ashx?DocumentId=5393",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Hidden (orphaned) \nThe path has been unlinked from public layout directories; it is only active via a direct query ID. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1178,7 +1350,9 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2021 Annual Water Quality Report[Unpublished]",
-        "tooltip": "REPORT STATE:\n\n No verified public release. Document absent from local government records.",
+        "summary": "REPORT STATE: No verified public release. Document absent from local government records.",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1187,7 +1361,8 @@
         "pdf_link": "",
         "source_link": "",
         "status": "unpublished",
-        "status_label": "UNPUBLISHED",
+        "status_label": "\u2715 UNPUBLISHED",
+        "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
         "doc_type": "Technical Record"
@@ -1198,7 +1373,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1299-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1206,8 +1383,9 @@
         "pdf_link": "./files/2021-12-07_TOL-WWTP-revoked-notice-17-7_DFO-FN1299-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=253293",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1217,7 +1395,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1298-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1225,8 +1405,9 @@
         "pdf_link": "./files/2021-12-07_TOL-WWTP-revoked-notice-17-7_DFO-FN1298-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=253289",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1236,7 +1417,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1247-SANITARY Ammended Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: A portion of the emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "A portion of the emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1244,8 +1427,9 @@
         "pdf_link": "./files/2021-11-25_TOL-WWTP-ammended-notice-17-7_DFO-FN1247-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252897",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1255,7 +1439,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1246-SANITARY Ammended Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: A portion of the emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "A portion of the emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1263,8 +1449,9 @@
         "pdf_link": "./files/2021-11-25_TOL-WWTP-ammended-notice-17-7_DFO-FN1246-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252893",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1274,7 +1461,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1196-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1282,8 +1471,9 @@
         "pdf_link": "./files/2021-11-15_TOL-WWTP-closure-notice-17-7_DFO-N1196-SANITARY-.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252509",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1293,7 +1483,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1195-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1301,8 +1493,9 @@
         "pdf_link": "./files/2021-11-15_TOL-WWTP-closure-notice-17-7_DFO-FN1195-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252505",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1312,7 +1505,14 @@
         "jurisdiction": "Environmental Assessment Office",
         "add_jur": "Town of Ladysmith",
         "title": "IR163340 Effluent Non-Compliance Advisory Letter (Ladysmith Wastewater Treatment Plant)",
-        "tooltip": "SUMMARY: Non-Compliance Level 1, Category B Advisory for discharge rate exceedances and unauthorized bypass at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)\n\n \u24d8 Note: Catastrophic filter failure and massive un-disinfected bypass volume exceed Level 1 definition limits.\n\nKEY DATA:\n\u2022 Page 2: AUTHORIZED DISCHARGES 1.1.1 (Out of Compliance)\n\u2022 Page 2: Annual Average Discharge Rate Exceedance 1.1.1\n\u2022 Page 4: Bypasses 2.2 (Out of Compliance)\n\u2022 Page 5: Missing Data Logs / Omitted Evaluation 2.6 ",
+        "summary": "Non-Compliance Level 1, Category B Advisory for discharge rate exceedances and unauthorized bypass at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent) \u24d8 Note: Catastrophic filter failure and massive un-disinfected bypass volume exceed Level 1 definition limits.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 2: AUTHORIZED DISCHARGES 1.1.1 (Out of Compliance)",
+            "Page 2: Annual Average Discharge Rate Exceedance 1.1.1",
+            "Page 4: Bypasses 2.2 (Out of Compliance)",
+            "Page 5: Missing Data Logs / Omitted Evaluation 2.6"
+        ],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1320,8 +1520,9 @@
         "pdf_link": "./files/20210129_IL_AD_163340.pdf",
         "source_link": "https://nrs.objectstore.gov.bc.ca/lteczn/601fc104bbbc5e0022e7b1a8/20210129_IL_AD_163340.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Correspondence"
     },
@@ -1331,7 +1532,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0073-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1339,8 +1542,9 @@
         "pdf_link": "./files/2021-01-25_TOL-WWTP-revoked-notice-17-7_DFO-FN0073-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241819",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1350,7 +1554,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0072-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1358,8 +1564,9 @@
         "pdf_link": "./files/2021-01-25_TOL-WWTP-revoked-notice-17-7_DFO-FN0072-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241815",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1369,7 +1576,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0002-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1377,8 +1586,9 @@
         "pdf_link": "./files/2021-01-02_TOL-WWTP-closure-notice-17-7_DFO-FN0002-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241158",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1388,7 +1598,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0001-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1396,8 +1608,9 @@
         "pdf_link": "./files/2021-01-02_TOL-WWTP-closure-notice-17-7_DFO-FN0001-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241154",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1407,7 +1620,9 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2020 Annual Water Quality Report[Unpublished]",
-        "tooltip": "REPORT STATE:\n\n No verified public release. Document absent from local government records.",
+        "summary": "REPORT STATE: No verified public release. Document absent from local government records.",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1416,7 +1631,8 @@
         "pdf_link": "",
         "source_link": "",
         "status": "unpublished",
-        "status_label": "UNPUBLISHED",
+        "status_label": "\u2715 UNPUBLISHED",
+        "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
         "doc_type": "Technical Record"
@@ -1427,7 +1643,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0640-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1435,8 +1653,9 @@
         "pdf_link": "./files/2020-09-06_TOL-WWTP-revoked-notice-17-7_DFO-FN0640-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=234054",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1446,7 +1665,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0639-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1454,8 +1675,9 @@
         "pdf_link": "./files/2020-09-06_TOL-WWTP-revoked-notice-17-7_DFO-FN0639-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=234050",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1465,7 +1687,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0578-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1473,8 +1697,9 @@
         "pdf_link": "./files/2020-06-23_TOL-WWTP-closure-notice-17-7_DFO-FN0578-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=233620",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1484,7 +1709,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0577-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1492,8 +1719,9 @@
         "pdf_link": "./files/2020-06-23_TOL-WWTP-closure-notice-17-7_DFO-FN0577-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=233616",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1503,7 +1731,9 @@
         "jurisdiction": "Environmental Assessment Office",
         "add_jur": "Town of Ladysmith",
         "title": "IR147158 Effluent Non-Compliance Advisory Letter (Ladysmith Wastewater Treatment Plant)",
-        "tooltip": "SUMMARY: Non-Compliance Level 1, Category B Advisory for discharge rate exceedances at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)\n\n \u24d8 Note: Recurring flow infractions over consecutive years conflict with the ",
+        "summary": "Non-Compliance Level 1, Category B Advisory for discharge rate exceedances at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent) \u24d8 Note: Recurring flow infractions over consecutive years conflict with the",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1511,8 +1741,9 @@
         "pdf_link": "./files/2020-03-31%20IR147158%20-%20Advisory.pdf",
         "source_link": "https://nrs.objectstore.gov.bc.ca/lteczn/5eceba20589694001a08cd07/2020-03-31%20IR147158%20-%20Advisory.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Correspondence"
     },
@@ -1522,7 +1753,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0104-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1530,8 +1763,9 @@
         "pdf_link": "./files/2020-02-10_TOL-WWTP-revoked-notice-17-7_DFO-FN0104-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229618",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1541,7 +1775,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0103-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1549,8 +1785,9 @@
         "pdf_link": "./files/2020-02-10_TOL-WWTP-revoked-notice-17-7_DFO-FN0103-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229614",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1560,7 +1797,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0080-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1568,8 +1807,9 @@
         "pdf_link": "./files/2020-02-01_TOL-WWTP-closure-notice-17-7_DFO-FN0080-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229386",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1579,7 +1819,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0079-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1587,8 +1829,9 @@
         "pdf_link": "./files/2020-02-01_TOL-WWTP-closure-notice-17-7_DFO-FN0079-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229382",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1598,7 +1841,9 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2019 Annual Water Quality Report[Unpublished]",
-        "tooltip": "REPORT STATE:\n\n No verified public release. Document absent from local government records.",
+        "summary": "REPORT STATE: No verified public release. Document absent from local government records.",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1607,7 +1852,8 @@
         "pdf_link": "",
         "source_link": "",
         "status": "unpublished",
-        "status_label": "UNPUBLISHED",
+        "status_label": "\u2715 UNPUBLISHED",
+        "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
         "doc_type": "Technical Record"
@@ -1618,7 +1864,12 @@
         "jurisdiction": "SD#68 Nanaimo-Ladysmith",
         "add_jur": "",
         "title": "Re: Lead in \u00c9cole Hammond Bay Drinking Water",
-        "tooltip": "SUMMARY: Formal parent letter to School District 68 requesting immediate funding for water filtration systems due to lead contamination.\n\n\nKEY DATA:\n\u2022 Page 1: Letter documents that 60% of tested school water sources exceeded the updated Health Canada maximum acceptable concentration for lead.\n\u2022 Page 2: District facilities response indicates water filtration installation is explicitly excluded from the current capital facilities plan. ",
+        "summary": "Formal parent letter to School District 68 requesting immediate funding for water filtration systems due to lead contamination.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 1: Letter documents that 60% of tested school water sources exceeded the updated Health Canada maximum acceptable concentration for lead.",
+            "Page 2: District facilities response indicates water filtration installation is explicitly excluded from the current capital facilities plan."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants",
@@ -1627,7 +1878,8 @@
         "pdf_link": "./files/2019-09-30_SD68-EHB-re_lead-in-drinking-water_RBM-R19-10-23-06-ID=6234.pdf",
         "source_link": "https://pub-sd68.escribemeetings.com/filestream.ashx?DocumentId=6234",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path is still active via direct query ID, but has been administratively unlinked from public indexing layout directories during platform migration. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Hidden (orphaned) \nThe path is still active via direct query ID, but has been administratively unlinked from public indexing layout directories during platform migration. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1638,7 +1890,12 @@
         "jurisdiction": "Environmental Assessment Office",
         "add_jur": "Town of Ladysmith",
         "title": "IR115167 Effluent Non-Compliance Advisory Letter (Ladysmith Wastewater Treatment Plant)",
-        "tooltip": "SUMMARY: Non-Compliance Level 1, Category B Advisory for discharge rate exceedances and unauthorized bypass at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)\n\n \u24d8 Note: Active outfall leak and major volume exceedances structurally exceed Level 1 impact thresholds.\n\nKEY DATA:\n\u2022 Page 1-2: AUTHORIZED DISCHARGES 1.1.1 (Out of Compliance)\n\u2022 Page 4: Bypasses 2.2 (Out of Compliance) ",
+        "summary": "Non-Compliance Level 1, Category B Advisory for discharge rate exceedances and unauthorized bypass at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent) \u24d8 Note: Active outfall leak and major volume exceedances structurally exceed Level 1 impact thresholds.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 1-2: AUTHORIZED DISCHARGES 1.1.1 (Out of Compliance)",
+            "Page 4: Bypasses 2.2 (Out of Compliance)"
+        ],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1646,8 +1903,9 @@
         "pdf_link": "./files/20190128_IL_AD_115167.pdf",
         "source_link": "https://nrs.objectstore.gov.bc.ca/lteczn/5ecea7e9589694001a089024/20190128_IL_AD_115167.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Correspondence"
     },
@@ -1657,7 +1915,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0031-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1665,8 +1925,9 @@
         "pdf_link": "./files/2019-01-11_TOL-WWTP-revoked-notice-17-7_DFO-FN0031-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=218079",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1676,7 +1937,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN1370-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1684,8 +1947,9 @@
         "pdf_link": "./files/2018-12-20_TOL-WWTP-closure-notice-17-7_DFO-FN1370-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=217363",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1695,7 +1959,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0165-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge revoked",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1703,8 +1969,9 @@
         "pdf_link": "./files/2018-03-05_TOL-WWTP-revoked-notice-17-7_DFO-FN0165-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=205660",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1714,7 +1981,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0120-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1722,8 +1991,9 @@
         "pdf_link": "./files/2018-02-22_TOL-WWTP-closure-notice-17-7_DFO-FN0120-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=205384",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1733,7 +2003,14 @@
         "jurisdiction": "Environmental Assessment Office",
         "add_jur": "Town of Ladysmith",
         "title": "IR76276 Effluent Non-Compliance Advisory Letter (Ladysmith Wastewater Treatment Plant)",
-        "tooltip": "SUMMARY: Non-Compliance Level 1, Category B Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent).\n\n \u24d8 Note: Multiple concurrent parameter deviations contradict the minor administrative Level 1 Advisory designation.\n\nKEY DATA:\n\u2022 Page 1-2: AUTHORIZED DISCHARGES 1.1.1, 1.1.2 (Out of Compliance)\n\u2022 Page 3: Unauthorized Operational Works 1.1.3\n\u2022 Page 5: Outfall Inspection 2.5 (Out of Compliance)\n\u2022 Page 6: Chlorination 2.6 (Out of Compliance) ",
+        "summary": "Non-Compliance Level 1, Category B Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency at the Ladysmith Wastewater Treatment Plant (Permit 120, Effluent). \u24d8 Note: Multiple concurrent parameter deviations contradict the minor administrative Level 1 Advisory designation.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 1-2: AUTHORIZED DISCHARGES 1.1.1, 1.1.2 (Out of Compliance)",
+            "Page 3: Unauthorized Operational Works 1.1.3",
+            "Page 5: Outfall Inspection 2.5 (Out of Compliance)",
+            "Page 6: Chlorination 2.6 (Out of Compliance)"
+        ],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1741,8 +2018,9 @@
         "pdf_link": "./files/20180123_IL_AD_76276.pdf",
         "source_link": "https://nrs.objectstore.gov.bc.ca/lteczn/5ece987d589694001a08586a/20180123_IL_AD_76276.pdf",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Correspondence"
     },
@@ -1752,7 +2030,12 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2018 Annual Water Quality Report",
-        "tooltip": "SUMMARY: Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.\n\n\nKEY DATA:\n\u2022 Page 22: Haloacetic acids peak at 0.120 mg/L (marks five consecutive years exceeding federal safety limits).\n\u2022 Page 58: Compliance Action: Town formally passed the Jan 31, 2018 regulatory deadline to construct a filtration plant. ",
+        "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 22: Haloacetic acids peak at 0.120 mg/L (marks five consecutive years exceeding federal safety limits).",
+            "Page 58: Compliance Action: Town formally passed the Jan 31, 2018 regulatory deadline to construct a filtration plant."
+        ],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1761,7 +2044,8 @@
         "pdf_link": "./files/2018-water-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2018-water-report.pdf",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1772,7 +2056,15 @@
         "jurisdiction": "SD#68 Nanaimo-Ladysmith",
         "add_jur": "Town of Ladysmith",
         "title": "Tetra Tech Water Investigation 2017 - Ladysmith Secondary School (pt.1)",
-        "tooltip": "SUMMARY: Environmental assessment report documenting lead concentration testing in the drinking water systems at Ladysmith Secondary School.\n\n \u24d8 Note: Health Canada reduced the MAC of lead in drinking water to 5 \u00b5g/L in 2019\n\nKEY DATA:\n\u2022 Page 3: Ten of twenty initial pre-flush water samples exceeded the 10 \u00b5g/L Maximum Acceptable Concentration.\n\u2022 Page 4: Three locations (LS08, LS12, LS17) failed to meet the 10 \u00b5g/L MAC after a 5-minute flush.\n\u2022 Page 4: Location LS07 recorded a peak un-flushed total lead concentration of 287 \u00b5g/L (Note: this exceeds the post-2019 legal limit of 5 \u00b5g/L by 5,640%).\n\u2022 Page 6: Location LS08 5-minute flush sample (10.6 \u00b5g/L) recorded a higher lead concentration than the 2-minute flush sample (8.63 \u00b5g/L).\n\u2022 Page 7: Recommends clear public communication and signage identifying that sinks are not fit for human consumption of water. ",
+        "summary": "Environmental assessment report documenting lead concentration testing in the drinking water systems at Ladysmith Secondary School. \u24d8 Note: Health Canada reduced the MAC of lead in drinking water to 5 \u00b5g/L in 2019",
+        "disclaimer": "",
+        "key_data": [
+            "Page 3: Ten of twenty initial pre-flush water samples exceeded the 10 \u00b5g/L Maximum Acceptable Concentration.",
+            "Page 4: Three locations (LS08, LS12, LS17) failed to meet the 10 \u00b5g/L MAC after a 5-minute flush.",
+            "Page 4: Location LS07 recorded a peak un-flushed total lead concentration of 287 \u00b5g/L (Note: this exceeds the post-2019 legal limit of 5 \u00b5g/L by 5,640%).",
+            "Page 6: Location LS08 5-minute flush sample (10.6 \u00b5g/L) recorded a higher lead concentration than the 2-minute flush sample (8.63 \u00b5g/L).",
+            "Page 7: Recommends clear public communication and signage identifying that sinks are not fit for human consumption of water."
+        ],
         "tags": [
             "drinking-water",
             "water-contaminants",
@@ -1781,7 +2073,8 @@
         "pdf_link": "./files/2017-12-18_TOL-tetra-tech-water-report_SD68-LSS-part-1.pdf",
         "source_link": "https://www.sd68.bc.ca/wp-content/uploads/Ladysmith-SD-68-Water-Investigation-2017-Part-1.pdf",
         "status": "absent",
-        "status_label": "ABSENT (404)",
+        "status_label": "\u2715 ABSENT (404)",
+        "status_class": "ext-removed",
         "status_desc": "This link, and its landing page, have been removed entirely from the source website, c. 2023. Use the local PDF File download mirror.",
         "status_tooltip": "SOURCE STATUS: Unavailable (404)\nThis link, and its landing page, have been removed entirely from the source website, c. 2023. Use the local PDF File download mirror.",
         "doc_type": "Technical Record"
@@ -1792,7 +2085,12 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2017 Annual Water Quality Report",
-        "tooltip": "SUMMARY: Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.\n\n\nKEY DATA:\n\u2022 Page 22: Haloacetic acids spike to 0.100 mg/L (continuously tracks above absolute federal health-based MAC).\n\u2022 Page 23: Operational : Chemical by-products generated by heavy chlorine dosages to disinfect raw organic carbon. ",
+        "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 22: Haloacetic acids spike to 0.100 mg/L (continuously tracks above absolute federal health-based MAC).",
+            "Page 23: Operational : Chemical by-products generated by heavy chlorine dosages to disinfect raw organic carbon."
+        ],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1801,7 +2099,8 @@
         "pdf_link": "./files/2017-water-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2017-water-report.pdf",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1812,7 +2111,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0254-SANITARY Ammended Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Ammended closure for bivalve shellfish near Ladysmith (Sanitary Closures 17-1 and 17.aa)\n ",
+        "summary": "Ammended closure for bivalve shellfish near Ladysmith (Sanitary Closures 17-1 and 17.aa)",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1820,8 +2121,9 @@
         "pdf_link": "./files/2016-03-29_TOL-WWTP-ammended-notice-17-7_DFO-FN0254-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=182356",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1831,7 +2133,9 @@
         "jurisdiction": "Fisheries and Oceans Canada",
         "add_jur": "Town of Ladysmith",
         "title": "FN0031-SANITARY Emergency Closure Notice (Ladysmith Harbour)",
-        "tooltip": "SUMMARY: Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge\n ",
+        "summary": "Emergency closure for bivalve shellfish near Ladysmith due to Wastewater Treatment Plant (WWTP) discharge",
+        "disclaimer": "",
+        "key_data": [],
         "tags": [
             "ladysmith-sewage",
             "federal-advisory"
@@ -1839,8 +2143,9 @@
         "pdf_link": "./files/2016-01-21_TOL-WWTP-closure-notice-17-7_DFO-FN0031-SANITARY.pdf",
         "source_link": "https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=180301",
         "status": "live",
-        "status_label": "LIVE",
-        "status_desc": "at time of indexing, this link is online and accessible at the original public domain.",
+        "status_label": "\u2713 LIVE",
+        "status_class": "ext-live",
+        "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
         "doc_type": "Technical Record"
     },
@@ -1850,7 +2155,12 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2016 Annual Water Quality Report",
-        "tooltip": "SUMMARY: Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.\n\n\nKEY DATA:\n\u2022 Page 21: E. Coli presence in raw water samples exceeds the safe threshold limit in 20.8% of tests.\n\u2022 Page 22: Haloacetic acids peak at 0.120 mg/L (50% exceedance above health-based MAC). ",
+        "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 21: E. Coli presence in raw water samples exceeds the safe threshold limit in 20.8% of tests.",
+            "Page 22: Haloacetic acids peak at 0.120 mg/L (50% exceedance above health-based MAC)."
+        ],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1859,7 +2169,8 @@
         "pdf_link": "./files/2016-water-report.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/2016-water-report.pdf",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1870,7 +2181,13 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2015 Annual Water Quality Report",
-        "tooltip": "SUMMARY: Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.\n\n\nKEY DATA:\n\u2022 Page 15: Source water turbidity exceeds the Island Health limit for 96 days (multi-month variance).\n\u2022 Page 21: E. Coli exceeds safe threshold limit in 21.7% of samples (departs from 10% maximum tolerance).\n\u2022 Page 22: Haloacetic acids exceed the Canadian Drinking Water Maximum Acceptable Concentration (MAC). ",
+        "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 15: Source water turbidity exceeds the Island Health limit for 96 days (multi-month variance).",
+            "Page 21: E. Coli exceeds safe threshold limit in 21.7% of samples (departs from 10% maximum tolerance).",
+            "Page 22: Haloacetic acids exceed the Canadian Drinking Water Maximum Acceptable Concentration (MAC)."
+        ],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1879,7 +2196,8 @@
         "pdf_link": "./files/ladysmith-annual-water-report-2015.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/ladysmith-annual-water-report-2015.pdf",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Hidden (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1890,7 +2208,13 @@
         "jurisdiction": "Town of Ladysmith",
         "add_jur": "",
         "title": "Ladysmith 2014 Annual Water Quality Report",
-        "tooltip": "SUMMARY: Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.\n\n\nKEY DATA:\n\u2022 Page 14: Source water turbidity exceeds the Island Health limit for 34 days (filtration deferral failure).\n\u2022 Page 23: E. Coli exceeds safe threshold limit in 21.7% of samples (violates 10% max allowable limit).\n\u2022 Page 24: Haloacetic acids exceed the Canadian Drinking Water Maximum Acceptable Concentration at all locations. ",
+        "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring.",
+        "disclaimer": "",
+        "key_data": [
+            "Page 14: Source water turbidity exceeds the Island Health limit for 34 days (filtration deferral failure).",
+            "Page 23: E. Coli exceeds safe threshold limit in 21.7% of samples (violates 10% max allowable limit).",
+            "Page 24: Haloacetic acids exceed the Canadian Drinking Water Maximum Acceptable Concentration at all locations."
+        ],
         "tags": [
             "drinking-water",
             "ladysmith-sewage",
@@ -1899,7 +2223,8 @@
         "pdf_link": "./files/ladysmith-annual-water-report-2014.pdf",
         "source_link": "https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-annual-water-report-2014.pdf",
         "status": "orphaned",
-        "status_label": "HIDDEN  (orphaned)",
+        "status_label": "\u2298 HIDDEN  (orphaned)",
+        "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "doc_type": "Technical Record"
@@ -1938,12 +2263,6 @@
         }
 
         // Render card
-        function defIcon(status) {
-            if (status === 'live') return '<span class="icon-green">✓</span>';
-            if (status === 'orphaned') return '<span class="icon-amber">⊘</span>';
-            return '<span class="icon-red">✕</span>';
-        }
-
         function renderRecords(records) {
             const container = document.getElementById("ledgerBody");
             if (records.length === 0) {
@@ -1952,11 +2271,21 @@
             }
 
             container.innerHTML = records.map(r => {
-                const tooltipHtml = r.tooltip ? `
-                    <div class="doc-tooltip-raw">${r.tooltip}</div>
+                const keyDataHtml = r.key_data.map(kd => {
+                    const match = kd.match(/^(Page\s+\d+(?:[\s,–-]*\d+)*|P\.\s*\d+[^:]*|Note|Page\s+Range|Page|P\.)\s*:\s*(.*)/i);
+                    if (match) {
+                        return `<div class="audit-data-node"><strong>${match[1]}</strong>${match[2]}</div>`;
+                    }
+                    return `<div class="audit-data-node">${kd}</div>`;
+                }).join("");
+
+                const disclaimerHtml = r.disclaimer ? `
+                    <div class="data-disclaimer-panel">
+                        <strong>ⓘ Flag:</strong> ${r.disclaimer}
+                    </div>
                 ` : "";
 
-                const detailsHtml = tooltipHtml ? `
+                const detailsHtml = (r.summary || disclaimerHtml || keyDataHtml) ? `
                     <details class="doc-details-drawer">
                         <summary>
                             <span class="accordion-chevron-icon">▶</span>
@@ -1965,7 +2294,9 @@
                             </div>
                         </summary>
                         <div class="drawer-content-inner">
-                            ${tooltipHtml}
+                            ${r.summary ? `<p class="doc-abstract">${r.summary}</p>` : ""}
+                            ${disclaimerHtml}
+                            ${keyDataHtml ? `<div class="audit-findings-grid">${keyDataHtml}</div>` : ""}
                         </div>
                     </details>
                 ` : `
@@ -1975,14 +2306,14 @@
                 `;
 
                 const pdfBtn = r.pdf_link ? `
-                    <a href="${r.pdf_link}" class="pill pill-mirror-link" target="_blank">[PDF Mirror]</a>
-                ` : `<span class="pill pill-mirror-link" style="opacity: 0.6; cursor: not-allowed;">No PDF Mirror</span>`;
+                    <a href="${r.pdf_link}" class="btn-mirror" target="_blank">[PDF Mirror]</a>
+                ` : `<span class="btn-mirror" style="opacity: 0.6; cursor: not-allowed;">No PDF Mirror</span>`;
 
                 const sourceBtn = r.source_link ? `
-                    <a href="${r.source_link}" target="_blank" class="pill pill-source-base">${defIcon(r.status)} Source Document ↗</a>
-                ` : `<span class="pill pill-source-base" style="opacity: 0.6; cursor: not-allowed;">${defIcon(r.status)} Source Document Unavailable</span>`;
+                    <a href="${r.source_link}" target="_blank" class="btn-source">Source Document ↗</a>
+                ` : `<span class="btn-source" style="opacity: 0.6; cursor: not-allowed;">Source Document Unavailable</span>`;
 
-                const addJurHtml = r.add_jur ? `<span style="color: #64748b; font-weight: 600; font-size: 0.78rem;">| ${r.add_jur}</span>` : "";
+                const addJurHtml = r.add_jur ? `<span style="color: #64748b; font-weight: 600; font-size: 0.78rem;"> ${r.add_jur}</span>` : "";
 
                 return `
                     <div class="doc-card card-${r.status}" data-id="${r.sort_date}">
@@ -1995,7 +2326,7 @@
                                     ${addJurHtml}
                                 </div>
                             </div>
-                            <div class="doc-header-status-extension ext-${r.status}" title="${r.status_tooltip}">
+                            <div class="doc-header-status-extension ${r.status_class}" title="${r.status_tooltip}">
                                 <div class="status-text-panel">Source Status: <strong>${r.status_label}</strong> — <i>${r.status_desc}</i></div>
                                 <div class="card-actions-right">
                                     ${pdfBtn}
@@ -2021,6 +2352,7 @@
             return Array.from(checkboxes).map(c => c.value);
         }
 
+        // Search & Filter
         function filterLedger() {
             const query = document.getElementById("ledgerSearch").value.toLowerCase().trim();
             const checkedJurs = getCheckedValues("jurisdictionFilters");
@@ -2028,13 +2360,20 @@
             const checkedStatuses = getCheckedValues("statusFilters");
 
             const filtered = recordsData.filter(r => {
-                const text = (r.title + " " + r.tooltip + " " + r.jurisdiction + " " + r.add_jur + " " + r.tags.join(" ")).toLowerCase();
+                const text = (r.title + " " + r.summary + " " + r.jurisdiction + " " + r.add_jur + " " + r.tags.join(" ")).toLowerCase();
                 const matchesSearch = text.includes(query);
                 
                 // Matches if either the issuing OR the additional jurisdiction is selected
                 const matchesJur = checkedJurs.includes(r.jurisdiction) || (r.add_jur && checkedJurs.includes(r.add_jur));
                 const matchesType = checkedTypes.includes(r.doc_type);
-                const matchesStatus = checkedStatuses.includes(r.status);
+                
+                // Maps checkbox state value to status string
+                let statusGroup = r.status;
+                if (r.status === 'restricted' || r.status === 'absent') {
+                    // Checkbox matches status 'restricted' or 'absent'
+                    statusGroup = r.status === 'restricted' ? 'restricted' : 'absent';
+                }
+                const matchesStatus = checkedStatuses.includes(statusGroup);
 
                 return matchesSearch && matchesJur && matchesType && matchesStatus;
             });
