@@ -28,7 +28,7 @@
 
         body {
             font-family: 'Inter', 'BCSans', 'Helvetica Neue', Arial, sans-serif;
-            background-color: #F1F5F9; /* Cooler slate grey background for high contrast */
+            background-color: #E2E8F0 !important; /* Force a darker background so white cards pop out */
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -294,10 +294,10 @@
         }
 
         .doc-card {
-            background-color: var(--surface-card);
-            border: 1px solid #E5E7EB;
+            background-color: var(--surface-card) !important; /* Force cards to be white */
+            border: 1px solid #CBD5E1;
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow for elevation */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Stronger shadow for elevation */
             position: relative;
             overflow: hidden;
             display: flex;
@@ -310,7 +310,7 @@
 
         .doc-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
             border-color: rgba(0, 51, 102, 0.3);
         }
 
@@ -449,6 +449,10 @@
             border-color: var(--bc-blue-dark);
         }
 
+        .icon-green { color: #065f46; font-weight: 700; margin-right: 2px; }
+        .icon-amber { color: #e6a100; font-weight: 700; margin-right: 2px; }
+        .icon-red { color: #b91c1c; font-weight: 700; margin-right: 2px; }
+
         /* Details drawer styling */
         .doc-details-drawer {
             width: 100%;
@@ -521,17 +525,18 @@
             line-height: 1.5;
             color: #334155;
             margin: 0;
-            font-style: italic;
+            /* font-style: italic removed as requested */
         }
 
+        /* Restored coloured styling to ⓘ Disclaimer / Warning sections */
         .data-disclaimer-panel {
-            background-color: #f8fafc;
-            border-left: 3px solid var(--text-muted);
-            padding: 8px 12px;
-            font-size: 0.78rem;
-            color: #475569;
-            line-height: 1.4;
-            border-radius: 0 4px 4px 0;
+            background-color: #FEF2F2 !important;
+            border-left: 4px solid #EF4444 !important;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            color: #991B1B !important;
+            line-height: 1.5;
+            border-radius: 0 6px 6px 0;
             margin: 0;
         }
 
@@ -1118,7 +1123,7 @@
         "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2023, Sep 29",
@@ -1140,7 +1145,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Sep 29",
@@ -1162,7 +1167,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Sep 21",
@@ -1184,7 +1189,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Sep 21",
@@ -1206,7 +1211,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Sep 1",
@@ -1228,7 +1233,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Sep 1",
@@ -1250,7 +1255,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Aug 18",
@@ -1272,7 +1277,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2023, Aug 18",
@@ -1294,7 +1299,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2022",
@@ -1316,7 +1321,7 @@
         "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2022, Oct 31",
@@ -1342,7 +1347,7 @@
         "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Hidden (orphaned) \nThe path has been unlinked from public layout directories; it is only active via a direct query ID. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
-        "doc_type": "Technical Record"
+        "doc_type": "Planning Document"
     },
     {
         "original_date": "2021",
@@ -1365,7 +1370,7 @@
         "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2021, Dec 7",
@@ -1387,7 +1392,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Dec 7",
@@ -1409,7 +1414,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Nov 25",
@@ -1431,7 +1436,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Nov 25",
@@ -1453,7 +1458,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Nov 15",
@@ -1475,7 +1480,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Nov 15",
@@ -1497,7 +1502,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Jan 29",
@@ -1546,7 +1551,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Jan 25",
@@ -1568,7 +1573,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Jan 2",
@@ -1590,7 +1595,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2021, Jan 2",
@@ -1612,7 +1617,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020",
@@ -1635,7 +1640,7 @@
         "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2020, Sep 6",
@@ -1657,7 +1662,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Sep 6",
@@ -1679,7 +1684,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Jun 23",
@@ -1701,7 +1706,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Jun 23",
@@ -1723,7 +1728,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Mar 31",
@@ -1767,7 +1772,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Feb 10",
@@ -1789,7 +1794,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Feb 1",
@@ -1811,7 +1816,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2020, Feb 1",
@@ -1833,7 +1838,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2019",
@@ -1856,7 +1861,7 @@
         "status_class": "ext-unpublished",
         "status_desc": "No verified public release. Document absent from local government records.",
         "status_tooltip": "PRIMARY SOURCE LINK: This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2019, Sep 30",
@@ -1929,7 +1934,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2018, Dec 20",
@@ -1951,7 +1956,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2018, Mar 5",
@@ -1973,7 +1978,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2018, Feb 22",
@@ -1995,7 +2000,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2018, Jan 23",
@@ -2048,7 +2053,7 @@
         "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2017, Dec 18",
@@ -2103,7 +2108,7 @@
         "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2016, Mar 29",
@@ -2125,7 +2130,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2016, Jan 21",
@@ -2147,7 +2152,7 @@
         "status_class": "ext-live",
         "status_desc": "this link is online and accessible at the original public domain.",
         "status_tooltip": "SOURCE STATUS: Live\nAt time of indexing, this link is online and accessible at the original public domain.",
-        "doc_type": "Technical Record"
+        "doc_type": "Emergency Notice"
     },
     {
         "original_date": "2016",
@@ -2173,7 +2178,7 @@
         "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2015",
@@ -2200,7 +2205,7 @@
         "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Hidden (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     },
     {
         "original_date": "2014",
@@ -2227,7 +2232,7 @@
         "status_class": "ext-orphaned",
         "status_desc": "The path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
         "status_tooltip": "SOURCE STATUS: Restricted Access (orphaned ca. 2025)\nThe path has been unlinked from public layout directories; it is only active via a direct query ID. Under Section 15 of the BC Drinking Water Protection Act, water monitoring data is a statutory public record. This mirror maintains public access to ensure compliance with provincial transparency guidelines.",
-        "doc_type": "Technical Record"
+        "doc_type": "Annual Report"
     }
 ];
     </script>
@@ -2263,6 +2268,12 @@
         }
 
         // Render card
+        function defIcon(status) {
+            if (status === 'live') return '<span class="icon-green">✓</span>';
+            if (status === 'orphaned') return '<span class="icon-amber">⊘</span>';
+            return '<span class="icon-red">✕</span>';
+        }
+
         function renderRecords(records) {
             const container = document.getElementById("ledgerBody");
             if (records.length === 0) {
@@ -2290,7 +2301,7 @@
                         <summary>
                             <span class="accordion-chevron-icon">▶</span>
                             <div class="card-title-row">
-                                <h4 class="doc-title">${r.title}</h4>
+                                <h4 class="doc-title">${r.title} <span style="color: #003366; font-size: 11px; font-weight: bold; opacity: 0.7; margin-left: 6px;">ⓘ</span></h4>
                             </div>
                         </summary>
                         <div class="drawer-content-inner">
@@ -2310,8 +2321,8 @@
                 ` : `<span class="btn-mirror" style="opacity: 0.6; cursor: not-allowed;">No PDF Mirror</span>`;
 
                 const sourceBtn = r.source_link ? `
-                    <a href="${r.source_link}" target="_blank" class="btn-source">Source Document ↗</a>
-                ` : `<span class="btn-source" style="opacity: 0.6; cursor: not-allowed;">Source Document Unavailable</span>`;
+                    <a href="${r.source_link}" target="_blank" class="btn-source">${defIcon(r.status)} Source Document ↗</a>
+                ` : `<span class="btn-source" style="opacity: 0.6; cursor: not-allowed;">${defIcon(r.status)} Source Document Unavailable</span>`;
 
                 const addJurHtml = r.add_jur ? `<span style="color: #64748b; font-weight: 600; font-size: 0.78rem;"> ${r.add_jur}</span>` : "";
 
@@ -2370,7 +2381,6 @@
                 // Maps checkbox state value to status string
                 let statusGroup = r.status;
                 if (r.status === 'restricted' || r.status === 'absent') {
-                    // Checkbox matches status 'restricted' or 'absent'
                     statusGroup = r.status === 'restricted' ? 'restricted' : 'absent';
                 }
                 const matchesStatus = checkedStatuses.includes(statusGroup);
