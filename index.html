@@ -18,7 +18,7 @@
             --bc-blue-dark: #002244;
             --bc-gold: #FCBA19;
             --bc-gold-hover: #e0a50d;
-            --bg-canvas: #E2E8F0;
+            --bg-canvas: #CBD5E1;
             --surface-card: #FFFFFF;
             --text-main: #1F2933;
             --text-muted: #64748B;
@@ -28,8 +28,8 @@
 
         /* STRICT OVERRIDES FOR CANVAS/CARD CONTRAST */
         html, body, :root {
-            background-color: #E2E8F0 !important; 
-            background: #E2E8F0 !important;
+            background-color: #CBD5E1 !important; /* Darker grey background to prevent blending with white cards */
+            background: #CBD5E1 !important;
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -159,7 +159,7 @@
             width: 280px;
             flex-shrink: 0;
             background: var(--surface-card);
-            border: 1px solid #CBD5E1;
+            border: 1px solid #94A3B8;
             border-radius: 8px;
             padding: 18px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -222,7 +222,7 @@
         /* Fixed Search Bar & Sort row */
         .control-panel {
             background: var(--surface-card);
-            border: 1px solid #CBD5E1;
+            border: 1px solid #94A3B8;
             border-radius: 8px;
             padding: 14px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -245,7 +245,7 @@
             box-sizing: border-box;
             padding: 8px 12px 8px 36px;
             font-size: 13px;
-            border: 1px solid #D1D5DB;
+            border: 1px solid #94A3B8;
             border-radius: 6px;
             background-color: #F9FAFB;
             color: var(--text-main);
@@ -278,7 +278,7 @@
         .sort-container select {
             padding: 8px 12px;
             font-size: 12px;
-            border: 1px solid #D1D5DB;
+            border: 1px solid #94A3B8;
             border-radius: 6px;
             background-color: #FFFFFF;
             color: var(--text-main);
@@ -296,7 +296,7 @@
 
         .doc-card {
             background-color: #FFFFFF !important; /* STRICT REQUIREMENT: Cards are pure white */
-            border: 1px solid #CBD5E1;
+            border: 1px solid #94A3B8; /* Darker border for higher contrast */
             border-radius: 8px; /* Slightly tighter border radius */
             box-shadow: 0 2px 5px rgba(0,0,0,0.06); /* Tight elevation shadow */
             position: relative;
@@ -467,7 +467,7 @@
             list-style: none;
             color: inherit;
             background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #cbd5e1;
             border-left: 3px solid var(--bc-blue);
             border-radius: 4px;
             padding: 6px 12px; /* Compact summary padding */
@@ -2418,6 +2418,7 @@
             }).join("");
         }
 
+        // Setup filter handlers
         function getCheckedValues(containerId) {
             const checkboxes = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
             return Array.from(checkboxes).map(c => c.value);
