@@ -28,7 +28,7 @@
 
         /* STRICT OVERRIDES FOR CANVAS/CARD CONTRAST */
         html, body, :root {
-            background-color: #CBD5E1 !important; /* Darker grey background to prevent blending with white cards */
+            background-color: #CBD5E1 !important; 
             background: #CBD5E1 !important;
             color: var(--text-main);
             margin: 0;
@@ -291,20 +291,20 @@
         .directory-container {
             display: flex;
             flex-direction: column;
-            gap: 12px; /* Thinner gap between cards */
+            gap: 12px;
         }
 
         .doc-card {
-            background-color: #FFFFFF !important; /* STRICT REQUIREMENT: Cards are pure white */
-            border: 1px solid #94A3B8; /* Darker border for higher contrast */
-            border-radius: 8px; /* Slightly tighter border radius */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.06); /* Tight elevation shadow */
+            background-color: #FFFFFF !important;
+            border: 1px solid #94A3B8;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Tighter internal layout spacing */
-            padding: 10px 14px; /* Compact padding */
+            gap: 8px;
+            padding: 10px 14px;
             transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
             text-align: left;
         }
@@ -318,7 +318,7 @@
         .doc-header-composite {
             display: flex;
             flex-direction: column;
-            margin: -10px -14px 6px -14px; /* Restructured composite margins to fit compact padding */
+            margin: -10px -14px 6px -14px;
             overflow: hidden;
         }
 
@@ -327,7 +327,7 @@
             justify-content: space-between;
             align-items: center;
             background: #E2E8F0;
-            padding: 6px 12px; /* Tighter padding */
+            padding: 6px 12px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
 
@@ -341,7 +341,7 @@
         .doc-jur {
             font-weight: 700;
             color: var(--bc-blue);
-            font-size: 0.76rem; /* Tighter font sizing */
+            font-size: 0.76rem;
         }
 
         .date-stamped-box {
@@ -378,8 +378,13 @@
             color: var(--bc-blue);
         }
 
+        .status-toggle-triangle {
+            transition: transform 0.15s ease;
+            display: inline-block;
+        }
+
         .doc-header-status-extension {
-            padding: 4px 12px; /* Compact status extension bar padding */
+            padding: 4px 12px;
             font-size: 0.68rem; 
             line-height: 1.3;
             display: flex;
@@ -399,7 +404,7 @@
             font-weight: 700;
         }
 
-        /* Status Colors - Restored */
+        /* Status Colors */
         .ext-live { background-color: #d1fae5; color: #065f46; }
         .ext-orphaned { background-color: #FFFBEB; color: #E6A100; }
         .ext-removed { background-color: #fee2e2; color: #991b1b; }
@@ -412,15 +417,15 @@
             flex-shrink: 0;
         }
 
-        /* COMPACT NEW BUTTONS DESIGN */
+        /* COMPACT BUTTONS DESIGN */
         .btn-mirror, .btn-source {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 4px 8px; /* Tighter button padding */
-            font-size: 11px; /* Thinner font sizing */
+            padding: 4px 8px;
+            font-size: 11px;
             font-weight: 600;
-            border-radius: 4px; /* Tighter corner radius */
+            border-radius: 4px;
             text-decoration: none;
             transition: all 0.15s ease;
             cursor: pointer;
@@ -470,7 +475,7 @@
             border: 1px solid #cbd5e1;
             border-left: 3px solid var(--bc-blue);
             border-radius: 4px;
-            padding: 6px 12px; /* Compact summary padding */
+            padding: 6px 12px;
             transition: all 0.15s ease;
         }
 
@@ -497,7 +502,7 @@
 
         .doc-title {
             margin: 0;
-            font-size: 0.94rem; /* Compact title size */
+            font-size: 0.94rem;
             font-weight: 700;
             color: var(--bc-blue-dark);
             line-height: 1.35;
@@ -513,7 +518,7 @@
         }
 
         .drawer-content-inner {
-            padding: 10px 10px 2px 10px; /* Tighter drawer interior padding */
+            padding: 10px 10px 10px 10px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -521,13 +526,13 @@
         }
 
         .doc-abstract {
-            font-size: 0.78rem; /* Compact abstract text */
+            font-size: 0.78rem;
             line-height: 1.45;
             color: #334155;
             margin: 0;
         }
 
-        /* Restored coloured styling to ⓘ Disclaimer / Warning sections */
+        /* Warning disclaimer panel outside accordion */
         .data-disclaimer-panel {
             background-color: #FEF2F2 !important;
             border-left: 3px solid #EF4444 !important;
@@ -536,12 +541,12 @@
             color: #991B1B !important;
             line-height: 1.45;
             border-radius: 0 4px 4px 0;
-            margin: 0;
+            margin: 4px 0 0 0;
         }
 
         .audit-findings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* Pack grid items tighter */
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 6px;
             margin: 0;
         }
@@ -565,21 +570,12 @@
             margin-right: 4px;
         }
 
-        .doc-footer-wrapper {
-            margin-top: 6px;
-            padding-top: 8px;
-            border-top: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
         .card-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 8px;
         }
 
         .tag-pill {
@@ -2301,7 +2297,6 @@
     <script>
         // Setup initial checkbox UI lists
         function setupFilters() {
-            // Include both issuing and additional jurisdictions in the unique options list
             const allJurs = new Set();
             recordsData.forEach(r => {
                 allJurs.add(r.jurisdiction);
@@ -2327,11 +2322,31 @@
             `).join("");
         }
 
+        // Toggle Status Bar
+        function toggleStatusExtension(btn) {
+            const card = btn.closest('.doc-card');
+            const ext = card.querySelector('.doc-header-status-extension');
+            if (ext.style.display === 'none' || !ext.style.display) {
+                ext.style.display = 'flex';
+                btn.style.transform = 'rotate(90deg)';
+            } else {
+                ext.style.display = 'none';
+                btn.style.transform = 'none';
+            }
+        }
+
         // Render card
         function defIcon(status) {
             if (status === 'live') return '<span class="icon-green">✓</span>';
             if (status === 'orphaned') return '<span class="icon-amber">⊘</span>';
             return '<span class="icon-red">✕</span>';
+        }
+
+        function getStatusColor(status) {
+            if (status === 'live') return '#065f46';
+            if (status === 'orphaned') return '#D97706';
+            if (status === 'unpublished') return '#475569';
+            return '#B91C1C';
         }
 
         function renderRecords(records) {
@@ -2356,7 +2371,7 @@
                     </div>
                 ` : "";
 
-                const detailsHtml = (r.summary || disclaimerHtml || keyDataHtml) ? `
+                const detailsHtml = `
                     <details class="doc-details-drawer">
                         <summary>
                             <span class="accordion-chevron-icon">▶</span>
@@ -2366,14 +2381,12 @@
                         </summary>
                         <div class="drawer-content-inner">
                             ${r.summary ? `<p class="doc-abstract">${r.summary}</p>` : ""}
-                            ${disclaimerHtml}
                             ${keyDataHtml ? `<div class="audit-findings-grid">${keyDataHtml}</div>` : ""}
+                            <div class="card-tags">
+                                ${r.tags.map(t => `<span class="tag-pill" onclick="event.stopPropagation(); setSearchValue('${t}')">${t}</span>`).join("")}
+                            </div>
                         </div>
                     </details>
-                ` : `
-                    <div style="padding: 6px 12px;">
-                        <h4 class="doc-title">${r.title}</h4>
-                    </div>
                 `;
 
                 const pdfBtn = r.pdf_link ? `
@@ -2386,33 +2399,34 @@
 
                 const addJurHtml = r.add_jur ? `<span style="color: #64748b; font-weight: 600; font-size: 0.78rem;"> ${r.add_jur}</span>` : "";
 
+                const triangleColor = getStatusColor(r.status);
+                const statusTriangle = `
+                    <span class="status-toggle-triangle" onclick="toggleStatusExtension(this)" style="color: ${triangleColor}; cursor: pointer; font-size: 0.85rem; font-weight: bold; margin-right: 6px; user-select: none;">▶</span>
+                `;
+
                 return `
                     <div class="doc-card card-${r.status}" data-id="${r.sort_date}">
                         <div class="doc-header-composite">
                             <div class="doc-header">
                                 <div>
+                                    ${statusTriangle}
                                     <span class="date-stamped-box">${r.original_date}</span>
                                     <span class="header-format-pill" onclick="setDocTypeFilter('${r.doc_type}')">${r.doc_type}</span>
                                     <span class="doc-jur">${r.jurisdiction}</span>
                                     ${addJurHtml}
                                 </div>
-                            </div>
-                            <div class="doc-header-status-extension ${r.status_class}">
-                                <div class="status-text-panel">Source Status: <strong>${r.status_label}</strong> — <i>${r.status_desc}</i></div>
                                 <div class="card-actions-right">
                                     ${pdfBtn}
                                     ${sourceBtn}
                                 </div>
                             </div>
+                            <div class="doc-header-status-extension ${r.status_class}" style="display: none;">
+                                <div class="status-text-panel">Source Status: <strong>${r.status_label}</strong> — <i>${r.status_desc}</i></div>
+                            </div>
                         </div>
 
                         ${detailsHtml}
-
-                        <div class="doc-footer-wrapper">
-                            <div class="card-tags">
-                                ${r.tags.map(t => `<span class="tag-pill" onclick="setSearchValue('${t}')">${t}</span>`).join("")}
-                            </div>
-                        </div>
+                        ${disclaimerHtml}
                     </div>
                 `;
             }).join("");
@@ -2435,11 +2449,9 @@
                 const text = (r.title + " " + r.summary + " " + r.jurisdiction + " " + r.add_jur + " " + r.tags.join(" ")).toLowerCase();
                 const matchesSearch = text.includes(query);
                 
-                // Matches if either the issuing OR the additional jurisdiction is selected
                 const matchesJur = checkedJurs.includes(r.jurisdiction) || (r.add_jur && checkedJurs.includes(r.add_jur));
                 const matchesType = checkedTypes.includes(r.doc_type);
                 
-                // Maps checkbox state value to status string
                 let statusGroup = r.status;
                 if (r.status === 'restricted' || r.status === 'absent') {
                     statusGroup = r.status === 'restricted' ? 'restricted' : 'absent';
