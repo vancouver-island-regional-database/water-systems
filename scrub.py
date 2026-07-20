@@ -4,8 +4,8 @@ import subprocess
 
 # --- CONFIGURATION PATHS ---
 RAW_FOLDER = "/Users/betheapenny/Documents/Github/VIRD/raw_documents"
-GITHUB_FOLDER = "/Users/betheapenny/Documents/Github/VIRD/vird-water-systems/files"
-REPO_PATH = "/Users/betheapenny/Documents/Github/VIRD/vird-water-systems"
+GITHUB_FOLDER = "/Users/betheapenny/Documents/Github/VIRD/water-systems/files"
+REPO_PATH = "/Users/betheapenny/Documents/Github/VIRD/water-systems"
 
 # List any personal words you want destroyed from the visible text layer
 TERMS_TO_REDACT = ["betheapenny", "bethearielle@gmail.com", "Bethea Penny", "BPenny", "bpenny"]
