@@ -187,9 +187,10 @@
         }
 
         .area-header {
-            background: #F1F5F9;
-            color: var(--bc-blue-dark);
+            background: var(--bc-blue-dark);
+            color: #FFFFFF;
             padding: 18px 24px;
+            border-bottom: 4px solid var(--bc-gold);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -200,20 +201,22 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.01em;
-            color: var(--bc-blue-dark);
         }
 
         .area-header-stats {
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.12);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* Horizontal Scroll Wrapper */
         .grid-scroll-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            background: #F1F5F9;
+            background: var(--bg-canvas);
             border-bottom: 1px solid var(--border-light);
         }
 
@@ -349,7 +352,7 @@
         }
 
         .grid-slot-body p {
-            margin: 8px 0 8px 0;
+            margin: 8px 0 0px 0;
             font-size: 11px;
             color: var(--text-muted);
             line-height: 1.4;
@@ -408,6 +411,12 @@
     font-weight: 600;
 }
 
+.grid-slot-footer.authority-provincial .icon-container,
+.grid-slot-footer.authority-municipal .icon-container,
+.grid-slot-footer.authority-federal .icon-container {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
 
 /* 1. Prepare the container for positioning */
 .has-tooltip {
@@ -497,37 +506,23 @@
 /* Auto-collapse: year columns where row-1 is a lone VOID and row-2 is a lone
    SPACE have nothing in them at all, so shrink the column automatically - no
    click needed. Unlike the manual year-collapse toggle, this is passive: no
-   gold triangle, no hover colour change, since there's nothing to reveal by
-   interacting with it. Width matches the manual-collapsed width (60px) -
-   using a narrower width here left too little buffer and let an open
-   neighbour's cards overlap it. The divider line keeps the SAME thickness as
-   a normal open year (2px, not the wide hatch pattern), just centred in the
-   wider box. Uses fixed muted colours (not opacity) so it stays clearly
-   faded regardless of what the canvas background is. */
+   divider line, no gold triangle, no hover colour change, since there's
+   nothing to reveal by interacting with it. */
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .grid-slot {
     display: none;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker {
-    width: 60px;
+    width: 1px;
     cursor: default;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker::before {
-    left: 29px;
-    background: var(--border-light);
-}
-
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover::before {
-    background: var(--border-light);
-}
-
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label {
-    color: #9AA5B1;
+    display: none;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover .year-marker-label {
-    color: #9AA5B1;
+    color: var(--text-muted);
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label::after {
@@ -810,7 +805,6 @@
 .year-row-slot {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
     gap: 16px;
 }
 
@@ -947,280 +941,6 @@
 .card-type-deck .grid-slot {
     flex: 0 0 220px;
     width: 220px;
-}
-
-/* ============================================================
-   DOCUMENT CARD REDESIGN (proposal) - scoped under .doc-card so
-   it can't touch the live timeline above. Two clear signal zones
-   instead of three overlapping ones: a full-width status bar at
-   the top (colour carries the meaning, same weight for every
-   status - no more single-pixel side border), and the existing
-   solid-colour authority band at the bottom. Card body stays
-   plain white; no more whole-card colour wash.
-   ============================================================ */
-.doc-card {
-    background: #FFFFFF;
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    display: flex;
-    flex-direction: column;
-    width: 240px;
-    min-height: 160px;
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition-smooth);
-    position: relative;
-}
-
-.doc-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(0, 51, 102, 0.15);
-}
-
-.doc-card-status-bar {
-    height: 4px;
-    width: 100%;
-    flex-shrink: 0;
-    border-radius: 11px 11px 0 0; /* matches the card's own 12px radius, rounded top only - no overflow:hidden needed so tooltips can still escape the card */
-}
-
-.doc-card.status-live .doc-card-status-bar { background: var(--status-live-text); }
-.doc-card.status-orphaned .doc-card-status-bar { background: var(--status-orphaned-text); }
-.doc-card.status-absent .doc-card-status-bar { background: var(--status-absent-text); }
-.doc-card.status-unpublished .doc-card-status-bar { background: var(--status-unpub-text); }
-
-.doc-card-date-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 14px 10px 14px;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.doc-card-date-row .doc-card-date {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-}
-
-.doc-card-body {
-    padding: 10px 14px;
-    flex-grow: 1;
-}
-
-.doc-card-body h6 {
-    margin: 0 0 4px 0;
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--text-muted);
-    line-height: 1.4;
-}
-
-/* Disclaimer trigger keeps the same red used everywhere else on the page -
-   it's a key signal, not just body text, and it needs to stay on its own
-   line rather than a fixed flex row so long text wraps instead of clipping */
-.doc-card-body h6 strong,
-.doc-card-body h6 b {
-    color: var(--status-absent-text);
-    font-weight: 500;
-}
-
-.doc-card-body h5 {
-    margin: 0 0 6px 0;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--bc-blue-dark);
-    line-height: 1.35;
-}
-
-.doc-card-body p {
-    margin: 0;
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
-
-.doc-card-footer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 14px;
-    color: #FFFFFF;
-    font-size: 10.5px;
-    font-weight: 600;
-    margin-top: auto;
-    border-radius: 0 0 11px 11px; /* matches the card's own 12px radius, rounded bottom only */
-}
-
-.doc-card-footer .icon-container {
-    margin: 0;
-}
-
-.doc-card.authority-federal .doc-card-footer { background: #26374A; }
-.doc-card.authority-provincial .doc-card-footer { background: #1A5A96; }
-.doc-card.authority-municipal .doc-card-footer { background: #0885AD; }
-
-/* Reference deck row for the redesign samples */
-.doc-card-deck {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    padding: 24px;
-    background: #F1F5F9;
-    border-radius: 8px;
-}
-
-/* ============================================================
-   DENSITY CONCEPT: month groups - a subtle grey label above a
-   group of cards for that month. Only rendered when that month
-   actually has something in it - no placeholder, no tick, no
-   slot for empty months, they simply don't appear. Cards stay
-   full size (same as everywhere else); several documents landing
-   in the same month compress into a fanned stack with a count
-   badge instead of each getting its own spot in the row.
-   ============================================================ */
-.month-group {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-}
-
-.month-group-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.month-group-content {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-}
-
-/* Several documents in one month: fanned stack + count badge instead of
-   each one taking its own spot. Click toggles .expanded (see script). */
-.month-stack {
-    position: relative;
-    width: 252px; /* card width (240px) + 12px for the widest (3rd-card) fan offset */
-    height: 172px; /* card min-height (160px) + 12px for the widest fan offset */
-    cursor: pointer;
-}
-
-.month-stack .doc-card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-}
-
-.month-stack .doc-card:nth-child(1) { transform: rotate(0deg); z-index: 3; }
-.month-stack .doc-card:nth-child(2) { transform: translate(6px, 6px) rotate(2.5deg); z-index: 2; }
-.month-stack .doc-card:nth-child(3) { transform: translate(12px, 12px) rotate(5deg); z-index: 1; }
-
-.month-stack:hover .doc-card:nth-child(1) { transform: translateY(-3px); }
-
-.month-stack-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    z-index: 4;
-    background: var(--bc-gold);
-    color: var(--bc-blue-dark);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 9999px;
-    border: 2px solid #FFFFFF;
-    box-shadow: var(--shadow-sm);
-}
-
-/* Expanded state: the fan flattens into a normal side-by-side row so every
-   document in that month is individually visible and readable */
-.month-stack-expanded {
-    display: none;
-    flex-wrap: wrap;
-    gap: 12px;
-    max-width: 760px;
-}
-
-.month-group.stack-open .month-stack {
-    display: none;
-}
-
-.month-group.stack-open .month-stack-expanded {
-    display: flex;
-}
-
-/* ============================================================
-   KEY EVENTS - a marker for a notable date that isn't itself a
-   document (a grand opening, a policy change, etc). Same
-   language as a year-marker (a vertical line + a label) but
-   taller, so its label sits clearly above where a year label
-   sits rather than competing with it. Deliberately NOT a
-   .grid-slot, so the year-collapse rule (which hides .grid-slot)
-   never touches it - a key event stays visible even when its
-   year is collapsed. If it shares a date with a document, place
-   this element immediately before that document's card in the
-   DOM/HTML order so it reads left-to-right as "event, then the
-   card that happened alongside it." If it doesn't share a date
-   with anything, it just sits in its own slot/position.
-   ============================================================ */
-.key-event {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 40px;
-    position: relative;
-    cursor: help;
-    padding-top: 50px; /* room for the label to sit above the line, clear of a year label */
-}
-
-.key-event-line {
-    width: 3px;
-    flex: 1 1 auto;
-    min-height: 150px; /* taller than a doc-card, so it visibly pokes above the row */
-    background: var(--bc-gold);
-    border-radius: 2px;
-}
-
-.key-event-label {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1px;
-    width: 90px;
-    text-align: center;
-}
-
-.key-event-date {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--bc-blue-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-}
-
-.key-event-title {
-    font-size: 10.5px;
-    font-weight: 600;
-    color: var(--bc-blue);
-    line-height: 1.25;
-}
-
-.key-event:hover .key-event-line {
-    background: var(--bc-gold-hover);
 }
 
 .icon-container {
@@ -1365,7 +1085,7 @@
 <div class="area-block">
     <div class="area-header">
         <h3>Block Title (Undecided)</h3>
-        <span class="area-header-stats">Last modified: July 2026</span>
+        <span class="area-header-stats">Undecided</span>
     </div>
 
     <div class="grid-scroll-container">
@@ -1450,93 +1170,142 @@
 
         <!-- ---------- 2023 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">September</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×6</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 29</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN1074-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Sep 29</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <a href="#dossier-dfo2023" class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 29</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1074-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </a>
-                            <a href="#dossier-dfo2023" class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 29</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1073-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </a>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 21</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1038-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 21</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1037-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 1</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0929-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 1</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0928-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1074-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                         </div>
-                        </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">August</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×2</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Aug 18</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN0870-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Aug 18</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0870-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN1073-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Sep 29</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1073-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Aug 18</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0869-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN1038-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Sep 21</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1038-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN1037-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Sep 21</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                    </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1037-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN0929-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Sep 1</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0929-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN0928-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Sep 1</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0928-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN0870-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Aug 18</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0870-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2023 - FN0869-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2023, Aug 18</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0869-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2023 ROW-2 ========== -->
@@ -1554,24 +1323,22 @@
 
         <!-- ---------- 2022 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">October</span>
-                        <div class="month-group-content">
-                        <a href="#dossier-cmp2022" class="doc-card status-orphaned authority-municipal">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Oct 31</span><span class="status-badge orphaned">⊘ HIDDEN (301)</span></div>
-                            <div class="doc-card-body">
-                                <h6>DocumentId=5393 <b class="has-tooltip" data-tooltip="Unlinked from the public directory layout during administrative migration; only accessible via a direct database query ID.">ⓘ Disclaimer</b></h6>
-                                <h5>Ladysmith WWTP Conditional Management Plan</h5>
-                                <p>Agreement requiring the Town of Ladysmith to strictly monitor and report operations and discharge exceedances.</p>
-                            </div>
-                            <div class="doc-card-footer">
-                                <div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div>
-                                <span>Town of Ladysmith</span>
-                            </div>
-                        </a>
+                    <!--🟡 2022 - LADYSMITH WWTP CONDITIONAL MANAGEMENT PLAN -->
+                    <a href="#dossier-cmp2022" class="grid-slot" style="background:#FFFDF5; border-left-color: var(--status-orphaned-border);">
+                        <div class="grid-slot-date"><span>2022, Oct 31</span>
+                        <span class="status-badge orphaned">⊘ HIDDEN (301)</span>
                         </div>
-                    </div>
+                        <div class="grid-slot-body">
+                            <h5>Ladysmith Wastewater Treatment Plant Conditional Management Plan</h5>
+                            <p>Agreement with federal government agencies requiring the Town of Ladysmith to strictly monitor and report regular operations and discharge exceedances at the Wastewater Treatment Plant</p>
+                        </div>
+                        <div class="grid-slot-footer authority-municipal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon">
+                            </div>
+                            <span>Town of Ladysmith</span>
+                        </div>
+                    </a> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2022 ROW-2 ========== -->
@@ -1589,133 +1356,194 @@
 
         <!-- ---------- 2021 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">December</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×2</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Dec 7</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN1299-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                    <a href="#dossier-ir163340" class="grid-slot">
+                        <div class="grid-slot-date">
+                            <span>2021, Jan 29</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Dec 7</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1299-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Dec 7</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1298-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h6>
+<h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Categoty B.</p>
                         </div>
+                        <div class="grid-slot-footer authority-provincial">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon">
+                            </div>
+                            <span>BC Environmental Assessment Office</span>
                         </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">November</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×4</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Nov</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN1247-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    </a> <!-- /card -->
+                    <!--🟢 2021 - FN1299-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Dec 7</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Nov</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1247-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Nov</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1246-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Nov</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1195-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Nov</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN1196-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1299-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                         </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">January</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×5</span>
-                            <div class="doc-card status-live authority-provincial">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan 29</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# IR163340</h6><h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Categoty B.</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN1298-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Dec 7</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <a href="#dossier-ir163340" class="doc-card status-live authority-provincial">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan 29</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b></h6><h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Categoty B.</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </a>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0073-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked.</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0072-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan 2</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0001-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0002-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1298-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                         </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                    </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN1247-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Nov</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1247-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN1246-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Nov</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1246-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN1195-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Nov</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1195-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN1196-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Nov</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1196-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN0073-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Jan</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0073-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked.</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN0072-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Jan</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0072-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN0001-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Jan 2</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0001-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2021 - FN0002-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2021, Jan</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0002-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2021 ROW-2 ========== -->
@@ -1733,125 +1561,160 @@
 
         <!-- ---------- 2020 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">September</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×2</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 6</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN0640-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    <!--🟢 2020 - IR147158 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Mar 31</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 6</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0640-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                        <div class="grid-slot-body">
+                            <h6>ID# IR147158 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h6>
+<h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                            <p>Environmental Protection Advisory for discharge rate exceedances. Level 1, Category B.</p>
+                         </div>
+                        <div class="grid-slot-footer authority-provincial">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon">
                             </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Sep 6</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0639-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                            <span>BC Environmental Assessment Office</span>
                         </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0640-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Sep 6</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">June</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×2</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jun 23</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN0578-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0640-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jun 23</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0578-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jun 23</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0577-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0639-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Sep 6</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">March</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-provincial">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Mar 31</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# IR147158 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b></h6><h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances. Level 1, Category B.</p>
-                            </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0639-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                         </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">February</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×4</span>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Feb 10</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# FN0104-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0578-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Jun 23</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Feb 10</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0104-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Feb 10</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0103-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Feb 1</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0080-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Feb 1</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0079-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0578-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
                         </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                    </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0577-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Jun 23</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0577-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0104-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Feb 10</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0104-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0103-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Feb 10</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0103-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0080-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Feb 1</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0080-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2020 - FN0079-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2020, Feb 1</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0079-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2020 ROW-2 ========== -->
@@ -1869,39 +1732,42 @@
 
         <!-- ---------- 2019 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">January</span>
-                        <div class="month-group-content">
-                        <div class="month-stack">
-                            <span class="month-stack-count">×2</span>
-                            <div class="doc-card status-live authority-provincial">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan 28</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# IR115167</h6><h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B.</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </div>
-                            <div class="doc-card status-live authority-federal"><div class="doc-card-status-bar"></div></div>
+                    <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date">
+                            <span>2019, Jan 28</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                        <div class="month-stack-expanded">
-                            <div class="doc-card status-live authority-provincial">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan 28</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body">
-                                    <h6>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b></h6><h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B.</p>
-                                </div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
+                        <div class="grid-slot-body">
+                            <h6>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h6>
+<h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                            <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B. </p>
+                         </div>
+                        <div class="grid-slot-footer authority-provincial">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon">
                             </div>
-                            <div class="doc-card status-live authority-federal">
-                                <div class="doc-card-status-bar"></div>
-                                <div class="doc-card-date-row"><span class="doc-card-date">Jan 11</span><span class="status-badge live">✓ LIVE</span></div>
-                                <div class="doc-card-body"><h6>ID# FN0031-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p></div>
-                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            <span>BC Environmental Assessment Office</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2019 - FN0031-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2019, Jan 11</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0031-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                        </div>
-                    </div>
+                    </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2019 ROW-2 ========== -->
@@ -1919,95 +1785,90 @@
 
         <!-- ---------- 2018 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">December</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-federal">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Dec 20</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# FN1370-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                    <!--🟢 2018 - IR76276 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2018, Jan 23</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# IR76276 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h6>
+<h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                            <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B </p>
+                                             </div>
+                        <div class="grid-slot-footer authority-provincial">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon">
                             </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            <span>BC Environmental Assessment Office</span>
                         </div>
+                     </div> <!-- /card -->
+                    <!--🟢 2018 - FN1370-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2018, Dec 20</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                    </div>
-                    <!-- KEY EVENT: no document attached to this date, so it stands alone in its own month
-                         group. If a document ever shares a date with a key event, place the .key-event
-                         element immediately before that document's card (still inside the same
-                         month-group-content) so it reads left-to-right as "event, then the record." This
-                         marker is not a .grid-slot, so .year-group.collapsed never hides it - it stays
-                         visible even with 2018 collapsed. -->
-                    <div class="month-group">
-                        <span class="month-group-label">June</span>
-                        <div class="month-group-content">
-                        <div class="key-event">
-                            <div class="key-event-line"></div>
-                            <div class="key-event-label">
-                                <span class="key-event-date">Jun 18</span>
-                                <span class="key-event-title">WWTP Grand Opening</span>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN1370-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2018 - FN0165-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2018, Mar 5</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0165-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2018 - FN0120-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2018, Feb 22</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0120-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
+                            </div>
+                            <span>Department of Fisheries and Oceans</span>
+                        </div>
+                    </div> <!-- /card -->
+                    <!--💬 2018 - LADYSMITH WWTP HONOURED FOR ENGINEERING EXCELLENCE (PRESS RELEASE QUOTE) -->
+                    <div class="grid-slot void">
+                        <div class="grid-slot-date">
+                            <span>2018, Apr 11</span>
+                            <a href="https://www.ladysmith.ca/home/2018/04/11/ladysmith-wastewater-treatment-plant-honoured-for-engineering-excellence#:~:text=wastewater%20treatment%20strategy%20is%20focused%20on%20protecting,Ferrero"
+                               class="status-badge quote">Press Release↗</a>
+                        </div>
+                        <div class="quote-container">
+                            <blockquote class="quote-text">"The Town's wastewater treatment strategy is focused on protecting Ladysmith-area waters through innovative design"</blockquote>
+                            <div class="quote-signature">
+                                <cite class="quote-credit">Guillermo Ferrero</cite>
+                                <cite class="quote-role">Chief Administrative Officer,<br>Town of Ladysmith</cite>
                             </div>
                         </div>
-                        </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">April</span>
-                        <div class="month-group-content">
-                        <div class="grid-slot void" style="width:240px; min-height:160px;">
-                            <div class="grid-slot-date">
-                                <span>Apr 11</span>
-                                <a href="https://www.ladysmith.ca/home/2018/04/11/ladysmith-wastewater-treatment-plant-honoured-for-engineering-excellence#:~:text=wastewater%20treatment%20strategy%20is%20focused%20on%20protecting,Ferrero"
-                                   class="status-badge quote">Press Release↗</a>
-                            </div>
-                            <div class="quote-container">
-                                <blockquote class="quote-text">"The Town's wastewater treatment strategy is focused on protecting Ladysmith-area waters through innovative design"</blockquote>
-                                <div class="quote-signature">
-                                    <cite class="quote-credit">Guillermo Ferrero</cite>
-                                    <cite class="quote-role">Chief Administrative Officer,<br>Town of Ladysmith</cite>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">March</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-federal">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Mar 5</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# FN0165-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
-                            </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">February</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-federal">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Feb 22</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# FN0120-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
-                            </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">January</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-provincial">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Jan 23</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# IR76276 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b></h6><h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5><p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B</p>
-                            </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                        </div>
-                        </div>
-                    </div>
+                    </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2018 ROW-2 ========== -->
@@ -2046,32 +1907,40 @@
 
         <!-- ---------- 2016 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <div class="month-group">
-                        <span class="month-group-label">March</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-federal">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Mar 29</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# FN0254-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Ammended closure for bivalve shellfish near Ladysmith (Area 17) (Sanitary Closures 17-1 and 17.aa)</p>
+                    <!--🟢 2016 - FN0254-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2016, Mar 29</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                        </div>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0254-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Ammended closure for bivalve shellfish near Ladysmith (Area 17) (Sanitary Closures 17-1 and 17.aa)</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
+                    </div> <!-- /card -->
+                    <!--🟢 2016 - FN0031-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                    <div class="grid-slot">
+                        <div class="grid-slot-date"><span>2016, Jan 21</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
                         </div>
-                    </div>
-                    <div class="month-group">
-                        <span class="month-group-label">January</span>
-                        <div class="month-group-content">
-                        <div class="doc-card status-live authority-federal">
-                            <div class="doc-card-status-bar"></div>
-                            <div class="doc-card-date-row"><span class="doc-card-date">Jan 21</span><span class="status-badge live">✓ LIVE</span></div>
-                            <div class="doc-card-body">
-                                <h6>ID# FN0031-SANITARY</h6><h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5><p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        <div class="grid-slot-body">
+                            <h6>ID# FN0031-SANITARY</h6>
+                            <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                            <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                        </div>
+                        <div class="grid-slot-footer authority-federal">
+                            <div class="icon-container">
+                                <img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon">
                             </div>
-                            <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            <span>Department of Fisheries and Oceans</span>
                         </div>
-                        </div>
-                    </div>
+                    </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2016 ROW-2 ========== -->
@@ -2239,112 +2108,6 @@
                 <div class="grid-slot-body"></div>
             </div> <!-- /card -->
         </div> <!-- /card-type-deck -->
-
-        <!-- ============ DOCUMENT CARD REDESIGN (proposal) ============ -->
-        <!-- Two clear signal zones instead of three overlapping ones: a
-             full-width status bar at the top (colour carries the meaning,
-             same weight for every status), and the existing solid-colour
-             authority band at the bottom, exactly as-is. No more whole-card
-             colour wash or single-pixel side border. Not yet applied to the
-             live timeline above - this is the proposal for review. Content
-             below reuses your real dossier records rather than lorem ipsum
-             so the patterns read the way they will in practice. -->
-        <div class="drawer-title-strip" style="margin-top: 32px;">🎴 Document Card Redesign — Status + Authority System</div>
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0 0 16px 0; max-width: 800px;">
-            Same two things the current cards already track - <strong>status</strong> (is this document actually reachable right now) and <strong>issuing authority</strong> (who published it) - just each given one clear signal instead of three competing ones (badge + full-card colour wash + one-sided border). The authority band at the bottom is untouched from what you already liked.
-        </p>
-        <div class="doc-card-deck">
-            <!-- LIVE / Provincial - mirrors your real IR76276 card, not a link since the source is directly reachable -->
-            <div class="doc-card status-live authority-provincial">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row">
-                    <span class="doc-card-date">2018, Jan 23</span>
-                    <span class="status-badge live">✓ LIVE (200)</span>
-                </div>
-                <div class="doc-card-body">
-                    <h6>ID# IR76276 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level.">ⓘ Disclaimer</b></h6>
-                    <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
-                    <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B</p>
-                </div>
-                <div class="doc-card-footer">
-                    <div class="icon-container">
-                        <img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon">
-                    </div>
-                    <span>BC Environmental Assessment Office</span>
-                </div>
-            </div>
-            <!-- HIDDEN/ORPHANED / Municipal - real record, links to the existing dossier panel below -->
-            <a href="#dossier-cmp2022" class="doc-card status-orphaned authority-municipal">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row">
-                    <span class="doc-card-date">2022, Oct 31</span>
-                    <span class="status-badge orphaned">⊘ HIDDEN (301)</span>
-                </div>
-                <div class="doc-card-body">
-                    <h6>DocumentId=5393 <b class="has-tooltip" data-tooltip="Unlinked from the public directory layout during administrative migration; only accessible via a direct database query ID.">ⓘ Disclaimer</b></h6>
-                    <h5>Ladysmith Wastewater Treatment Plant Conditional Management Plan</h5>
-                    <p>Agreement requiring the Town of Ladysmith to strictly monitor and report operations and discharge exceedances.</p>
-                </div>
-                <div class="doc-card-footer">
-                    <div class="icon-container">
-                        <img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon">
-                    </div>
-                    <span>Town of Ladysmith</span>
-                </div>
-            </a>
-            <!-- ABSENT/REMOVED - real record (School District 68), links to the existing dossier panel below.
-                 Using provincial-tier colour as a stand-in for now - a school district isn't really
-                 "Province of British Columbia" so this authority might deserve its own tier later. -->
-            <a href="#dossier-lss17" class="doc-card status-absent authority-provincial">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row">
-                    <span class="doc-card-date">2017</span>
-                    <span class="status-badge absent">✕ REMOVED (404)</span>
-                </div>
-                <div class="doc-card-body">
-                    <h6>Tetra Tech Investigation <b class="has-tooltip" data-tooltip="Deleted and delisted from School Board servers around 2023.">ⓘ Disclaimer</b></h6>
-                    <h5>Water Investigation — Ladysmith Secondary School (Pt. 1)</h5>
-                    <p>Lead contamination in active drinking water loops. 10 of 20 pre-flush samples exceeded Health Canada guidelines.</p>
-                </div>
-                <div class="doc-card-footer">
-                    <div class="icon-container">
-                        <img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon">
-                    </div>
-                    <span>School District 68</span>
-                </div>
-            </a>
-            <!-- UNPUBLISHED - real record, links to the existing dossier panel below -->
-            <a href="#dossier-void2023" class="doc-card status-unpublished authority-municipal">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row">
-                    <span class="doc-card-date">2023, annual</span>
-                    <span class="status-badge unpublished">◌ UNPUBLISHED</span>
-                </div>
-                <div class="doc-card-body">
-                    <h6>Statutory Register <b class="has-tooltip" data-tooltip="Section 15 of the BC Drinking Water Protection Act requires this as a mandatory public register.">ⓘ Disclaimer</b></h6>
-                    <h5>Town of Ladysmith 2023 Annual Drinking Water Quality Report</h5>
-                    <p>No verified public release path. Absent from municipal servers, local databases, and community distribution archives.</p>
-                </div>
-                <div class="doc-card-footer">
-                    <div class="icon-container">
-                        <img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon">
-                    </div>
-                    <span>Town of Ladysmith</span>
-                </div>
-            </a>
-        </div> <!-- /doc-card-deck -->
-
-        <!-- ============ DENSITY CONCEPT: MONTH SLOTS ============ -->
-        <div class="drawer-title-strip" style="margin-top: 32px;">📅 Density Layout Concept: Month Slots</div>
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0 0 8px 0; max-width: 800px;">
-            <strong>Your idea:</strong> cap each year at 12 slots, one per month, instead of letting the row stretch to fit however many documents landed that year. A month with several documents compresses into a stack instead of each one getting its own full-width slot.
-        </p>
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0 0 8px 0; max-width: 800px;">
-            <strong>My take: yes, I'd go this way.</strong> It fixes the actual layout problem you kept running into (row-2 examples getting dragged apart by however wide row-1 happened to be), and more importantly it does the thing you actually want - it makes volume visible instead of just wide. Scrolling past an 11-card row doesn't feel like "a lot"; a stack with a <strong>×6</strong> badge sitting on top of it does, immediately, without scrolling anywhere.
-        </p>
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0 0 20px 0; max-width: 800px;">
-            <strong>This is now implemented for real</strong> in the timeline above rather than mocked up separately here - see 2023 (September's 6-card stack, August's 2-card stack), 2021 (three stacks), 2020, and 2019. Months run newest-to-oldest left to right, matching the rest of the timeline's direction, and a month's label only appears when that month actually has something in it - empty months show nothing at all, no placeholder. Click any stack to expand it in place; click the expanded row to re-stack.
-        </p>
 
             <!-- Fully Expanded Detail Panel for Key Wastewater Scenarios -->
             <div class="evidence-drawer-section" id="dossier-cmp2022">
@@ -2612,20 +2375,6 @@
         group.addEventListener('click', function (e) {
             if (e.target.closest('.grid-slot')) return; /* let card links/content work normally */
             group.classList.toggle('collapsed');
-        });
-    });
-
-    /* Month density: click a stack to expand it into a flattened row in
-       place, click again (via the expanded row's own month-group) to
-       re-stack. Same toggle pattern as the year-group collapse above. */
-    document.querySelectorAll('.month-stack').forEach(function (stack) {
-        stack.addEventListener('click', function () {
-            stack.closest('.month-group').classList.add('stack-open');
-        });
-    });
-    document.querySelectorAll('.month-stack-expanded').forEach(function (expanded) {
-        expanded.addEventListener('click', function () {
-            expanded.closest('.month-group').classList.remove('stack-open');
         });
     });
 </script>
