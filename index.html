@@ -1053,10 +1053,10 @@
 
 .grid-slot.void .quote-container .quote-text {
     margin: 0;
-    font-size: 15px;
+    font-size: 13px; /* shrunk from 15px */
     font-style: italic;
     color: var(--bc-blue);
-    line-height: 1.4;
+    line-height: 1.35;
     font-weight: 500;
 }
 
@@ -2007,16 +2007,26 @@ button.doc-card.lightbox-trigger:focus-visible {
          same Operational Certificate 110161 that took effect Apr 4, 2022
          (see that year's key event above), which sets this date as the
          deadline for adding a disinfection step. Citation: BC Ministry of
-         Environment, Operational Certificate 110161. Replaces the row-1
-         void placeholder - row-1 no longer being a lone .grid-slot.void
-         means the auto-collapse rule (CSS ~line 1001) no longer matches
-         this year, so 2026 now renders as a normal full-width column
-         instead of the faded/collapsed empty-year treatment. -->
+         Environment, Operational Certificate 110161. row-1 no longer being
+         a lone .grid-slot.void means the auto-collapse rule (CSS ~line
+         1001) no longer matches this year, so 2026 renders as a normal
+         full-width column instead of the faded/collapsed empty-year
+         treatment - intentional, this deadline is worth surfacing at full
+         size. The marker itself is only 72px tall (see align-self:
+         flex-start above) so it doesn't force row-1's shared height up,
+         but row-1's height is still ~330px because of unrelated content
+         elsewhere in the timeline (2018/2019) - a void card is added back
+         below as a sibling to fill that leftover space with the same
+         "deliberately nothing else here" dashed treatment every other
+         empty slot uses, instead of leaving it blank canvas. -->
                     <div class="key-event-marker">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Dec 31, 2026</span>
                             <span class="key-event-marker-title">Legal Deadline to Add Wastewater Disinfection Step</span>
                         </div>
+                    </div>
+                    <div class="grid-slot void">
+                        <div class="grid-slot-body"></div>
                     </div>
                     </div> <!-- /row-1 -->
 
