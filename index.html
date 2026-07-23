@@ -826,19 +826,43 @@
 /* Row-1-empty-but-row-2-has-content years (2014, 2015, 2017, 2024): a full
    dashed void box here reads as its own disconnected thing floating above
    real cards below. Pure invisible space loses any sense that the column
-   continues. This splits the difference - a thin shelf line gives the eye
-   something to land on without competing with the real content beneath it. */
-.grid-slot.space.row1-shelf {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+   continues. This reuses the same top-accent-bar every real .grid-slot
+   already has (::before, 3px, top:0) instead of a floating centered line -
+   same fixed position as every card's own top bar in the row, so it lines
+   up with them regardless of how tall the shared row-1 band ends up being. */
+.grid-slot.row1-shelf {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: default;
 }
 
-.row1-shelf-line {
-    width: 100%;
-    height: 2px;
+.grid-slot.row1-shelf::before {
     background: var(--border-medium);
-    border-radius: 1px;
+}
+
+.grid-slot.row1-shelf:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.grid-slot.row1-shelf:hover::before {
+    height: 3px;
+    background: var(--border-medium);
+}
+
+/* Years with month-groups in row-2 (e.g. 2024's 12 monthly columns) make
+   row-2's natural width far wider than a single 220px card - and since
+   .year-row-slot itself stretches to match the shared grid column, a
+   fixed-width shelf card just sits pinned to the left under the first
+   month, disconnected from everything else in the row. Overriding the
+   220px card-width lock lets the shelf grow to fill the same width as
+   row-2, so the top-bar reads as one continuous line under the whole year
+   instead of a stray segment under one column. */
+.matrix-grid-flex .grid-slot.row1-shelf {
+    flex: 1 1 auto !important;
+    width: auto !important;
 }
 
 .grid-slot.space:hover {
@@ -1830,8 +1854,8 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ---------- 2024 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
                     <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot space row1-shelf">
-                        <div class="row1-shelf-line"></div>
+                    <div class="grid-slot row1-shelf">
+                        <div class="grid-slot-body"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -2930,8 +2954,8 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ---------- 2017 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
                     <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot space row1-shelf">
-                        <div class="row1-shelf-line"></div>
+                    <div class="grid-slot row1-shelf">
+                        <div class="grid-slot-body"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -3030,8 +3054,8 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ---------- 2015 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
                     <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot space row1-shelf">
-                        <div class="row1-shelf-line"></div>
+                    <div class="grid-slot row1-shelf">
+                        <div class="grid-slot-body"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -3057,8 +3081,8 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ---------- 2014 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
                     <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot space row1-shelf">
-                        <div class="row1-shelf-line"></div>
+                    <div class="grid-slot row1-shelf">
+                        <div class="grid-slot-body"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
