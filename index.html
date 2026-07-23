@@ -1081,6 +1081,19 @@
             pointer-events: none;
         }
 
+        /* Primary Source button, toned down for restricted-403/absent-404 --
+           still a real, clickable link (the dead end IS the evidence), just
+           not competing visually with the live-status blue. Charcoal, not
+           red/alarming -- this is a neutral "here's where it used to be,"
+           not a warning. */
+        .source-action-button.muted {
+            background: #475569;
+        }
+
+        .source-action-button.muted:hover {
+            background: #334155;
+        }
+
 /* Custom configuration layout for the scoped horizontal view.
    A real 2-row CSS Grid: Row 1's cards all share one height band and
    Row 2's cards share another (grid tracks are inherently uniform across
@@ -2142,7 +2155,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">October</span>
                         <div class="month-group-content">
                         <!--🟡 2022 - LADYSMITH WWTP CONDITIONAL MANAGEMENT PLAN -->
-                        <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="documentid-5393-cmp2022">
+                        <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-wastewater-treatment-plant-con">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2022, Oct 31</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                                 <div class="doc-card-body">
@@ -3054,14 +3067,14 @@ button.doc-card.lightbox-trigger:focus-visible {
                 <p class="lightbox-doc-id" id="lb-docid" style="display:none;"></p>
             </div>
 
-            <p class="lightbox-summary" id="lb-summary"></p>
-
             <div id="lb-note-wrap" style="display:none;">
                 <div class="lightbox-note" id="lb-note">
                     <span class="lightbox-note-label" id="lb-note-label"></span>
                     <span id="lb-note-text"></span>
                 </div>
             </div>
+
+            <p class="lightbox-summary" id="lb-summary"></p>
 
             <div id="lb-keypoints-wrap" style="display:none;">
                 <p class="lightbox-section-label">Extracted Key Points</p>
@@ -4408,11 +4421,30 @@ button.doc-card.lightbox-trigger:focus-visible {
                 ];
                 var anyLink = false;
                 linkDefs.forEach(function (def) {
-                    if (!def.url) return; // no fabricated/placeholder links -- omit entirely if not yet populated
+                    if (!def.url) {
+                        // Unpublished: nothing to link to at all (never
+                        // published means no address exists), so show a
+                        // real but genuinely disabled placeholder instead
+                        // of silently omitting the button -- makes the
+                        // absence itself visible rather than invisible.
+                        // Every other status keeps the "omit if blank"
+                        // rule; broken-but-real links (403/404) always
+                        // stay clickable, this is only for true absence.
+                        if (d.status !== 'unpublished') return;
+                        anyLink = true;
+                        var span = document.createElement('span');
+                        span.className = def.cls + ' disabled';
+                        span.textContent = def.label;
+                        linksEl.appendChild(span);
+                        return;
+                    }
                     anyLink = true;
                     var a = document.createElement('a');
                     a.href = def.url;
                     a.className = def.cls;
+                    if (def.external && (d.status === 'restricted-403' || d.status === 'absent-404')) {
+                        a.className += ' muted';
+                    }
                     a.textContent = def.label;
                     if (def.external) a.target = '_blank';
                     linksEl.appendChild(a);
