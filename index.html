@@ -823,6 +823,35 @@
     color: var(--bc-blue-dark);
 }
 
+/* Hover state: darkens the front card and shows "View all" front-and-center
+   instead of relying only on the small corner chip - a much harder-to-miss
+   signal on desktop that this click does something different from a normal
+   card. Lives inside .stack-card-front (already position:relative via the
+   base .doc-card rule), so inset:0 matches its real box exactly and moves
+   with its hover transform automatically. The corner chip stays as-is for
+   touch users, who don't get a hover state. */
+.stack-hover-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.72);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 11px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+    z-index: 6;
+}
+
+.month-stack:hover .stack-hover-overlay {
+    opacity: 1;
+}
+
 /* Expanded state: the fan flattens into a normal side-by-side row so every
    document in that month is individually visible and readable */
 .month-stack-expanded {
@@ -2209,6 +2238,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
 <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (6)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2308,6 +2338,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2023 - FN0870-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2422,6 +2453,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2021 - FN1299-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2473,6 +2505,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2021 - FN1247-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (4)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2549,6 +2582,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
 <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <a href="#dossier-ir163340" class="doc-card status-live-200 authority-provincial eao stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (5)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2663,6 +2697,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2020 - FN0640-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2714,6 +2749,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2020 - FN0578-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2782,6 +2818,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2020 - FN0104-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (4)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2890,6 +2927,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
 <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <div class="doc-card status-live-200 authority-provincial eao stack-card-front">
+                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
