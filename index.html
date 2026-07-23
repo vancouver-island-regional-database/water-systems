@@ -1856,6 +1856,45 @@ button.doc-card.lightbox-trigger:focus-visible {
             color: var(--bc-gold);
         }
 
+        /* Editorial project notice quote - matches index.html's own
+           .project-status-section treatment exactly, so this reads as the
+           same recurring element across pages rather than a one-off. */
+        .project-status-section {
+            max-width: 1040px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
+        }
+
+        .project-status-inner {
+            background-color: #F1F5F9;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px 32px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .project-status-content {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .project-status-content p {
+            margin-bottom: 12px;
+        }
+
+        .project-status-content p:last-child {
+            margin-bottom: 0px;
+        }
+
+        .project-status-content i {
+            font-size: 14px;
+            color: var(--bc-blue);
+            text-transform: none;
+            margin-right: 0.5rem;
+        }
+
 </style>
 </head>
 <body>
@@ -3243,6 +3282,17 @@ button.doc-card.lightbox-trigger:focus-visible {
     </div>
 </div> <!-- /area-block -->
 </div> <!-- /ws-content -->
+
+    <!-- Editorial Project Notice — matches index.html's own quote section -->
+    <section class="project-status-section">
+        <div class="project-status-inner">
+            <div class="project-status-content">
+                <a href="https://digitalcommons.law.uga.edu/cgi/viewcontent.cgi?referer=&httpsredir=1&article=1568&context=gjicl" style="color: inherit; text-decoration: none;">
+                    <p><i>If the twenty-first century is to become known as the era when human beings are gravitating toward the idea of a global perspective, a cosmopolitan outlook and an internationalist sense of mutual responsibility, then where better to concentrate than on the issue of water, which has for centuries and in many civilizations been aptly deemed the elixir of life.</i> Dr. Ranee Khooshie Lal Panjabi, "Not a Drop to Spare: The Global Water Crisis of the Twenty-First Century"</p>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer Frame — matches index.html / catalogues.html -->
     <footer>
