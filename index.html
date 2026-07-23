@@ -233,34 +233,10 @@
             color: var(--text-muted);
         }
 
-        /* Row-context panel: the real, full-length quotes that identify what
-           row-1/row-2 mean now live here, capped at the same 1040px content
-           width as the bridge card - not in the 220px timeline-title-card
-           sidebar. That sidebar is a grid item sharing row-1/row-2's height
-           with every card in the timeline; a multi-paragraph quote crammed
-           in there would force every column's row band taller to match,
-           including empty void/space years. Keeping full quotes here and
-           leaving only a short label in the sidebar avoids that. */
-        .ws-row-context-outer {
-            max-width: 1040px;
-            margin: 0 auto 30px auto;
-            padding: 0 20px;
-        }
-
-        .ws-row-context-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .ws-row-context-card {
-            background: var(--surface-card);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 20px 24px;
-            box-shadow: var(--shadow-sm);
-        }
-
+        /* Row-context quote styling: the attributed quote identifying what
+           row-1/row-2 mean, reused inline inside .timeline-title-card (each
+           row's own sidebar slot) so it sits directly next to that row's
+           content instead of in a separate panel above the timeline. */
         .ws-row-context-label {
             display: block;
             font-size: 11px;
@@ -301,12 +277,6 @@
 
         .ws-row-context-link:hover {
             text-decoration: underline;
-        }
-
-        @media (max-width: 800px) {
-            .ws-row-context-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         /* 2D HORIZONTAL MATRIX GRID STYLING - no card wrapper: the timeline
@@ -1466,34 +1436,24 @@
 }
 
 /* Title slots fronting each row - no year, no marker line, sit in the
-   space before 2026 like an unlabeled quote card would. No background/
-   border needed; each just carries whatever title info that row wants. */
+   space before 2026 like an unlabeled quote card would. Widened from the
+   original 220px to comfortably hold a full attributed quote (see
+   .ws-row-context-* classes, reused here) instead of just a short label -
+   it's a grid item sharing row-1/row-2's own height band, so a taller
+   quote here just grows that one row slightly rather than distorting
+   anything else in the timeline. */
 .timeline-title-card {
-    width: 220px;
+    width: 280px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 8px;
-    padding: 4px 6px;
+    padding: 4px 10px 4px 6px;
 }
 
 .timeline-title-card.row-1 { grid-row: 1; }
 .timeline-title-card.row-2 { grid-row: 2; }
 
-.timeline-title-card h4 {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--bc-blue-dark);
-    line-height: 1.3;
-}
-
-.timeline-title-card p {
-    margin: 0;
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
 
 /* Card type reference deck - standalone, NOT part of the year timeline grid.
    All 7 card-type/status variations sit in one plain flex row so they can be
@@ -1883,29 +1843,6 @@ button.doc-card.lightbox-trigger:focus-visible {
         </div>
     </div>
 
-    <div class="ws-row-context-outer">
-        <div class="ws-row-context-grid">
-            <div class="ws-row-context-card">
-                <span class="ws-row-context-label">Row 1 — Marine Ecosystem Management</span>
-                <blockquote class="ws-row-context-quote">"This was our paradise... Year round the uplands and the ocean provided for us... all around in the harbour you'll see middens, clam shells.<br><br>Today, for the last 30 years, there has not been a clam in this harbour fit for human consumption. Maybe longer than that. So there's work to be done."</blockquote>
-                <div class="ws-row-context-signature">
-                    <span class="ws-row-context-credit">Elder Ray Harris (Shulqwilum), Stz'uminus First Nation</span>
-                    <!-- Ladysmith Waterfront Area Plan (p.5) -->
-                    <a class="ws-row-context-link" href="https://www.ladysmith.ca/docs/default-source/wap-library/1488-ocp---schedule-b-waterfront-area-plan.pdf">ltst uw'hw-nuts' ul-wum | we are working as one ↗</a>
-                </div>
-            </div>
-            <div class="ws-row-context-card">
-                <span class="ws-row-context-label">Row 2 — Freshwater Quality Monitoring</span>
-                <blockquote class="ws-row-context-quote">"Ensuring that the public has access to clean, safe, and reliable drinking water is imperative for public health... access to accurate and timely data on water systems is an essential component of maintaining water system safety and quality"</blockquote>
-                <div class="ws-row-context-signature">
-                    <span class="ws-row-context-credit">B.C. Ministry of Water, Land and Resource Stewardship</span>
-                    <!-- Clean, Safe, and Reliable Drinking Water: An Update on Drinking Water Protection in BC, 2017/18 to 2021/22, Chapter 1: p.2,6 -->
-                    <a class="ws-row-context-link" href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/reports-publications/drinking-water-reports/drinkingwaterreportupdateweb.pdf">Drinking Water Report, 2017/18–2021/22 ↗</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 <div class="ws-content">
 <!-- ==========================================
      BLOCK 1
@@ -1915,17 +1852,27 @@ button.doc-card.lightbox-trigger:focus-visible {
     <div class="grid-scroll-container">
         <div class="matrix-grid matrix-grid-flex">
 
-                    <!-- Title slots: compact per-row labels only - the full quotes that used
-                         to live here now sit in .ws-row-context-card above the timeline, so
-                         this sidebar doesn't force every column's row-band height to grow
-                         to fit multi-paragraph quote text (see .ws-row-context-outer). -->
+                    <!-- Title slots: full attributed quotes, inline with their own row -
+                         these are grid items sharing row-1/row-2's own height band, so a
+                         taller quote here just grows that one row slightly rather than
+                         distorting anything else in the timeline (verified live). -->
                     <div class="timeline-title-card row-1">
-                        <h4>Marine Ecosystem Management</h4>
-                        <p>Ladysmith Harbour &amp; coastal shellfish closures.</p>
+                        <span class="ws-row-context-label">Marine Ecosystem Management</span>
+                        <blockquote class="ws-row-context-quote">"This was our paradise... Year round the uplands and the ocean provided for us... all around in the harbour you'll see middens, clam shells.<br><br>Today, for the last 30 years, there has not been a clam in this harbour fit for human consumption. Maybe longer than that. So there's work to be done."</blockquote>
+                        <div class="ws-row-context-signature">
+                            <span class="ws-row-context-credit">Elder Ray Harris (Shulqwilum), Stz'uminus First Nation</span>
+                            <!-- Ladysmith Waterfront Area Plan (p.5) -->
+                            <a class="ws-row-context-link" href="https://www.ladysmith.ca/docs/default-source/wap-library/1488-ocp---schedule-b-waterfront-area-plan.pdf">ltst uw'hw-nuts' ul-wum | we are working as one ↗</a>
+                        </div>
                     </div>
                     <div class="timeline-title-card row-2">
-                        <h4>Freshwater Quality Monitoring</h4>
-                        <p>Municipal drinking water &amp; wastewater operations.</p>
+                        <span class="ws-row-context-label">Freshwater Quality Monitoring</span>
+                        <blockquote class="ws-row-context-quote">"Ensuring that the public has access to clean, safe, and reliable drinking water is imperative for public health... access to accurate and timely data on water systems is an essential component of maintaining water system safety and quality"</blockquote>
+                        <div class="ws-row-context-signature">
+                            <span class="ws-row-context-credit">B.C. Ministry of Water, Land and Resource Stewardship</span>
+                            <!-- Clean, Safe, and Reliable Drinking Water: An Update on Drinking Water Protection in BC, 2017/18 to 2021/22, Chapter 1: p.2,6 -->
+                            <a class="ws-row-context-link" href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/reports-publications/drinking-water-reports/drinkingwaterreportupdateweb.pdf">Drinking Water Report, 2017/18–2021/22 ↗</a>
+                        </div>
                     </div>
     <!-- +++++++++++++++++++++++++++++ YEAR 2026 +++++++++++++++++++++++++++++ -->
                     <div class="year-group" data-year="2026">
