@@ -791,6 +791,38 @@
 .stack-count-badge.authority-federal { background: #26374A; }
 .stack-count-badge.authority-sd68 { background: #5F7D3E; }
 
+/* Explicit "this is a group, click to expand" signifier - the fanned
+   cards alone read too much like a single ordinary doc-card (same size,
+   same colours), so users click expecting a lightbox and get more cards
+   instead. Mirrors .stack-close-btn's own pill styling so the two feel
+   like a matched pair (open/close), anchored to the stack itself so it's
+   visible without needing to spot the small authority-count badges above. */
+.stack-expand-hint {
+    position: absolute;
+    bottom: -11px;
+    right: 2px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bc-blue);
+    background: #FFFFFF;
+    border: 1px solid var(--border-medium);
+    border-radius: 9999px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+    pointer-events: none; /* .month-stack itself already handles the click - this is a signifier, not a second hit target */
+}
+
+.month-stack:hover .stack-expand-hint {
+    border-color: var(--bc-blue);
+    color: var(--bc-blue-dark);
+}
+
 /* Expanded state: the fan flattens into a normal side-by-side row so every
    document in that month is individually visible and readable */
 .month-stack-expanded {
@@ -2188,6 +2220,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (6)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2285,6 +2318,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2398,6 +2432,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2449,6 +2484,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (4)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2525,6 +2561,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </a>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (5)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2636,6 +2673,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2686,6 +2724,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2754,6 +2793,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (4)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2832,6 +2872,14 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2019 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
+                    <!-- Spacer: without this, January (the only row-1 item) and
+                         September (the only row-2 item, below) both land at
+                         flex position 0 in their own row and end up in the
+                         exact same visual column, reading as if they're from
+                         the same time period when they're 8 months apart. -->
+                    <div class="grid-slot space">
+                        <div class="grid-slot-body"></div>
+                    </div>
                     <div class="month-group">
                         <span class="month-group-label">January</span>
                         <div class="month-group-content">
@@ -2853,6 +2901,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
