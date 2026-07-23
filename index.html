@@ -219,10 +219,94 @@
             color: var(--bc-blue-dark);
         }
 
+        .ws-bridge-instructions {
+            margin: 2px 0 0 0;
+            max-width: 640px;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
         .area-header-stats {
             font-size: 11px;
             font-weight: 500;
             color: var(--text-muted);
+        }
+
+        /* Row-context panel: the real, full-length quotes that identify what
+           row-1/row-2 mean now live here, capped at the same 1040px content
+           width as the bridge card - not in the 220px timeline-title-card
+           sidebar. That sidebar is a grid item sharing row-1/row-2's height
+           with every card in the timeline; a multi-paragraph quote crammed
+           in there would force every column's row band taller to match,
+           including empty void/space years. Keeping full quotes here and
+           leaving only a short label in the sidebar avoids that. */
+        .ws-row-context-outer {
+            max-width: 1040px;
+            margin: 0 auto 30px auto;
+            padding: 0 20px;
+        }
+
+        .ws-row-context-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .ws-row-context-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .ws-row-context-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--bc-blue);
+            margin-bottom: 10px;
+        }
+
+        .ws-row-context-quote {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .ws-row-context-signature {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .ws-row-context-credit {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--bc-blue-dark);
+        }
+
+        .ws-row-context-link {
+            font-size: 12px;
+            color: var(--bc-blue);
+            text-decoration: none;
+        }
+
+        .ws-row-context-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 800px) {
+            .ws-row-context-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* 2D HORIZONTAL MATRIX GRID STYLING - no card wrapper: the timeline
@@ -1787,14 +1871,38 @@ button.doc-card.lightbox-trigger:focus-visible {
                 Water Systems
             </div>
             <h2>Water Systems | Mid-Island</h2>
-            <p>This catalogue serves as an interactive regional directory centralising municipal drinking utilities, federal shellfish advisory warnings, local wastewater treatment non-compliance reports, and watershed testing parameters.</p>
-        </div>
+            <p>A centralized catalogue of cross-jurisdictional public records on water systems, infrastructure, and environmental data regarding local watersheds and coastal ecosystems.<br>We are actively working to expand this collection and encourage users to check back regularly for updates. Primary catchment areas currently include Ladysmith Harbour, Oyster Bay, and Ladysmith proper.</p>
+</div>
     </section>
 
     <div class="ws-title-bridge-outer">
         <div class="ws-title-bridge-card">
-            <h3>Sewage and Stormwater Management, Ladysmith</h3>
+            <h3>Regional Water Management and Monitoring Timeline</h3>
+            <p class="ws-bridge-instructions">Click on a card to view key data points, details on publication status, important notes, and direct links to both the source document on its original issuing website, and an archived direct mirror copy made accessible by the Vancouver Island Regional Database.</p>
             <span class="area-header-stats">Last modified: July 2026</span>
+        </div>
+    </div>
+
+    <div class="ws-row-context-outer">
+        <div class="ws-row-context-grid">
+            <div class="ws-row-context-card">
+                <span class="ws-row-context-label">Row 1 — Marine Ecosystem Management</span>
+                <blockquote class="ws-row-context-quote">"This was our paradise... Year round the uplands and the ocean provided for us... all around in the harbour you'll see middens, clam shells.<br><br>Today, for the last 30 years, there has not been a clam in this harbour fit for human consumption. Maybe longer than that. So there's work to be done."</blockquote>
+                <div class="ws-row-context-signature">
+                    <span class="ws-row-context-credit">Elder Ray Harris (Shulqwilum), Stz'uminus First Nation</span>
+                    <!-- Ladysmith Waterfront Area Plan (p.5) -->
+                    <a class="ws-row-context-link" href="https://www.ladysmith.ca/docs/default-source/wap-library/1488-ocp---schedule-b-waterfront-area-plan.pdf">ltst uw'hw-nuts' ul-wum | we are working as one ↗</a>
+                </div>
+            </div>
+            <div class="ws-row-context-card">
+                <span class="ws-row-context-label">Row 2 — Freshwater Quality Monitoring</span>
+                <blockquote class="ws-row-context-quote">"Ensuring that the public has access to clean, safe, and reliable drinking water is imperative for public health... access to accurate and timely data on water systems is an essential component of maintaining water system safety and quality"</blockquote>
+                <div class="ws-row-context-signature">
+                    <span class="ws-row-context-credit">B.C. Ministry of Water, Land and Resource Stewardship</span>
+                    <!-- Clean, Safe, and Reliable Drinking Water: An Update on Drinking Water Protection in BC, 2017/18 to 2021/22, Chapter 1: p.2,6 -->
+                    <a class="ws-row-context-link" href="https://www2.gov.bc.ca/assets/gov/health/about-bc-s-health-care-system/office-of-the-provincial-health-officer/reports-publications/drinking-water-reports/drinkingwaterreportupdateweb.pdf">Drinking Water Report, 2017/18–2021/22 ↗</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1807,16 +1915,18 @@ button.doc-card.lightbox-trigger:focus-visible {
     <div class="grid-scroll-container">
         <div class="matrix-grid matrix-grid-flex">
 
-                    <!-- Title slots: stand in for the old per-row title bars, one per row -->
+                    <!-- Title slots: compact per-row labels only - the full quotes that used
+                         to live here now sit in .ws-row-context-card above the timeline, so
+                         this sidebar doesn't force every column's row-band height to grow
+                         to fit multi-paragraph quote text (see .ws-row-context-outer). -->
                     <div class="timeline-title-card row-1">
-                        <h4>Marine Environment</h4>
-                        <p>Ladysmith Wastewater Treatment Plant.</p>
+                        <h4>Marine Ecosystem Management</h4>
+                        <p>Ladysmith Harbour &amp; coastal shellfish closures.</p>
                     </div>
                     <div class="timeline-title-card row-2">
-                        <h4>Municipal Operations</h4>
-                        <p>Town of Ladysmith internal reviews and operational records.</p>
+                        <h4>Freshwater Quality Monitoring</h4>
+                        <p>Municipal drinking water &amp; wastewater operations.</p>
                     </div>
-
     <!-- +++++++++++++++++++++++++++++ YEAR 2026 +++++++++++++++++++++++++++++ -->
                     <div class="year-group" data-year="2026">
                     <div class="year-marker"><span class="year-marker-label">2026</span></div>
