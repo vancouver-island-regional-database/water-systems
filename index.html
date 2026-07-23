@@ -1398,11 +1398,25 @@
    year-marker's own so the two read as separate tiers. The label
    is top-anchored (not centered/bottom-anchored), so its position
    doesn't shift depending on whether the title wraps to one line
-   or two - only the bottom of the label block grows or shrinks. */
+   or two - only the bottom of the label block grows or shrinks.
+
+   HEIGHT: deliberately does NOT stretch to fill the shared row-1
+   grid track (align-self:flex-start overrides .year-row-slot's
+   default stretch), and uses a short fixed height instead of the
+   min-height:190px this used to have. row-1's height is set by
+   whichever year has the tallest real content (currently 2018/2019's
+   month-groups, ~330px) - a marker stretched to match that looks
+   like a giant near-empty column with a line running nowhere, most
+   obviously when it's the ONLY thing in its row (2026). .row1-shelf
+   gets away with stretching because it's just a top border - doesn't
+   visually change with height. This has a real vertical line, so it
+   does. Capping its height means the line only runs partway down,
+   reading as a compact annotation instead of a tall empty shaft. */
 .key-event-marker {
     flex: 0 0 auto;
+    align-self: flex-start;
     width: 24px;
-    min-height: 190px;
+    height: 72px;
     position: relative;
     cursor: default;
 }
@@ -1411,7 +1425,7 @@
     content: '';
     position: absolute;
     top: -38px;
-    bottom: 0;
+    bottom: 0; /* bottom of the now-short, non-stretched box - line ends there instead of at the row's full height */
     left: 50%;
     transform: translateX(-50%);
     width: 2px;
@@ -1443,15 +1457,15 @@
 
 /* Modifier: for markers that land right next to a year divider (e.g. last
    item in a row-1, right before the next year's boundary), the centered
-   label can crowd/overlap the adjacent .year-marker-label. This hangs the
-   label to the left of the marker's line instead of centering on it,
-   buying clearance from whatever sits to the right. */
-.key-event-marker.label-hang-left .key-event-marker-label {
-    left: auto;
-    right: 0;
-    transform: none;
-    align-items: flex-end;
-    text-align: right;
+   150px-wide label can crowd/overlap the adjacent .year-marker-label.
+   Adds real margin after the marker instead of nudging the label with
+   text-align - that grows the marker's own flex footprint, which grows
+   the year column's width (grid-auto-columns:max-content), which pushes
+   the next year's divider further away for real. Keeps the label centered
+   like every other marker instead of reading as a one-off left-hung
+   exception. */
+.key-event-marker.near-year-end {
+    margin-right: 40px;
 }
 
 .key-event-marker-title {
@@ -2461,8 +2475,9 @@ button.doc-card.lightbox-trigger:focus-visible {
          than Oct 31 (the only other row-1 item this year), so it's placed
          after it in DOM order per the newest-first, left-to-right
          convention - which puts it right at the 2022/2021 year boundary,
-         hence label-hang-left below to keep clear of the "2021" divider. -->
-                    <div class="key-event-marker label-hang-left">
+         hence near-year-end below to buy real clearance from the "2021"
+         divider. -->
+                    <div class="key-event-marker near-year-end">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Apr 4, 2022</span>
                             <span class="key-event-marker-title">New Wastewater Discharge Permit Takes Effect, Replacing Prior Permit</span>
