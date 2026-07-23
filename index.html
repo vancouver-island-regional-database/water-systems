@@ -791,45 +791,10 @@
 .stack-count-badge.authority-federal { background: #26374A; }
 .stack-count-badge.authority-sd68 { background: #5F7D3E; }
 
-/* Explicit "this is a group, click to expand" signifier - the fanned
-   cards alone read too much like a single ordinary doc-card (same size,
-   same colours), so users click expecting a lightbox and get more cards
-   instead. Mirrors .stack-close-btn's own pill styling so the two feel
-   like a matched pair (open/close), anchored to the stack itself so it's
-   visible without needing to spot the small authority-count badges above. */
-.stack-expand-hint {
-    position: absolute;
-    bottom: -11px;
-    right: 2px;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--bc-blue);
-    background: #FFFFFF;
-    border: 1px solid var(--border-medium);
-    border-radius: 9999px;
-    padding: 4px 10px;
-    white-space: nowrap;
-    box-shadow: var(--shadow-sm);
-    pointer-events: none; /* .month-stack itself already handles the click - this is a signifier, not a second hit target */
-}
-
-.month-stack:hover .stack-expand-hint {
-    border-color: var(--bc-blue);
-    color: var(--bc-blue-dark);
-}
-
-/* Hover state: darkens the front card and shows "View all" front-and-center
-   instead of relying only on the small corner chip - a much harder-to-miss
-   signal on desktop that this click does something different from a normal
-   card. Lives inside .stack-card-front (already position:relative via the
-   base .doc-card rule), so inset:0 matches its real box exactly and moves
-   with its hover transform automatically. The corner chip stays as-is for
-   touch users, who don't get a hover state. */
+/* Hover state: darkens the front card and shows "View all" front-and-center.
+   Lives inside .stack-card-front (already position:relative via the base
+   .doc-card rule), so inset:0 matches its real box exactly and moves with
+   its hover transform automatically. */
 .stack-hover-overlay {
     position: absolute;
     inset: 0;
@@ -872,6 +837,8 @@
 /* Explicit close control - the expanded cards are hyperlinked, so relying
    on "click empty space to close" isn't discoverable once cards fill most
    of the area. This button is always visible on its own line above them. */
+/* Dark to match the hover-darken overlay's vibe on the collapsed state -
+   reads as the same "group control" language on both ends (open/close). */
 .stack-close-btn {
     flex: 1 0 100%;
     display: flex;
@@ -881,9 +848,9 @@
     font-family: inherit;
     font-size: 11px;
     font-weight: 700;
-    color: var(--bc-blue);
-    background: #FFFFFF;
-    border: 1px solid var(--border-medium);
+    color: #FFFFFF;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(15, 23, 42, 0.72);
     border-radius: 9999px;
     padding: 6px 12px;
     cursor: pointer;
@@ -892,8 +859,8 @@
 }
 
 .stack-close-btn:hover {
-    background: var(--bg-canvas);
-    border-color: var(--bc-blue);
+    background: #0F172A;
+    border-color: #0F172A;
 }
 
 /* 1. Prepare the container for positioning */
@@ -2238,7 +2205,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
 <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (6)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (6)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2250,7 +2217,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (6)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2338,7 +2304,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2023 - FN0870-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2349,7 +2315,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2453,7 +2418,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2021 - FN1299-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2464,7 +2429,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2505,7 +2469,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2021 - FN1247-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (4)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (4)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2517,7 +2481,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (4)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2582,7 +2545,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
 <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <a href="#dossier-ir163340" class="doc-card status-live-200 authority-provincial eao stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (5)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (5)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2595,7 +2558,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </a>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (5)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2697,7 +2659,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2020 - FN0640-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2708,7 +2670,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2749,7 +2710,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2020 - FN0578-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2760,7 +2721,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2818,7 +2778,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <!-- /card -->
 <!--🟢 2020 - FN0104-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (4)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (4)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2830,7 +2790,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (4)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
@@ -2927,7 +2886,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </div>
 <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <div class="doc-card status-live-200 authority-provincial eao stack-card-front">
-                                <div class="stack-hover-overlay"><span>▾ View all (2)</span></div>
+                                <div class="stack-hover-overlay"><span>View all (2)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -2939,7 +2898,6 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
                             </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
-                            <span class="stack-expand-hint">▾ View all (2)</span>
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
