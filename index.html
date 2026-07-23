@@ -1411,20 +1411,23 @@ button.doc-card.lightbox-trigger:focus-visible {
     color: var(--text-muted);
 }
 
-.lightbox-doc-id {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
-}
-
 .lightbox-title {
     margin: 4px 0 0;
     font-size: 17px;
     font-weight: 700;
     color: var(--bc-blue-dark);
     line-height: 1.3;
+}
+
+/* Moved below the title (was in the top meta-row) -- ID is secondary
+   reference info, not the first thing read. */
+.lightbox-doc-id {
+    margin: 4px 0 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
 }
 
 .lightbox-summary {
@@ -1457,6 +1460,14 @@ button.doc-card.lightbox-trigger:focus-visible {
     border-radius: 8px;
     padding: 10px 12px;
 }
+
+/* Coloured per status, same tokens as that status's own badge -- the
+   blurb should read as an extension of the badge, not a neutral note. */
+.lightbox-status-desc.live-200 { background: var(--status-live-bg); color: var(--status-live-text); border-color: var(--status-live-border); }
+.lightbox-status-desc.hidden-200 { background: var(--status-orphaned-bg); color: var(--status-orphaned-text); border-color: var(--status-orphaned-border); }
+.lightbox-status-desc.restricted-403 { background: var(--status-restricted-bg); color: var(--status-restricted-text); border-color: var(--status-restricted-border); }
+.lightbox-status-desc.absent-404 { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
+.lightbox-status-desc.unpublished { background: var(--status-unpub-bg); color: var(--status-unpub-text); border-color: var(--status-unpub-border); }
 
 /* Disclaimer/note - optional, only on cards that need one.
    type-red / type-amber reuse the same severity colors as the
@@ -3037,12 +3048,10 @@ button.doc-card.lightbox-trigger:focus-visible {
         <div class="lightbox-body">
             <div>
                 <div class="lightbox-meta-row">
-                    <span class="lightbox-doc-id" id="lb-docid"></span>
-                    <span id="lb-docid-sep">&bull;</span>
                     <span id="lb-date"></span>
-                    <span class="status-badge" id="lb-badge"></span>
                 </div>
                 <h3 class="lightbox-title" id="lb-title"></h3>
+                <p class="lightbox-doc-id" id="lb-docid" style="display:none;"></p>
             </div>
 
             <p class="lightbox-summary" id="lb-summary"></p>
@@ -3059,13 +3068,9 @@ button.doc-card.lightbox-trigger:focus-visible {
                 <ul class="lightbox-key-points" id="lb-keypoints"></ul>
             </div>
 
-            <div>
-                <p class="lightbox-section-label">Link Status</p>
-                <p class="lightbox-status-desc" id="lb-status-desc"></p>
-            </div>
+            <p class="lightbox-status-desc" id="lb-status-desc"></p>
 
             <div id="lb-links-wrap" style="display:none;">
-                <p class="lightbox-section-label">Links</p>
                 <div class="lightbox-links" id="lb-links"></div>
             </div>
         </div>
@@ -4339,13 +4344,17 @@ button.doc-card.lightbox-trigger:focus-visible {
                 if (!d) return false;
 
                 document.getElementById('lb-accent').style.background = statusBarVar[d.status] || 'var(--text-muted)';
-                document.getElementById('lb-docid').textContent = d.docId || '';
-                document.getElementById('lb-docid-sep').style.display = d.docId ? '' : 'none';
                 document.getElementById('lb-date').textContent = d.date || '';
-                var badge = document.getElementById('lb-badge');
-                badge.textContent = d.badgeText || '';
-                badge.className = 'status-badge ' + d.status;
                 document.getElementById('lb-title').textContent = d.title || '';
+
+                var docIdEl = document.getElementById('lb-docid');
+                if (d.docId) {
+                    docIdEl.textContent = d.docId;
+                    docIdEl.style.display = '';
+                } else {
+                    docIdEl.style.display = 'none';
+                }
+
                 document.getElementById('lb-summary').textContent = d.summary || '';
 
                 var noteWrap = document.getElementById('lb-note-wrap');
@@ -4381,7 +4390,13 @@ button.doc-card.lightbox-trigger:focus-visible {
                     kpWrap.style.display = 'none';
                 }
 
-                document.getElementById('lb-status-desc').textContent = d.statusDesc || '';
+                var statusDescEl = document.getElementById('lb-status-desc');
+                statusDescEl.className = 'lightbox-status-desc ' + d.status;
+                statusDescEl.innerHTML = '';
+                var prefixEl = document.createElement('strong');
+                prefixEl.textContent = 'LINK STATUS: ' + (d.badgeText || '');
+                statusDescEl.appendChild(prefixEl);
+                statusDescEl.appendChild(document.createTextNode(' ' + (d.statusDesc || '')));
 
                 var linksWrap = document.getElementById('lb-links-wrap');
                 var linksEl = document.getElementById('lb-links');
