@@ -213,7 +213,7 @@
 
         .ws-title-bridge-card h3 {
             margin: 0;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.01em;
             color: var(--bc-blue-dark);
@@ -226,17 +226,19 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 2px;
-            font-size: 12px;
-            /* one step darker than --text-muted (which "Last modified" below
-               uses) - this is real content, not a faint metadata caption, so
-               it shouldn't fade into the same watermark-like grey. */
-            color: var(--text-dark);
+            margin-top: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--bc-blue);
+            margin-bottom: 8px;
         }
+        
 
         .ws-bridge-row-legend b {
-            font-weight: 600;
-            color: var(--bc-blue-dark);
+            font-weight: 700;
+            color: var(--text-muted);
         }
 
         .ws-bridge-row-legend .legend-divider {
@@ -245,7 +247,7 @@
 
         .area-header-stats {
             font-size: 11px;
-            font-weight: 500;
+            font-weight: 400;
             color: var(--text-muted);
         }
 
@@ -2423,6 +2425,18 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </button>
                         </div>
                     </div>
+    <!-- KEY EVENT: Operational Certificate 110161 Takes Effect; Prior Permit
+         PE-120 Cancelled (Apr 4, 2022) - citation: BC Ministry of
+         Environment, Cancellation Letter (Permit PE-120) & Operational
+         Certificate 110161. Apr 4 is chronologically earlier than Oct 31
+         (the only other row-1 item this year), so it's placed after it in
+         DOM order per the newest-first, left-to-right convention. -->
+                    <div class="key-event-marker">
+                        <div class="key-event-marker-label">
+                            <span class="key-event-marker-date">Apr 4, 2022</span>
+                            <span class="key-event-marker-title">Operational Certificate 110161 Takes Effect; Prior Permit PE-120 Cancelled</span>
+                        </div>
+                    </div>
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2022 ROW-2 ========== -->
@@ -2755,7 +2769,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-body">
                                 <h6>ID# FN0578-SANITARY</h6>
                                 <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
-                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant primary filter failure. Secondary treatment bypassed.</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
@@ -2771,7 +2785,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-body">
                                 <h6>ID# FN0578-SANITARY</h6>
                                 <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
-                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant primary filter failure. Secondary treatment bypassed.</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </button>
@@ -3131,10 +3145,17 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2017 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot row1-shelf">
-                        <div class="grid-slot-body"></div>
-                    </div> <!-- /card -->
+    <!-- KEY EVENT: Wastewater Treatment Plant Phase 3 Building Completed
+         (2017) - citation: WSP, Town of Ladysmith Wastewater Treatment
+         Plant Upgrade (project page). Replaces the row1-shelf placeholder
+         that used to sit here - row-1 has real content now, so the
+         "deliberately nothing here" treatment no longer applies. -->
+                    <div class="key-event-marker">
+                        <div class="key-event-marker-label">
+                            <span class="key-event-marker-date">2017</span>
+                            <span class="key-event-marker-title">Wastewater Treatment Plant Phase 3 Building Completed</span>
+                        </div>
+                    </div>
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2017 ROW-2 ========== -->
@@ -3175,6 +3196,18 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2016 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
+    <!-- KEY EVENT: MBBR Secondary Treatment Commissioned (Jun 2016) -
+         citation: BC ENV Non-Compliance Advisory IR76276 (Jan 23, 2018) -
+         statement from Town Ops staff (Geoff Goodall) on record to Officer
+         Darren Stewart. Jun is chronologically newer than Mar 29 (the next
+         item in this row), so it's placed before it in DOM order per the
+         newest-first, left-to-right convention. -->
+                    <div class="key-event-marker">
+                        <div class="key-event-marker-label">
+                            <span class="key-event-marker-date">Jun 2016</span>
+                            <span class="key-event-marker-title">MBBR Secondary Treatment Commissioned</span>
+                        </div>
+                    </div>
                     <div class="month-group">
                         <span class="month-group-label">March</span>
                         <div class="month-group-content">
