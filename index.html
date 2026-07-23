@@ -823,6 +823,24 @@
     display: none;
 }
 
+/* Row-1-empty-but-row-2-has-content years (2014, 2015, 2017, 2024): a full
+   dashed void box here reads as its own disconnected thing floating above
+   real cards below. Pure invisible space loses any sense that the column
+   continues. This splits the difference - a thin shelf line gives the eye
+   something to land on without competing with the real content beneath it. */
+.grid-slot.space.row1-shelf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.row1-shelf-line {
+    width: 100%;
+    height: 2px;
+    background: var(--border-medium);
+    border-radius: 1px;
+}
+
 .grid-slot.space:hover {
     transform: none;
     box-shadow: none;
@@ -1806,14 +1824,14 @@ button.doc-card.lightbox-trigger:focus-visible {
                     </div> <!-- /2025 -->
 
     <!-- +++++++++++++++++++++++++++++ YEAR 2024 +++++++++++++++++++++++++++++ -->
-                    <div class="year-group" data-year="2024">
+                    <div class="year-group collapsed" data-year="2024">
                     <div class="year-marker"><span class="year-marker-label">2024</span></div>
 
         <!-- ---------- 2024 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- ⚪ VOID -->
-                    <div class="grid-slot void">
-                        <div class="grid-slot-body"></div>
+                    <!-- shelf line: row-1 empty, row-2 has real content -->
+                    <div class="grid-slot space row1-shelf">
+                        <div class="row1-shelf-line"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -2911,9 +2929,9 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2017 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- ⚪ VOID -->
-                    <div class="grid-slot void">
-                        <div class="grid-slot-body"></div>
+                    <!-- shelf line: row-1 empty, row-2 has real content -->
+                    <div class="grid-slot space row1-shelf">
+                        <div class="row1-shelf-line"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -3011,9 +3029,9 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2015 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- ⚪ VOID -->
-                    <div class="grid-slot void">
-                        <div class="grid-slot-body"></div>
+                    <!-- shelf line: row-1 empty, row-2 has real content -->
+                    <div class="grid-slot space row1-shelf">
+                        <div class="row1-shelf-line"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -3038,9 +3056,9 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2014 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- ⚪ VOID -->
-                    <div class="grid-slot void">
-                        <div class="grid-slot-body"></div>
+                    <!-- shelf line: row-1 empty, row-2 has real content -->
+                    <div class="grid-slot space row1-shelf">
+                        <div class="row1-shelf-line"></div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
