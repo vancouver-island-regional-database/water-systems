@@ -228,7 +228,10 @@
             gap: 8px;
             margin-top: 2px;
             font-size: 12px;
-            color: var(--text-muted);
+            /* one step darker than --text-muted (which "Last modified" below
+               uses) - this is real content, not a faint metadata caption, so
+               it shouldn't fade into the same watermark-like grey. */
+            color: var(--text-dark);
         }
 
         .ws-bridge-row-legend b {
