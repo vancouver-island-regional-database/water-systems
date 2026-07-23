@@ -1441,6 +1441,19 @@
     letter-spacing: 0.03em;
 }
 
+/* Modifier: for markers that land right next to a year divider (e.g. last
+   item in a row-1, right before the next year's boundary), the centered
+   label can crowd/overlap the adjacent .year-marker-label. This hangs the
+   label to the left of the marker's line instead of centering on it,
+   buying clearance from whatever sits to the right. */
+.key-event-marker.label-hang-left .key-event-marker-label {
+    left: auto;
+    right: 0;
+    transform: none;
+    align-items: flex-end;
+    text-align: right;
+}
+
 .key-event-marker-title {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
@@ -1974,10 +1987,23 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2026 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- ⚪ VOID -->
-                    <div class="grid-slot void">
-                        <div class="grid-slot-body"></div>
-                    </div> <!-- /card -->
+    <!-- KEY EVENT: title reworded from "UV Disinfection Legally Required
+         (Operational Certificate deadline)" to plain language. This is a
+         forward-looking compliance deadline, not a past event - it's the
+         same Operational Certificate 110161 that took effect Apr 4, 2022
+         (see that year's key event above), which sets this date as the
+         deadline for adding a disinfection step. Citation: BC Ministry of
+         Environment, Operational Certificate 110161. Replaces the row-1
+         void placeholder - row-1 no longer being a lone .grid-slot.void
+         means the auto-collapse rule (CSS ~line 1001) no longer matches
+         this year, so 2026 now renders as a normal full-width column
+         instead of the faded/collapsed empty-year treatment. -->
+                    <div class="key-event-marker">
+                        <div class="key-event-marker-label">
+                            <span class="key-event-marker-date">Dec 31, 2026</span>
+                            <span class="key-event-marker-title">Legal Deadline to Add Wastewater Disinfection Step</span>
+                        </div>
+                    </div>
                     </div> <!-- /row-1 -->
 
         <!-- ========== 2026 ROW-2 ========== -->
@@ -2425,16 +2451,21 @@ button.doc-card.lightbox-trigger:focus-visible {
                             </button>
                         </div>
                     </div>
-    <!-- KEY EVENT: Operational Certificate 110161 Takes Effect; Prior Permit
-         PE-120 Cancelled (Apr 4, 2022) - citation: BC Ministry of
-         Environment, Cancellation Letter (Permit PE-120) & Operational
-         Certificate 110161. Apr 4 is chronologically earlier than Oct 31
-         (the only other row-1 item this year), so it's placed after it in
-         DOM order per the newest-first, left-to-right convention. -->
-                    <div class="key-event-marker">
+    <!-- KEY EVENT: title reworded from "Operational Certificate 110161 Takes
+         Effect; Prior Permit PE-120 Cancelled" to plain language - the
+         permit ID numbers are meaningless without context, the underlying
+         fact (a new discharge permit replaced the old one) is what matters
+         to a lay reader. Full ID numbers kept here for reference. Citation:
+         BC Ministry of Environment, Cancellation Letter (Permit PE-120) &
+         Operational Certificate 110161. Apr 4 is chronologically earlier
+         than Oct 31 (the only other row-1 item this year), so it's placed
+         after it in DOM order per the newest-first, left-to-right
+         convention - which puts it right at the 2022/2021 year boundary,
+         hence label-hang-left below to keep clear of the "2021" divider. -->
+                    <div class="key-event-marker label-hang-left">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Apr 4, 2022</span>
-                            <span class="key-event-marker-title">Operational Certificate 110161 Takes Effect; Prior Permit PE-120 Cancelled</span>
+                            <span class="key-event-marker-title">New Wastewater Discharge Permit Takes Effect, Replacing Prior Permit</span>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -2751,6 +2782,21 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </button>
                         </div>
+                        </div>
+                    </div>
+    <!-- KEY EVENT: title reworded from "Primary Filter Failure - Bypassed
+         Secondary Treatment Entirely" to plain language. Citation resolved:
+         "duo records" = DFO records - the Department of Fisheries and
+         Oceans closure notices for this exact date already sit in the June
+         month-stack directly below (ID# FN0578-SANITARY and FN0577-
+         SANITARY, both 2020, Jun 23), which state the closure was due to a
+         "Wastewater Treatment Plant primary filter failure. Secondary
+         treatment bypassed." No separate/external citation needed - this
+         marker just surfaces a fact already documented in those two cards. -->
+                    <div class="key-event-marker">
+                        <div class="key-event-marker-label">
+                            <span class="key-event-marker-date">Jun 23, 2020</span>
+                            <span class="key-event-marker-title">Equipment Failure Bypasses Wastewater Treatment System</span>
                         </div>
                     </div>
                     <div class="month-group">
@@ -3145,15 +3191,20 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2017 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-    <!-- KEY EVENT: Wastewater Treatment Plant Phase 3 Building Completed
-         (2017) - citation: WSP, Town of Ladysmith Wastewater Treatment
-         Plant Upgrade (project page). Replaces the row1-shelf placeholder
-         that used to sit here - row-1 has real content now, so the
-         "deliberately nothing here" treatment no longer applies. -->
+    <!-- KEY EVENT: title reworded from "Wastewater Treatment Plant Phase 3
+         Building Completed" - "Phase 3" is internal project-staging
+         language, dropped here since it adds nothing for a reader who
+         wasn't following the upgrade project. Citation: WSP, Town of
+         Ladysmith Wastewater Treatment Plant Upgrade (project page), which
+         describes Phase 3 as adding "a new secondary treatment facility
+         with integrated laboratory, workshop and administration
+         facilities." Replaces the row1-shelf placeholder that used to sit
+         here - row-1 has real content now, so the "deliberately nothing
+         here" treatment no longer applies. -->
                     <div class="key-event-marker">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">2017</span>
-                            <span class="key-event-marker-title">Wastewater Treatment Plant Phase 3 Building Completed</span>
+                            <span class="key-event-marker-title">New Wastewater Treatment Facility Completed</span>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -3196,8 +3247,12 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2016 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-    <!-- KEY EVENT: MBBR Secondary Treatment Commissioned (Jun 2016) -
-         citation: BC ENV Non-Compliance Advisory IR76276 (Jan 23, 2018) -
+    <!-- KEY EVENT: title reworded from "MBBR Secondary Treatment
+         Commissioned" - MBBR (Moving Bed Biofilm Reactor) is the specific
+         reactor technology used and is unexplained jargon to a lay reader;
+         "secondary treatment" is kept since it's already used in plain
+         language elsewhere on this page (e.g. the 2015 quote card).
+         Citation: BC ENV Non-Compliance Advisory IR76276 (Jan 23, 2018) -
          statement from Town Ops staff (Geoff Goodall) on record to Officer
          Darren Stewart. Jun is chronologically newer than Mar 29 (the next
          item in this row), so it's placed before it in DOM order per the
@@ -3205,7 +3260,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                     <div class="key-event-marker">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Jun 2016</span>
-                            <span class="key-event-marker-title">MBBR Secondary Treatment Commissioned</span>
+                            <span class="key-event-marker-title">Secondary Wastewater Treatment System Commissioned</span>
                         </div>
                     </div>
                     <div class="month-group">
@@ -3264,9 +3319,20 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2015 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot row1-shelf">
-                        <div class="grid-slot-body"></div>
+<!--💬 2015 - TOWN OF LADYSMITH 2015 ANNUAL REPORT (STRATEGIC PRIORITIES QUOTE) -->
+                    <div class="grid-slot void">
+                        <div class="grid-slot-date">
+                            <span>2015</span>
+                            <a href="https://www.ladysmith.ca/docs/default-source/reports-2021/2015-annual-report-with-2016-community-profile.pdf?sfvrsn=1ce952fc_10"
+                               class="status-badge quote">Annual Report↗</a>
+                        </div>
+                        <div class="quote-container">
+                            <blockquote class="quote-text">"Invest in Infrastructure to Protect the Environment, and Provide for Sustainable Services in the Future: Complete Waste Water Treatment Plant to secondary treatment"</blockquote>
+                            <div class="quote-signature">
+                                <cite class="quote-credit">Town of Ladysmith</cite>
+                                <cite class="quote-role">2015 Annual Report,<br>Strategic Priorities, p.41</cite>
+                            </div>
+                        </div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
@@ -3291,9 +3357,25 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2014 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
-                    <!-- shelf line: row-1 empty, row-2 has real content -->
-                    <div class="grid-slot row1-shelf">
-                        <div class="grid-slot-body"></div>
+<!--💬 2014(placed)/2013(actual doc date) - LADYSMITH LIQUID WASTE MANAGEMENT PLAN STAGE 3 REPORT QUOTE -->
+<!-- NOTE: this report is dated January 2013 per its own title page - Claude
+     couldn't find a 2014-dated Town document carrying this exact line, so
+     the on-card date below shows the report's real date (2013, Jan) rather
+     than the 2014 label its row sits under. Flagged to Beth; may need to
+     move this card into the 2013 row-1 slot instead if there is one. -->
+                    <div class="grid-slot void">
+                        <div class="grid-slot-date">
+                            <span>2013, Jan</span>
+                            <a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-lwmp-stage-3-report.pdf?sfvrsn=e940ba70_6"
+                               class="status-badge quote">Report↗</a>
+                        </div>
+                        <div class="quote-container">
+                            <blockquote class="quote-text">"Once the WWTP upgrade to secondary treatment has been commissioned, conduct environmental studies of Ladysmith Harbour to determine if additional action is needed to protect the environment."</blockquote>
+                            <div class="quote-signature">
+                                <cite class="quote-credit">Town of Ladysmith</cite>
+                                <cite class="quote-role">Liquid Waste Management Plan,<br>Stage 3 Report</cite>
+                            </div>
+                        </div>
                     </div> <!-- /card -->
                     </div> <!-- /row-1 -->
 
