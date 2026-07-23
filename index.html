@@ -18,8 +18,10 @@
             --surface-card: #FFFFFF;
             --text-main: #1F2933;
             --text-muted: #64748B;
+            --text-dark: #475569; /* one step darker than --text-muted, for the key-event-marker date label so it reads as a darker sibling of .year-marker-label */
             --border-light: #E2E8F0;
             --border-medium: #CBD5E1;
+            --border-dark: #94A3B8; /* one step darker than --border-medium, for markers that need to read as related-but-distinct from .year-marker */
             --accent-blue-soft: #EFF6FF;
 
             /* Technical Status Muted Colors - Standardized and Neutral */
@@ -1058,7 +1060,7 @@
     column-gap: 16px;
     row-gap: 16px;
     align-items: stretch;
-    padding-top: 100px; /* reserves room for the year-marker label, and the taller key-event-marker label above it */
+    padding-top: 145px; /* reserves room for the year-marker label, and the taller (now up to 3-line-title) key-event-marker label above it */
 }
 
 /* Retains your original 220px card width design */
@@ -1151,7 +1153,7 @@
 .key-event-marker {
     flex: 0 0 auto;
     width: 24px;
-    min-height: 160px;
+    min-height: 190px;
     position: relative;
     cursor: default;
 }
@@ -1163,21 +1165,21 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 3px;
-    background: var(--bc-gold);
-    border-radius: 2px;
+    width: 2px;
+    background: var(--border-light); /* preview: matches the pale line used for empty/unpopulated .year-marker years */
+    border-radius: 1px;
 }
 
 .key-event-marker-label {
     position: absolute;
-    top: -90px;
+    top: -128px; /* raised from -90px to leave headroom for a 2-3 line title instead of the short placeholder it was designed against */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1px;
-    width: 120px;
+    gap: 2px;
+    width: 150px; /* widened from 120px to cut a line off the wrap - "Ladysmith Wastewater Treatment Plant Grand Opening" now wraps to 3 lines instead of 4 */
     text-align: center;
 }
 
@@ -1185,7 +1187,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
-    color: var(--bc-blue-dark);
+    color: var(--text-dark); /* pale palette preview: soft slate, one step up from the --border-light line */
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
@@ -1194,8 +1196,8 @@
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     font-weight: 600;
-    color: var(--bc-blue);
-    line-height: 1.3;
+    color: var(--text-muted); /* pale palette preview: same shade as .year-marker-label's own default text color */
+    line-height: 1.35;
 }
 
 /* Collapsed year-group: the two row-slots' cards hide (their now-empty
@@ -1284,6 +1286,212 @@
 .card-type-deck .grid-slot {
     flex: 0 0 220px;
     width: 220px;
+}
+
+/* ============================================================
+   LIGHTBOX PROTOTYPE — isolated to the "LOREM IPSUM LIVE" card
+   in the Card Type Reference Deck only. Not wired to any real
+   timeline card yet. Built on native <dialog> so focus-trap,
+   ESC-to-close and the backdrop come from the browser, not
+   hand-rolled JS - see the discussion in this file's history
+   for why (repeated JS regressions during this redesign).
+   Delete this whole block + the matching HTML/JS once the real
+   design is settled, or promote it to the real cards.
+   ============================================================ */
+
+/* Turns the one demo card into a real, keyboard-accessible
+   button without changing how it looks - .doc-card already
+   supplies background/border/shadow/layout, this just strips
+   the browser's default <button> chrome. */
+button.doc-card.lightbox-trigger {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+button.doc-card.lightbox-trigger:focus-visible {
+    outline: 3px solid var(--bc-gold);
+    outline-offset: 2px;
+}
+
+.doc-lightbox {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    width: 90%;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+.doc-lightbox::backdrop {
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.lightbox-accent-bar {
+    height: 5px;
+    border-radius: 12px 12px 0 0;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: var(--border-light);
+    color: var(--text-muted);
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-close:hover {
+    background: var(--border-medium);
+    color: var(--text-main);
+}
+
+.lightbox-body {
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.lightbox-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.lightbox-doc-id {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.lightbox-title {
+    margin: 4px 0 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--bc-blue-dark);
+    line-height: 1.3;
+}
+
+.lightbox-summary {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.lightbox-section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 0 0 6px;
+}
+
+/* Status description - mandatory on every real card, per the
+   "no data by omission" rule: every status gets an explanation,
+   not just the non-live ones. */
+.lightbox-status-desc {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-main);
+    background: #F8FAFC;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+/* Disclaimer/note - optional, only on cards that need one.
+   type-red / type-amber reuse the same severity colors as the
+   status badges themselves, so a red note and the "REMOVED"
+   badge read as the same tier of concern instead of introducing
+   a third color language. Label text (Disclaimer / Flag / Note)
+   is set in the markup, not hardcoded here. */
+.lightbox-note {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    border: 1px solid;
+}
+
+.lightbox-note.type-amber {
+    background: var(--status-orphaned-bg);
+    border-color: var(--status-orphaned-border);
+    color: #7A4A00;
+}
+
+.lightbox-note.type-red {
+    background: var(--status-absent-bg);
+    border-color: var(--status-absent-border);
+    color: var(--status-absent-text);
+}
+
+.lightbox-note-label {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.lightbox-key-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lightbox-key-points li {
+    display: flex;
+    gap: 8px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.lightbox-key-point-ref {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--bc-blue);
+    background: var(--accent-blue-soft);
+    border-radius: 4px;
+    padding: 2px 6px;
+    height: fit-content;
+    white-space: nowrap;
+}
+
+.lightbox-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .icon-container {
@@ -1520,7 +1728,7 @@
                             <div class="month-stack-counts">
                                 <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×6</span>
                             </div>
-                            <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+<!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -1536,7 +1744,7 @@
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
-                            <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+<!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
                             <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -1842,7 +2050,7 @@
                                 <span class="stack-count-badge authority-provincial"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></span>×1</span>
                                 <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×4</span>
                             </div>
-                            <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+<!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <a href="#dossier-ir163340" class="doc-card status-live authority-provincial stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -2043,7 +2251,7 @@
                     <div class="month-group">
                         <span class="month-group-label">March</span>
                         <div class="month-group-content">
-                        <!--🟢 2020 - IR147158 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+<!--🟢 2020 - IR147158 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                         <div class="doc-card status-live authority-provincial">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Mar 31</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -2157,7 +2365,7 @@
                                 <span class="stack-count-badge authority-provincial"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></span>×1</span>
                                 <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×1</span>
                             </div>
-                            <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+<!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <div class="doc-card status-live authority-provincial stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -2173,7 +2381,7 @@
                         </div>
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
-                            <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+<!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                             <div class="doc-card status-live authority-provincial">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -2243,7 +2451,7 @@
                     <div class="key-event-marker">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Jun 18, 2018</span>
-                            <span class="key-event-marker-title">WWTP Grand Opening</span>
+                            <span class="key-event-marker-title">Ladysmith Wastewater Treatment Plant Grand Opening</span>
                         </div>
                     </div>
 <!--💬 2018 - LADYSMITH WWTP HONOURED FOR ENGINEERING EXCELLENCE (PRESS RELEASE QUOTE) -->
@@ -2303,7 +2511,7 @@
                     <div class="month-group">
                         <span class="month-group-label">January</span>
                         <div class="month-group-content">
-                        <!--🟢 2018 - IR76276 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+<!--🟢 2018 - IR76276 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
                         <div class="doc-card status-live authority-provincial">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2018, Jan 23</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -2358,7 +2566,7 @@
                     <div class="month-group">
                         <span class="month-group-label">March</span>
                         <div class="month-group-content">
-                        <!--🟢 2016 - FN0254-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
+<!--🟢 2016 - FN0254-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
                         <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2016, Mar 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
@@ -2464,8 +2672,10 @@
              use this deck as the reference while deciding what goes where. -->
         <div class="drawer-title-strip">📇 Card Type Reference Deck</div>
         <div class="card-type-deck">
-            <!--🟢 LOREM IPSUM LIVE -->
-            <div class="doc-card status-live authority-federal">
+            <!--🟢 LOREM IPSUM LIVE - LIGHTBOX PROTOTYPE: this one card
+                 is a <button> wired to open #lightbox-demo below. The
+                 other reference-deck cards are untouched. -->
+            <button type="button" class="doc-card status-live authority-federal lightbox-trigger" onclick="document.getElementById('lightbox-demo').showModal()">
                 <div class="doc-card-status-bar"></div>
                 <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge live">✓ LIVE (200)</span></div>
                 <div class="doc-card-body">
@@ -2474,7 +2684,7 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Level 1, Category B.</p>
                 </div>
                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-            </div> <!-- /card -->
+            </button> <!-- /card -->
             <!--🟡 LOREM IPSUM HIDDEN/ORPHANED -->
             <a href="#" class="doc-card status-orphaned authority-provincial">
                 <div class="doc-card-status-bar"></div>
@@ -2531,6 +2741,71 @@
                 <div class="grid-slot-body"></div>
             </div> <!-- /card -->
         </div> <!-- /card-type-deck -->
+
+        <!-- ============================================================
+             LIGHTBOX PROTOTYPE - content demo only, triggered by the
+             single "LOREM IPSUM LIVE" card above. Mirrors the four
+             pieces of content that don't have a home on the real cards
+             yet: the 3 links, the mandatory status description, the
+             optional disclaimer/note, and the extracted key points.
+             All lorem/placeholder text - not real document data.
+             ============================================================ -->
+        <dialog id="lightbox-demo" class="doc-lightbox">
+            <div class="lightbox-accent-bar" style="background: var(--status-live-text);"></div>
+            <button type="button" class="lightbox-close" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
+            <div class="lightbox-body">
+                <div>
+                    <div class="lightbox-meta-row">
+                        <span class="lightbox-doc-id">ID# LI-0000</span>
+                        <span>&bull;</span>
+                        <span>YYYY, Mon DD</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                    </div>
+                    <h3 class="lightbox-title">Lorem Ipsum Advisory: Placeholder Facility (Permit 000, Effluent)</h3>
+                </div>
+
+                <p class="lightbox-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Level 1, Category B.</p>
+
+                <!-- Optional block - only present when a document actually
+                     has one. type-red / type-amber are the two severity
+                     tiers; label text (Disclaimer/Flag/Note) is set here,
+                     not baked into the class. -->
+                <div class="lightbox-note type-amber">
+                    <span class="lightbox-note-label">Disclaimer</span>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</span>
+                </div>
+
+                <div>
+                    <p class="lightbox-section-label">Extracted Key Points</p>
+                    <ul class="lightbox-key-points">
+                        <li><span class="lightbox-key-point-ref">Page 1</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</span></li>
+                        <li><span class="lightbox-key-point-ref">Page 3</span><span>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</span></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="lightbox-section-label">Link Status</p>
+                    <p class="lightbox-status-desc">At time of indexing, this link is online and accessible at the original public domain.</p>
+                </div>
+
+                <div>
+                    <p class="lightbox-section-label">Links</p>
+                    <div class="lightbox-links">
+                        <a href="#" class="source-action-button" target="_blank">Primary Source ↗</a>
+                        <a href="#" class="source-action-button mirror">PDF Mirror (Local)</a>
+                        <a href="#" class="source-action-button mirror">HTML Archive (Local)</a>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+        <script>
+            // Click-on-backdrop-to-close for #lightbox-demo. Native <dialog>
+            // only closes on ESC or an explicit .close() call by default -
+            // this is the one bit of custom JS the prototype needs.
+            document.getElementById('lightbox-demo').addEventListener('click', function (e) {
+                if (e.target === this) this.close();
+            });
+        </script>
 
             <!-- Fully Expanded Detail Panel for Key Wastewater Scenarios -->
             <div class="evidence-drawer-section" id="dossier-cmp2022">
