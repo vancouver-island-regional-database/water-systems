@@ -1579,21 +1579,24 @@
 }
 
 /* ============================================================
-   LIGHTBOX PROTOTYPE — isolated to the "LOREM IPSUM LIVE" card
-   in the Card Type Reference Deck only. Not wired to any real
-   timeline card yet. Built on native <dialog> so focus-trap,
-   ESC-to-close and the backdrop come from the browser, not
-   hand-rolled JS - see the discussion in this file's history
-   for why (repeated JS regressions during this redesign).
-   Delete this whole block + the matching HTML/JS once the real
-   design is settled, or promote it to the real cards.
+   LIGHTBOX — originally prototyped on a single demo card, now
+   wired to all 61 real timeline cards (the demo "LOREM IPSUM
+   LIVE" card this comment used to describe no longer exists).
+   Built on native <dialog> so focus-trap, ESC-to-close and the
+   backdrop come from the browser, not hand-rolled JS.
    ============================================================ */
 
-/* Turns the one demo card into a real, keyboard-accessible
-   button without changing how it looks - .doc-card already
-   supplies background/border/shadow/layout, this just strips
-   the browser's default <button> chrome. */
-button.doc-card.lightbox-trigger {
+/* .lightbox-trigger cards were <button> elements; converted to
+   <div role="button" tabindex="0"> so a real crawlable <a href>
+   source link (.doc-card-source-link below) could be nested
+   inside them - <button> doesn't allow interactive descendants
+   per the HTML spec, <div> does. Click handling was already
+   event-delegated via .closest('.lightbox-trigger') (see the
+   dialog script below), so this didn't need any JS changes.
+   Keyboard activation (Enter/Space) is added explicitly since
+   div doesn't get that for free the way button does - see the
+   keydown listener alongside the click listener below. */
+.doc-card.lightbox-trigger {
     appearance: none;
     -webkit-appearance: none;
     font: inherit;
@@ -1603,9 +1606,27 @@ button.doc-card.lightbox-trigger {
     cursor: pointer;
 }
 
-button.doc-card.lightbox-trigger:focus-visible {
+.doc-card.lightbox-trigger:focus-visible {
     outline: 3px solid var(--bc-gold);
     outline-offset: 2px;
+}
+
+/* Real, crawlable link to the primary source document - sits
+   inside .doc-card-body, below the summary paragraph. Stops
+   propagation on click so it navigates instead of also
+   triggering the parent card's lightbox-open handler. */
+.doc-card-source-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bc-blue);
+    text-decoration: none;
+}
+
+.doc-card-source-link:hover {
+    text-decoration: underline;
 }
 
 .doc-lightbox {
@@ -2109,204 +2130,216 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">December</span>
                         <div class="month-group-content">
 <!--🟢 2024 DECEMBER - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="december-2024-arbutus-water-treatment-pl">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="december-2024-arbutus-water-treatment-pl" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Dec</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24D2688, VA24D2684, VA24D3252, VA24D3796, VA24D4296, VA24D4554 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>December 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>December 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24D2688, VA24D2684, VA24D3252, VA24D3796, VA24D4296, VA24D4554 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/december-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">November</span>
                         <div class="month-group-content">
 <!--🟢 2024 NOVEMBER - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="november-2024-arbutus-water-treatment-pl">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="november-2024-arbutus-water-treatment-pl" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Nov</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24D0216, VA24D0208, VA24D0645, VA24D1415, VA24D2067, VA24D2207, VA24D2347 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>November 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>November 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24D0216, VA24D0208, VA24D0645, VA24D1415, VA24D2067, VA24D2207, VA24D2347 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/november-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">October</span>
                         <div class="month-group-content">
 <!--🟢 2024 OCTOBER - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="october-2024-arbutus-water-treatment-pla">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="october-2024-arbutus-water-treatment-pla" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Oct</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24C6118, VA24C6917, VA24C7545, VA24C8400, VA24C8401, VA24C9217 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>October 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>October 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24C6118, VA24C6917, VA24C7545, VA24C8400, VA24C8401, VA24C9217 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/october-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">September</span>
                         <div class="month-group-content">
 <!--🟢 2024 SEPTEMBER - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="september-2024-arbutus-water-treatment-p">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="september-2024-arbutus-water-treatment-p" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Sep</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24C3029, VA24C3523, VA24C3528, VA24C3594, VA24C3768, VA24C3781, VA24C3845, VA24C3849, VA24C4502, VA24C5351 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>September 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>September 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24C3029, VA24C3523, VA24C3528, VA24C3594, VA24C3768, VA24C3781, VA24C3845, VA24C3849, VA24C4502, VA24C5351 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/september-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">August</span>
                         <div class="month-group-content">
 <!--🟢 2024 AUGUST - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="august-2024-arbutus-water-treatment-plan">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="august-2024-arbutus-water-treatment-plan" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Aug</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24B9499, VA24C0379, VA24C1216, VA24C1486, VA24C2138, VA24C2590 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>August 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>August 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24B9499, VA24C0379, VA24C1216, VA24C1486, VA24C2138, VA24C2590 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/august-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">July</span>
                         <div class="month-group-content">
 <!--🟢 2024 JULY - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="july-2024-arbutus-water-treatment-plant-">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="july-2024-arbutus-water-treatment-plant-" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Jul</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24B5913, VA24B5914, VA24B6693, VA24B7266, VA24B8198, VA24B8830 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>July 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>July 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24B5913, VA24B5914, VA24B6693, VA24B7266, VA24B8198, VA24B8830 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/july-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">June</span>
                         <div class="month-group-content">
 <!--🟢 2024 JUNE - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="june-2024-arbutus-water-treatment-plant-">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="june-2024-arbutus-water-treatment-plant-" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Jun</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24B3203, VA24B3600, VA24B3612, VA24B4321, VA24B5335 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>June 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>June 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24B3203, VA24B3600, VA24B3612, VA24B4321, VA24B5335 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/june-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">May</span>
                         <div class="month-group-content">
 <!--🟢 2024 MAY - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="may-2024-arbutus-water-treatment-plant-m">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="may-2024-arbutus-water-treatment-plant-m" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, May</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24A9697, VA24B0047, VA24B0931, VA24B0935, VA24B1513, VA24B1521, VA24B2424, VA24B2518 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>May 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>May 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24A9697, VA24B0047, VA24B0931, VA24B0935, VA24B1513, VA24B1521, VA24B2424, VA24B2518 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/may-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">April</span>
                         <div class="month-group-content">
 <!--🟢 2024 APRIL - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="april-2024-arbutus-water-treatment-plant">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="april-2024-arbutus-water-treatment-plant" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Apr</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24A7044, VA24A7540, VA24A7541, VA24A8131, VA24A8779 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>April 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>April 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24A7044, VA24A7540, VA24A7541, VA24A8131, VA24A8779 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/april-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">March</span>
                         <div class="month-group-content">
 <!--🟢 2024 MARCH - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="march-2024-arbutus-water-treatment-plant">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="march-2024-arbutus-water-treatment-plant" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Mar</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24A4606, VA24A4614, VA24A5304, VA24A5948, VA24A5953, VA24A6302 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>March 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>March 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24A4606, VA24A4614, VA24A5304, VA24A5948, VA24A5953, VA24A6302 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/march-2024-arbutus-wtp-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">February</span>
                         <div class="month-group-content">
 <!--🟢 2024 FEBRUARY- ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="february-2024-arbutus-water-treatment-pl">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="february-2024-arbutus-water-treatment-pl" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Feb</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24A2506, VA24A2508, VA24A2885, VA24A2888, VA24A3460, VA24A3506, VA24A3982 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>February 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>February 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24A2506, VA24A2508, VA24A2885, VA24A2888, VA24A3460, VA24A3506, VA24A3982 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/february-2024-viha-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">January</span>
                         <div class="month-group-content">
 <!--🟢 2024 JANUARY - ARBUTUS WATER TREATMENT PLANT MONTHLY REPORT-->
-                        <button type="button" class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="january-2024-arbutus-water-treatment-pla">
+                        <div class="doc-card status-live-200 authority-ladysmith lightbox-trigger" data-key="january-2024-arbutus-water-treatment-pla" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2024, Jan</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>WORK ORDERS: VA24A0252, VA24A0500, VA24A1006, VA24A1434, VA24A1436, VA24A1837 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
-                                </h6>
-                                <h5>January 2024 Arbutus Water Treatment Plant Monthly Report</h5>
+                            <h4>January 2024 Arbutus Water Treatment Plant Monthly Report</h4>
+                                <h5>WORK ORDERS: VA24A0252, VA24A0500, VA24A1006, VA24A1434, VA24A1436, VA24A1837 <b class="has-tooltip" data-tooltip="Data contains frequent data quality flags, sample transit delays, and testing anomalies; verify integrity before analysis.">ⓘ Disclaimer</b>
+                                </h5>
                             <p>Mandated monthly report containing water treatment data and laboratory records for Island Health</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/january-2024-arbutus-wtp-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
                     </div> <!-- /row-2 -->
@@ -2331,8 +2364,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1074-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1074-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2343,76 +2376,82 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
 <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1074-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1074-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1074-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1074-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290749" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2023 - FN1073-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1073-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1073-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1073-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1073-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290745" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2023 - FN1038-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1038-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1038-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 21</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1038-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1038-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290329" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2023 - FN1037-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1037-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1037-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 21</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1037-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1037-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290325" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2023 - FN0929-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0929-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0929-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 1</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0929-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0929-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288929" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2023 - FN0928-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0928-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0928-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 1</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0928-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0928-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288925" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2430,8 +2469,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0870-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0870-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2442,28 +2481,30 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!-- /card -->
 <!--🟢 2023 - FN0870-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0870-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0870-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0870-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0870-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288275" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2023 - FN0869-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0869-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0869-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0869-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0869-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=288271" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2472,16 +2513,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2023 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--⚪  2023 - MISSING - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2023-annual-water-quality-repo">
+                    <div class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2023-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2023</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2023 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2023 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
                         <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2023 -->
 
@@ -2495,15 +2536,16 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">October</span>
                         <div class="month-group-content">
                         <!--🟡 2022 - LADYSMITH WWTP CONDITIONAL MANAGEMENT PLAN -->
-                        <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-wastewater-treatment-plant-con">
+                        <div class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-wastewater-treatment-plant-con" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2022, Oct 31</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                                 <div class="doc-card-body">
-                                <h5>Ladysmith Wastewater Treatment Plant Conditional Management Plan</h5>
+                                <h4>Ladysmith Wastewater Treatment Plant Conditional Management Plan</h4>
                                 <p>Agreement with federal government agencies requiring the Town of Ladysmith to strictly monitor and report regular operations and discharge exceedances at the Wastewater Treatment Plant</p>
+                                <a class="doc-card-source-link" href="https://pub-ladysmith.escribemeetings.com/FileStream.ashx?DocumentId=5393" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
     <!-- KEY EVENT: title reworded from "Operational Certificate 110161 Takes
@@ -2529,16 +2571,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2022 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--⚪  2022 - MISSING - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2022-annual-water-quality-repo">
+                    <div class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2022-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2022</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2022 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2022 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
                         <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2022 -->
 
@@ -2562,8 +2604,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1299-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1299-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2574,28 +2616,30 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!-- /card -->
 <!--🟢 2021 - FN1299-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1299-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1299-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1299-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1299-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=253293" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN1298-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1298-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1298-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1298-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1298-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=253289" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2613,8 +2657,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1247-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1247-SANITARY</h5>
                                 <p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2626,52 +2670,56 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!-- /card -->
 <!--🟢 2021 - FN1247-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1247-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1247-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1247-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1247-SANITARY</h5>
                                 <p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252897" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN1246-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1246-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1246-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1246-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1246-SANITARY</h5>
                                 <p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252893" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN1195-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1195-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1195-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 15</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1195-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1195-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252505" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN1196-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1196-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1196-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov 15</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1196-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1196-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=252509" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2689,9 +2737,9 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
-</h6>
-                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <h4>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h4>
+                                <h5>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h5>
                                 <p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Category B.</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
@@ -2702,66 +2750,71 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                            <button type="button" class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR163340">
+                            <div class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR163340" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
-</h6>
-                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <h4>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h4>
+                                <h5>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h5>
                                 <p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Categoty B.</p>
+                                <a class="doc-card-source-link" href="https://nrs.objectstore.gov.bc.ca/lteczn/601fc104bbbc5e0022e7b1a8/20210129_IL_AD_163340.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN0073-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0073-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0073-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0073-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0073-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked.</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241819" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span>
                         </div>
-                    </button>
+                    </div>
                             <!-- /card -->
 <!--🟢 2021 - FN0072-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0072-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0072-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 25</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0072-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0072-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241815" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN0001-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0001-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0001-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 2</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0001-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0001-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241154" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2021 - FN0002-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0002-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0002-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 2</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0002-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0002-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=241158" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2770,16 +2823,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2021 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--⚪  2021 - MISSING - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2021-annual-water-quality-repo">
+                    <div class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2021-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2021</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2021 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2021 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
                         <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2021 -->
 
@@ -2803,8 +2856,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0640-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0640-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2815,28 +2868,30 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!-- /card -->
 <!--🟢 2020 - FN0640-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0640-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0640-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0640-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0640-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=234054" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2020 - FN0639-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0639-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0639-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0639-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0639-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=234050" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2869,8 +2924,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0578-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0578-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant primary filter failure. Secondary treatment bypassed.</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2881,28 +2936,30 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!-- /card -->
 <!--🟢 2020 - FN0578-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0578-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0578-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0578-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0578-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant primary filter failure. Secondary treatment bypassed.</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=233620" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2020 - FN0577-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0577-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0577-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0577-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0577-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=233616" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -2910,17 +2967,18 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">March</span>
                         <div class="month-group-content">
 <!--🟢 2020 - IR147158 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                        <button type="button" class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR147158">
+                        <div class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR147158" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Mar 31</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# IR147158 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
-</h6>
-                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <h4>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h4>
+                                <h5>ID# IR147158 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h5>
                                 <p>Environmental Protection Advisory for discharge rate exceedances. Level 1, Category B.</p>
+                                <a class="doc-card-source-link" href="https://nrs.objectstore.gov.bc.ca/lteczn/5eceba20589694001a08cd07/2020-03-31%20IR147158%20-%20Advisory.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <div class="month-group">
@@ -2937,8 +2995,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0104-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0104-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
@@ -2950,52 +3008,56 @@ button.doc-card.lightbox-trigger:focus-visible {
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
                             <!-- /card -->
 <!--🟢 2020 - FN0104-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0104-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0104-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0104-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0104-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229618" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2020 - FN0103-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0103-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0103-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0103-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0103-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229614" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2020 - FN0080-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0080-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0080-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 1</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0080-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0080-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229386" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2020 - FN0079-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0079-SANITARY">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0079-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 1</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0079-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0079-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=229382" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -3004,16 +3066,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2020 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--⚪  2020 - MISSING - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2020-annual-water-quality-repo">
+                    <div class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2020-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2020</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2020 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2020 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
                         <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2020 -->
 
@@ -3045,9 +3107,9 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
-</h6>
-                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <h4>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h4>
+                                <h5>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h5>
                                 <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B. </p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
@@ -3057,29 +3119,31 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-stack-expanded">
                             <button type="button" class="stack-close-btn">✕ Collapse</button>
 <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                            <button type="button" class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR115167">
+                            <div class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR115167" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
-</h6>
-                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <h4>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h4>
+                                <h5>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h5>
                                 <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B. </p>
+                                <a class="doc-card-source-link" href="https://nrs.objectstore.gov.bc.ca/lteczn/5ecea7e9589694001a089024/20190128_IL_AD_115167.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </button>
+                            </div>
                             <!-- /card -->
 <!--🟢 2019 - FN0031-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                            <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0031-SANITARY-(218079)">
+                            <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0031-SANITARY-(218079)" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 11</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0031-SANITARY (218079)</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0031-SANITARY (218079)</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=218079" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -3091,30 +3155,31 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">September</span>
                         <div class="month-group-content">
 <!--🟡 RE: LEAD IN ÉCOLE HAMMOND BAY DRINKING WATER-->
-                        <button type="button" class="doc-card status-hidden-200 authority-sd68 lightbox-trigger" data-key="re-lead-in-cole-hammond-bay-drinking-wat">
+                        <div class="doc-card status-hidden-200 authority-sd68 lightbox-trigger" data-key="re-lead-in-cole-hammond-bay-drinking-wat" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2019, Sep 30</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                             <div class="doc-card-body">
-                            <h6>DocumentId=6234
-                                </h6>
-                                <h5>Re: Lead in École Hammond Bay Drinking Water</h5>
+                            <h4>Re: Lead in École Hammond Bay Drinking Water</h4>
+                                <h5>DocumentId=6234
+                                </h5>
                             <p>Formal parent letter to School District 68 requesting immediate funding for water filtration systems due to lead contamination</p>
+                                <a class="doc-card-source-link" href="https://pub-sd68.escribemeetings.com/filestream.ashx?DocumentId=6234" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_sd68.png" alt="School District 68 icon"></div><span>SD#68 Nanaimo-Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
 <!--⚪  2019 - MISSING - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2019-annual-water-quality-repo">
+                    <div class="doc-card status-unpublished authority-ladysmith lightbox-trigger" data-key="ladysmith-2019-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2019</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2019 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2019 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
                         <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2019 -->
 
@@ -3129,16 +3194,17 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-group-content">
                         <!-- /card -->
 <!--🟢 2018 - FN1370-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1370-SANITARY">
+                        <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN1370-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2018, Dec 20</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN1370-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN1370-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=217363" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <!-- /card -->
@@ -3178,16 +3244,17 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-group-content">
                         <!-- /card -->
 <!--🟢 2018 - FN0165-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0165-SANITARY">
+                        <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0165-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2018, Mar 5</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0165-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0165-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=205660" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <div class="month-group">
@@ -3195,33 +3262,35 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-group-content">
                         <!-- /card -->
 <!--🟢 2018 - FN0120-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0120-SANITARY">
+                        <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0120-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2018, Feb 22</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0120-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0120-SANITARY</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=205384" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">January</span>
                         <div class="month-group-content">
 <!--🟢 2018 - IR76276 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                        <button type="button" class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR76276">
+                        <div class="doc-card status-live-200 authority-provincial eao lightbox-trigger" data-key="ID-IR76276" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2018, Jan 23</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# IR76276 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
-</h6>
-                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <h4>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h4>
+                                <h5>ID# IR76276 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h5>
                                 <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B </p>
+                                <a class="doc-card-source-link" href="https://nrs.objectstore.gov.bc.ca/lteczn/5ece987d589694001a08586a/20180123_IL_AD_76276.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -3229,15 +3298,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2018 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--🟡 2018 - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2018-annual-water-quality-repo">
+                    <div class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2018-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2018</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2018 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2018 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2018-water-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2018 -->
 
@@ -3271,29 +3341,31 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">December</span>
                         <div class="month-group-content">
 <!--🔴 2017 - LSS TETRA TECH WATER INVESTIGATION PT1-->
-                        <button type="button" class="doc-card status-absent-404 authority-sd68 lightbox-trigger" data-key="tetra-tech-water-investigation-2017">
+                        <div class="doc-card status-absent-404 authority-sd68 lightbox-trigger" data-key="tetra-tech-water-investigation-2017" role="button" tabindex="0">
                             <div class="doc-card-status-bar"></div>
                             <div class="doc-card-date-row"><span class="doc-card-date">2017, Dec 18</span><span class="status-badge absent-404">✕ ABSENT (404)</span></div>
                             <div class="doc-card-body">
-                            <h6>Ladysmith Secondary School (pt.1) <b class="has-tooltip type-amber" data-tooltip="Health Canada reduced the MAC of lead in drinking water to 5 µg/L in 2019">ⓘ Note</b>
-                                </h6>
-                                <h5>Tetra Tech Water Investigation 2017</h5>
+                            <h4>Tetra Tech Water Investigation 2017</h4>
+                                <h5>Ladysmith Secondary School (pt.1) <b class="has-tooltip type-amber" data-tooltip="Health Canada reduced the MAC of lead in drinking water to 5 µg/L in 2019">ⓘ Note</b>
+                                </h5>
                             <p>Environmental assessment report documenting lead concentration testing in the drinking water systems at Ladysmith Secondary School</p>
+                                <a class="doc-card-source-link" href="https://www.sd68.bc.ca/wp-content/uploads/Ladysmith-SD-68-Water-Investigation-2017-Part-1.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                             </div>
                             <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_sd68.png" alt="School District 68 icon"></div><span>SD#68 Nanaimo-Ladysmith</span></div>
-                        </button>
+                        </div>
                         </div>
                     </div>
 <!--🟡 2017 - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2017-annual-water-quality-repo">
+                    <div class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2017-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2017</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2017 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2017 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/2017-water-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2017 -->
 
@@ -3323,16 +3395,17 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">March</span>
                         <div class="month-group-content">
 <!--🟢 2016 - FN0254-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
-                        <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0254-SANITARY">
+                        <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0254-SANITARY" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2016, Mar 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0254-SANITARY</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0254-SANITARY</h5>
                                 <p>Ammended closure for bivalve shellfish near Ladysmith (Area 17) (Sanitary Closures 17-1 and 17.aa)</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=182356" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <div class="month-group">
@@ -3340,16 +3413,17 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="month-group-content">
                         <!-- /card -->
 <!--🟢 2016 - FN0031-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <button type="button" class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0031-SANITARY-(180301)">
+                        <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="ID-FN0031-SANITARY-(180301)" role="button" tabindex="0">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2016, Jan 21</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
-                                <h6>ID# FN0031-SANITARY (180301)</h6>
-                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <h4>Ladysmith Harbour Sanitary Contamination Closure Notice</h4>
+                                <h5>ID# FN0031-SANITARY (180301)</h5>
                                 <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                <a class="doc-card-source-link" href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=180301" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -3357,15 +3431,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2016 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--🟡 2016 - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2016-annual-water-quality-repo">
+                    <div class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2016-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2016</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2016 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2016 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/2016-water-report.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2016 -->
 
@@ -3395,15 +3470,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2015 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--🟡 2015 - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2015-annual-water-quality-repo">
+                    <div class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2015-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2015</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2015 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2015 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/water-data-2021/annual-reports/ladysmith-annual-water-report-2015.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2015 -->
 
@@ -3438,15 +3514,16 @@ button.doc-card.lightbox-trigger:focus-visible {
         <!-- ========== 2014 ROW-2 ========== -->
                     <div class="year-row-slot row-2">
 <!--🟡 2014 - LADYSMITH ANNUAL WATER QUALITY REPORT-->
-                    <button type="button" class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2014-annual-water-quality-repo">
+                    <div class="doc-card status-hidden-200 authority-ladysmith lightbox-trigger" data-key="ladysmith-2014-annual-water-quality-repo" role="button" tabindex="0">
                         <div class="doc-card-status-bar"></div>
                         <div class="doc-card-date-row"><span class="doc-card-date">2014</span><span class="status-badge hidden-200">⊘ HIDDEN (200)</span></div>
                         <div class="doc-card-body">
-                        <h5>Ladysmith 2014 Annual Water Quality Report</h5>
+                        <h4>Ladysmith 2014 Annual Water Quality Report</h4>
                         <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                                <a class="doc-card-source-link" href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-annual-water-report-2014.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-                    </button>
+                    </div>
                     </div> <!-- /row-2 -->
                     </div> <!-- /2014 -->
         </div>
@@ -4939,6 +5016,22 @@ button.doc-card.lightbox-trigger:focus-visible {
             document.addEventListener('click', function (e) {
                 var trigger = e.target.closest('.lightbox-trigger');
                 if (!trigger) return;
+                var key = trigger.getAttribute('data-key');
+                if (populate(key)) dialog.showModal();
+            });
+
+            // .lightbox-trigger cards are <div role="button" tabindex="0">, not real
+            // <button> elements (needed to nest a real <a href> source link inside -
+            // see the CSS comment above .doc-card.lightbox-trigger for why), so unlike
+            // a real button they don't get Enter/Space activation for free. Added here
+            // to keep them keyboard-operable. Ignores the event if focus is actually on
+            // the nested source link - that link already navigates on its own Enter/Space.
+            document.addEventListener('keydown', function (e) {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                if (e.target.closest('a')) return;
+                var trigger = e.target.closest('.lightbox-trigger');
+                if (!trigger) return;
+                e.preventDefault();
                 var key = trigger.getAttribute('data-key');
                 if (populate(key)) dialog.showModal();
             });
