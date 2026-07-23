@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Type Reference Deck & Lightbox Prototype - Water Systems (VIRD)</title>
+    <link rel="icon" type="image/png" href="../vancouver-island-regional-database.github.io/assets/fav_w.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!--
+         STYLE GUIDE / DESIGN REFERENCE - not part of the live site.
+         Split out of index.html so the wireframe/reference material stops
+         living inside the production timeline page. This is where the page
+         itself started (see the old "Additional Design Ideas" wrapper this
+         came from) - keep using it as the sandbox for new card types,
+         status states, and interaction prototypes like the lightbox below
+         before promoting anything to the real timeline.
+
+         CSS below is a full copy of index.html's stylesheet as of the
+         split, so this page renders identically and independently. It will
+         drift from index.html over time - that's expected for a reference
+         page, just do not assume it is byte-for-byte current forever. See
+         design-system.md for the token reference instead of relying on
+         this copy for that.
+    -->
+    <style>
+        :root {
+            /* Brand palette — matches index.html / catalogues.html */
+            --bc-blue: #003366;
+            --bc-blue-dark: #002244;
+            --bc-gold: #FCBA19;
+            --bc-gold-hover: #e0a50d;
+
+            --bg-canvas: #F8FAFC;
+            --surface-card: #FFFFFF;
+            --text-main: #1F2933;
+            --text-muted: #64748B;
+            --text-dark: #475569; /* one step darker than --text-muted, for the key-event-marker date label so it reads as a darker sibling of .year-marker-label */
+            --border-light: #E2E8F0;
+            --border-medium: #CBD5E1;
+            --border-dark: #94A3B8; /* one step darker than --border-medium, for markers that need to read as related-but-distinct from .year-marker */
+            --accent-blue-soft: #EFF6FF;
+
+            /* Technical Status Muted Colors - Standardized and Neutral */
+            --status-live-bg: #E6F4EA;
+            --status-live-text: #137333;
+            --status-live-border: #A8DAB5;
+
+            --status-orphaned-bg: #FEF7E0;
+            --status-orphaned-text: #B06000;
+            --status-orphaned-border: #FAD28C;
+
+            --status-absent-bg: #FCE8E6;
+            --status-absent-text: #C5221F;
+            --status-absent-border: #F5B4B1;
+
+            --status-unpub-bg: #DCE0E3;
+            --status-unpub-text: #3C4043;
+            --status-unpub-border: #C6CBCF;
+
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'BCSans', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header Frame — matches index.html / catalogues.html */
+        header {
+            background-color: var(--bc-blue);
+            color: #FFFFFF;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid var(--bc-gold);
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-brand img {
+            height: 44px;
+            width: auto;
+            display: block;
+        }
+
+        .header-title-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title-block h1 {
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .header-tagline {
+            font-size: 11px;
+            color: #E2E8F0;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .header-action-badge {
+            font-size: 11px;
+            font-weight: 700;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .header-action-badge:hover {
+            background-color: var(--bc-gold);
+            color: var(--bc-blue-dark);
+            border-color: var(--bc-gold);
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-action-badge:active {
+            transform: scale(0.95);
+        }
+
+        /* Content gutter wrapper (replaces old full-body padding now that header/hero run edge-to-edge) */
+        .ws-content {
+            padding: 40px 20px 40px 20px;
+        }
+
+        .prototype-container {
+            max-width: 1350px;
+            margin: 0 auto 40px auto;
+            background: var(--surface-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .prototype-label {
+            display: inline-block;
+            background: var(--accent-blue-soft);
+            color: var(--bc-blue);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            margin-bottom: 12px;
+        }
+
+        .prototype-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--bc-blue-dark);
+            margin: 0 0 8px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .prototype-header p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin: 0 0 24px 0;
+            max-width: 1000px;
+            line-height: 1.6;
+        }
+
+        /* 2D HORIZONTAL MATRIX GRID STYLING */
+        .area-block {
+            background: var(--surface-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .area-header {
+            background: #F1F5F9;
+            color: var(--bc-blue-dark);
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .area-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--bc-blue-dark);
+        }
+
+        .area-header-stats {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        /* Horizontal Scroll Wrapper */
+        .grid-scroll-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            background: #F1F5F9;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .grid-scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .grid-scroll-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .grid-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: 10px;
+        }
+
+        /* Base CSS Grid */
+        .matrix-grid {
+            display: grid;
+            gap: 16px;
+            padding: 24px;
+            min-width: max-content; /* Hard locks column widths and prevents layout compression */
+        }
+
+/* Grid Slot Base Design */
+.grid-slot {
+    background: var(--surface-card);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Changed from space-between */
+    min-height: 110px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
+
+.grid-slot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 10px 10px 0 0;
+    background: var(--border-light);
+    transition: var(--transition-smooth);
+}
+
+        .grid-slot:hover:not(.void) {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(0, 51, 102, 0.15);
+        }
+
+        .grid-slot:hover:not(.void)::before {
+            height: 4px;
+            background: var(--bc-gold);
+        }
+.grid-slot-date {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+    flex-wrap: wrap; /* Allows items to drop to a new line */
+}
+
+.grid-slot-date h6 {
+    width: 100%; /* Forces the h6 onto its own full row */
+                margin: 0 0 0px 0;
+            font-size: 10px;
+            font-weight: 500;
+            color: #94A3B8;
+            line-height: 1.3;
+            margin-top: 6px;
+}
+        /* Status Badge inside Slot */
+        .status-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 9999px;
+            align-self: flex-start;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+        }
+
+        .status-badge.live { background: var(--status-live-bg); color: var(--status-live-text); border-color: var(--status-live-border); }
+        .status-badge.orphaned { background: var(--status-orphaned-bg); color: var(--status-orphaned-text); border-color: var(--status-orphaned-border); }
+        .status-badge.absent { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
+        .status-badge.unpublished { background: var(--status-unpub-bg); color: var(--status-unpub-text); border-color: var(--status-unpub-border); }
+
+        a.status-badge.quote { display: inline-block; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; text-transform: none; background: var(--accent-blue-soft); color: var(--bc-blue); padding: 3px 10px; border-radius: 9999px; text-decoration: none; transition: var(--transition-smooth); border: 1px solid transparent; }
+        a.status-badge.quote:hover { background: var(--bc-blue); color: #FFFFFF; }
+
+        .grid-slot-body h5 {
+            margin: 4px 0 2px 0;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--bc-blue-dark);
+            line-height: 1.3;
+        }
+
+                    .grid-slot-body h5 italic, 
+.grid-slot-body h5 i {
+    font-weight: 500;
+}
+
+            .grid-slot-body h6 {
+            margin: 3px 0 0px 0;
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text-muted);
+            line-height: 1.3;
+            }
+
+            .grid-slot-body h6 strong, 
+.grid-slot-body h6 b {
+    color: var(--status-absent-text);
+    font-weight: 500; 
+
+        }
+
+        .grid-slot-body p {
+            margin: 8px 0 0px 0;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .grid-slot-body p strong,
+.grid-slot-body p b {
+    font-size: 10px;
+    color: var(--status-absent-text);
+    font-weight: 500;
+
+        }
+
+/* Source Footer - pinned to the bottom of the card regardless of body content length */
+.grid-slot-footer {
+    border-top: 1px solid var(--border-light);
+    margin-top: auto;
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.grid-slot-footer .icon-container {
+    margin: 0 6px 0 0;
+}
+
+.grid-slot-footer span {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.3;
+}
+
+/* Issuing-authority-at-a-glance footer treatments. */
+.grid-slot-footer.authority-provincial,
+.grid-slot-footer.authority-ladysmith,
+.grid-slot-footer.authority-federal {
+    margin-top: auto; /* keeps the footer pinned to the bottom of the card, same as the default footer */
+    margin-left: -14px;
+    margin-right: -14px;
+    margin-bottom: -14px;
+    padding: 8px 14px;
+    border-top: none;
+    border-radius: 0 0 9px 9px;
+}
+
+.grid-slot-footer.authority-provincial { background: #1A5A96; } /* Province of British Columbia */
+.grid-slot-footer.authority-ladysmith { background: #0885AD; } /* Town of Ladysmith */
+.grid-slot-footer.authority-federal { background: #26374A; } /* Government of Canada */
+
+.grid-slot-footer.authority-provincial span,
+.grid-slot-footer.authority-ladysmith span,
+.grid-slot-footer.authority-federal span {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+/* ============================================================
+   DOCUMENT CARD REDESIGN - two clear signal zones instead of
+   three overlapping ones: a full-width status bar at the top
+   (colour carries the meaning, same weight for every status - no
+   more single-pixel side border), and a solid-colour authority
+   band at the bottom. Card body stays plain white; no more
+   whole-card colour wash. Replaces .grid-slot for real documents;
+   void/space placeholders keep using .grid-slot as before.
+   ============================================================ */
+.doc-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    min-height: 160px;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-smooth);
+    position: relative;
+}
+
+.doc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(0, 51, 102, 0.15);
+}
+
+.doc-card-status-bar {
+    height: 4px;
+    width: 100%;
+    flex-shrink: 0;
+    border-radius: 11px 11px 0 0; /* matches the card's own 12px radius, rounded top only - no overflow:hidden needed so tooltips can still escape the card */
+}
+
+.doc-card.status-live .doc-card-status-bar { background: var(--status-live-text); }
+.doc-card.status-orphaned .doc-card-status-bar { background: var(--status-orphaned-text); }
+.doc-card.status-absent .doc-card-status-bar { background: var(--status-absent-text); }
+.doc-card.status-unpublished .doc-card-status-bar { background: var(--status-unpub-text); }
+
+.doc-card-date-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px 10px 14px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.doc-card-date-row .doc-card-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.doc-card-body {
+    padding: 10px 14px;
+    flex-grow: 1;
+}
+
+.doc-card-body h6 {
+    margin: 0 0 4px 0;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Disclaimer trigger keeps the same red used everywhere else on the page -
+   it's a key signal, not just body text, and it needs to stay on its own
+   line rather than a fixed flex row so long text wraps instead of clipping */
+.doc-card-body h6 strong,
+.doc-card-body h6 b {
+    color: var(--status-absent-text);
+    font-weight: 500;
+}
+
+.doc-card-body h5 {
+    margin: 0 0 6px 0;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--bc-blue-dark);
+    line-height: 1.35;
+}
+
+.doc-card-body p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.doc-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    color: #FFFFFF;
+    font-size: 10.5px;
+    font-weight: 600;
+    margin-top: auto;
+    border-radius: 0 0 11px 11px; /* matches the card's own 12px radius, rounded bottom only */
+}
+
+.doc-card-footer .icon-container {
+    margin: 0;
+}
+
+.doc-card.authority-federal .doc-card-footer { background: #26374A; }
+.doc-card.authority-provincial .doc-card-footer { background: #1A5A96; }
+.doc-card.authority-ladysmith .doc-card-footer { background: #0885AD; }
+
+/* ============================================================
+   MONTHS: a subtle grey label above a group of cards for that
+   month within a year's row. Only rendered when that month
+   actually has something in it - no placeholder, no tick, no
+   slot for empty months, they simply don't appear. Cards stay
+   full size; several documents landing in the same month just
+   sit side by side for now (no density/stacking yet - that's a
+   later, separate step).
+   ============================================================ */
+.month-group {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.month-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.month-group-content {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+/* Several documents in one month: fanned stack + count badge instead of
+   each one taking its own spot. Click toggles .stack-open (see script).
+   No fixed height here - doc-card height is dynamic (text wraps), so the
+   stack sizes to whatever its real front card actually needs. */
+.month-stack {
+    position: relative;
+    width: 252px; /* card width (240px) + 12px for the widest (ghost-1) fan offset */
+    cursor: pointer;
+}
+
+/* The front card is in normal flow (not absolutely positioned), so the
+   stack's own height always matches the real, current card height - the
+   ghosts below (anchored top:0, same as the front card) are then always
+   guaranteed to be at least as short as the front card, since both share
+   .doc-card's same min-height and the front can only be taller (longer
+   text), never shorter. Explicit classes, not nth-child - nth-child
+   counts ALL siblings (including badge wrappers), which silently shifted
+   which card got which transform depending on ghost count. */
+.month-stack .stack-card-front {
+    position: relative;
+    margin: 0;
+    transform: translate(6px, 6px) rotate(2.5deg);
+    z-index: 3;
+}
+
+.month-stack .stack-card-ghost-1,
+.month-stack .stack-card-ghost-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+.month-stack .stack-card-ghost-1 { transform: translate(12px, 12px) rotate(5deg); z-index: 2; }
+
+/* The flat "anchor" card - only present for stacks of 3+ (two ghosts).
+   No rotation, no offset: it's what makes the fan read as a deliberate
+   stack of documents rather than everything drunkenly tilted with no
+   flat reference to judge the angle against. */
+.month-stack .stack-card-ghost-2 { transform: none; z-index: 1; }
+
+.month-stack:hover .stack-card-front { transform: translate(6px, 6px) rotate(2.5deg) translateY(-3px); }
+
+/* Stack counts, split one badge per issuing authority present in that
+   stack (e.g. a stack of 5 with 1 provincial + 4 federal documents shows
+   two badges, each colored/iconed to match that authority's own tier)
+   instead of one generic aggregate count that hides which authority the
+   documents come from. */
+.month-stack-counts {
+    position: absolute;
+    bottom: calc(100% + 6px); /* sits entirely above the stack, clear of the card's own LIVE pill */
+    right: -6px;
+    z-index: 4;
+    display: flex;
+    flex-direction: row; /* side by side, not stacked - keeps the same height whether there's 1 badge or 2, so a mixed-authority stack never reaches high enough to crowd the year-marker-label above it */
+    gap: 4px;
+}
+
+.stack-count-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFFFFF;
+    padding: 2px 8px 2px 3px;
+    border-radius: 9999px;
+    border: 2px solid #FFFFFF;
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+}
+
+.stack-count-badge .icon-container {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+.stack-count-badge.authority-provincial { background: #1A5A96; }
+.stack-count-badge.authority-ladysmith { background: #0885AD; }
+.stack-count-badge.authority-federal { background: #26374A; }
+
+/* Expanded state: the fan flattens into a normal side-by-side row so every
+   document in that month is individually visible and readable */
+.month-stack-expanded {
+    display: none;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 760px;
+}
+
+.month-group.stack-open .month-stack {
+    display: none;
+}
+
+.month-group.stack-open .month-stack-expanded {
+    display: flex;
+}
+
+/* Explicit close control - the expanded cards are hyperlinked, so relying
+   on "click empty space to close" isn't discoverable once cards fill most
+   of the area. This button is always visible on its own line above them. */
+.stack-close-btn {
+    flex: 1 0 100%;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bc-blue);
+    background: #FFFFFF;
+    border: 1px solid var(--border-medium);
+    border-radius: 9999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.stack-close-btn:hover {
+    background: var(--bg-canvas);
+    border-color: var(--bc-blue);
+}
+
+/* 1. Prepare the container for positioning */
+.has-tooltip {
+    position: relative;
+    cursor: help; /* Changes cursor to a question mark on hover */
+}
+
+/* 2. Create the hidden tooltip box */
+.has-tooltip::after {
+    content: attr(data-tooltip); /* Pulls text from the HTML attribute */
+    position: absolute;
+    bottom: 125%; /* Positions it directly above the text */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    font-weight: normal;
+    line-height: 1.4;
+    white-space: normal;
+    width: max-content;
+    max-width: 220px;
+    text-align: left;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+}
+
+/* 3. Show the tooltip box on hover */
+.has-tooltip:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px); /* Slight upward lift animation */
+}
+
+
+/* Deliberate Structural Voids / Missing Data Slots.
+   Optional: can hold quote content (.quote-container etc. below) or be left
+   completely empty - same container/class either way, no separate variant. */
+
+.grid-slot.void {
+    background: #F1F5F9;
+    border: 1px dashed var(--border-medium);
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    text-align: center;
+    padding: 14px;
+}
+
+.grid-slot.void::before {
+    display: none;
+}
+
+.grid-slot.void:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+    border-color: var(--bc-blue);
+}
+
+/* SPACE - purely a layout placeholder, invisible. Reserves a card-sized slot
+   to keep row alignment without showing a dashed "void" box. Different from
+   .void: void is a visible "deliberately nothing here" card; space is nothing
+   at all, just alignment. */
+.grid-slot.space {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: default;
+}
+
+.grid-slot.space::before {
+    display: none;
+}
+
+.grid-slot.space:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Auto-collapse: year columns where row-1 is a lone VOID and row-2 is a lone
+   SPACE have nothing in them at all, so shrink the column automatically - no
+   click needed. Unlike the manual year-collapse toggle, this is passive: no
+   gold triangle, no hover colour change, since there's nothing to reveal by
+   interacting with it. Width matches the manual-collapsed width (60px) -
+   using a narrower width here left too little buffer and let an open
+   neighbour's cards overlap it. The divider line keeps the SAME thickness as
+   a normal open year (2px, not the wide hatch pattern), just centred in the
+   wider box. Uses fixed muted colours (not opacity) so it stays clearly
+   faded regardless of what the canvas background is. */
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .grid-slot {
+    display: none;
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker {
+    width: 60px;
+    cursor: default;
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker::before {
+    left: 29px;
+    background: var(--border-light);
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover::before {
+    background: var(--border-light);
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label {
+    color: #9AA5B1;
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover .year-marker-label {
+    color: #9AA5B1;
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label::after {
+    content: none;
+}
+
+/* Optional quote content - only present when a void slot is holding a quote */
+.grid-slot.void .grid-slot-date {
+    border-bottom: 0;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    color: var(--text-muted);
+}
+
+.grid-slot.void .quote-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-slot.void .quote-container .quote-text {
+    margin: 0;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--bc-blue);
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.grid-slot.void .quote-signature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.grid-slot.void .quote-signature .quote-credit {
+    margin: 0;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--bc-blue-dark);
+}
+
+.grid-slot.void .quote-signature .quote-role {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    line-height: 1.3;
+    font-style: normal;
+    display: block;
+}
+        /* EXPANDABLE EVIDENCE DOSSIER DRAWER (Fully expanded for template preview) */
+        .evidence-drawer-section {
+            background: var(--surface-card);
+            border-top: 1px solid var(--border-light);
+            padding: 24px 0;
+        }
+
+        .drawer-title-strip {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--bc-blue);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--bc-gold);
+            padding-bottom: 6px;
+        }
+
+        .drawer-expanded-panel {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+        }
+
+        .panel-findings-log {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .document-title-header {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--bc-blue-dark);
+            line-height: 1.35;
+        }
+
+        .abstract-text {
+            font-size: 13.5px;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.55;
+        }
+
+        .audit-docket-box {
+            background: var(--surface-card);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .docket-box-header {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 4px;
+        }
+
+        .citation-matrix-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .citation-node-item {
+            font-size: 12.5px;
+            line-height: 1.45;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .citation-anchor-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--accent-blue-soft);
+            color: var(--bc-blue-dark);
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .panel-meta-actions {
+            background: var(--surface-card);
+            border: 1px solid var(--border-light);
+            border-left: 4px solid var(--bc-blue);
+            border-radius: 10px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-self: flex-start;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .meta-property-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-property-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .meta-property-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .system-status-banner {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            margin-top: 4px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .system-status-banner.live { background: var(--status-live-bg); color: var(--status-live-text); border-color: var(--status-live-border); }
+        .system-status-banner.orphaned { background: var(--status-orphaned-bg); color: var(--status-orphaned-text); border-color: var(--status-orphaned-border); }
+        .system-status-banner.absent { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
+        .system-status-banner.unpublished { background: var(--status-unpub-bg); color: var(--status-unpub-text); border-color: var(--status-unpub-border); }
+
+        .source-action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bc-blue);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .source-action-button:hover { background: var(--bc-blue-dark); }
+
+        .source-action-button.mirror {
+            background: #FFFFFF;
+            color: var(--bc-blue);
+            border: 1px solid var(--bc-blue);
+        }
+
+        .source-action-button.mirror:hover { background: var(--accent-blue-soft); }
+
+        .source-action-button.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+/* Custom configuration layout for the scoped horizontal view.
+   A real 2-row CSS Grid: Row 1's cards all share one height band and
+   Row 2's cards share another (grid tracks are inherently uniform across
+   a row), instead of each year-column stacking independently and staggering.
+   grid-auto-flow:column + explicit grid-row per item is enough for the
+   browser to auto-place marker/content pairs into alternating columns -
+   no manual grid-column numbering needed. */
+.matrix-grid-flex {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    grid-template-rows: repeat(2, auto); /* each row band grows to fit its tallest card - no cap that could truncate content */
+    column-gap: 16px;
+    row-gap: 16px;
+    align-items: stretch;
+    padding-top: 145px; /* reserves room for the year-marker label, and the taller (now up to 3-line-title) key-event-marker label above it */
+}
+
+/* Retains your original 220px card width design */
+.matrix-grid-flex .grid-slot {
+    flex: 0 0 220px !important;
+    width: 220px;
+    overflow: visible; /* tooltips need room to render outside the card */
+}
+
+/* Timeline year grouping: a pure JS/collapse hook, contributes no box of
+   its own - display:contents passes its children through as direct grid
+   items so they align across the shared row bands. */
+.year-group {
+    display: contents;
+}
+
+/* Holds a given row's card(s) for this year - usually one, occasionally
+   more (e.g. 2018's quote + EAO cards sit side by side here). */
+.year-row-slot {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.year-row-slot.row-1 { grid-row: 1; }
+.year-row-slot.row-2 { grid-row: 2; }
+
+/* Vertical separator line + year label, spanning both row bands, extending
+   above the card row. Doubles as the collapse toggle for its year-group. */
+.year-marker {
+    grid-row: 1 / 3;
+    position: relative;
+    width: 1px;
+    cursor: pointer;
+}
+
+.year-marker::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: var(--border-medium);
+    transition: background 0.2s ease;
+}
+
+.year-marker-label {
+    position: absolute;
+    top: -46px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif; /* matches .grid-slot-date */
+    font-size: 16px; /* .grid-slot-date is 12px, +2 sizes */
+    font-weight: 600; /* matches .grid-slot-date */
+    color: var(--text-muted);
+    white-space: nowrap;
+    padding: 2px 4px;
+    transition: color 0.2s ease;
+}
+
+.year-marker-label::after {
+    color: var(--bc-gold);
+}
+
+.year-marker:hover::before {
+    background: var(--bc-blue);
+}
+
+.year-marker:hover .year-marker-label {
+    color: var(--bc-blue);
+}
+
+/* ============================================================
+   KEY EVENT MARKER - a notable date that isn't itself a document
+   (a grand opening, a policy change, etc). Sits as a direct flex
+   child of .year-row-slot.row-1, placed in DOM order at its exact
+   chronological position - immediately before the card (or
+   card-group) whose date is the same as or the next one earlier
+   than the event's own date, so it reads left-to-right in the
+   correct place, not just parked at a year boundary. Not a
+   .grid-slot/.doc-card/.month-group, so no existing collapse rule
+   touches it - it stays visible even with its year collapsed,
+   the same way .year-marker itself does, without needing its own
+   collapse-specific CSS. Line/label positioned higher than the
+   year-marker's own so the two read as separate tiers. The label
+   is top-anchored (not centered/bottom-anchored), so its position
+   doesn't shift depending on whether the title wraps to one line
+   or two - only the bottom of the label block grows or shrinks. */
+.key-event-marker {
+    flex: 0 0 auto;
+    width: 24px;
+    min-height: 190px;
+    position: relative;
+    cursor: default;
+}
+
+.key-event-marker::before {
+    content: '';
+    position: absolute;
+    top: -38px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: var(--border-light); /* preview: matches the pale line used for empty/unpopulated .year-marker years */
+    border-radius: 1px;
+}
+
+.key-event-marker-label {
+    position: absolute;
+    top: -128px; /* raised from -90px to leave headroom for a 2-3 line title instead of the short placeholder it was designed against */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 150px; /* widened from 120px to cut a line off the wrap - "Ladysmith Wastewater Treatment Plant Grand Opening" now wraps to 3 lines instead of 4 */
+    text-align: center;
+}
+
+.key-event-marker-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dark); /* pale palette preview: soft slate, one step up from the --border-light line */
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.key-event-marker-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted); /* pale palette preview: same shade as .year-marker-label's own default text color */
+    line-height: 1.35;
+}
+
+/* Collapsed year-group: the two row-slots' cards hide (their now-empty
+   slots naturally shrink their shared column to ~0 width), and the marker
+   itself widens into a "squished lines" filler standing in for the hidden
+   content - same height as the row bands, so it reads as compressed
+   rather than empty. */
+.year-group.collapsed {
+    cursor: pointer;
+}
+
+.year-group.collapsed .grid-slot,
+.year-group.collapsed .doc-card,
+.year-group.collapsed .month-group {
+    display: none;
+}
+
+.year-group.collapsed .year-marker {
+    width: 60px; /* a clean multiple of the 12px hatch period below, so all 5 stripes are evenly spaced with no partial/cramped one at the edge */
+    background: repeating-linear-gradient(
+        to right,
+        rgba(148, 163, 184, 0.55) 0px,
+        rgba(148, 163, 184, 0.55) 2px,
+        transparent 2px,
+        transparent 12px
+    );
+    /* No left/right border here on purpose - a border sitting right at the
+       same edge as the gradient's first/last stripe was what made one
+       stripe look "thicker" and threw off the even spacing. */
+}
+
+.year-group.collapsed .year-marker::before {
+    display: none; /* the normal thin divider line would otherwise sit stray next to the dashed border */
+}
+
+.year-group.collapsed .year-marker-label::after {
+    content: ' ▾'; /* closed = down */
+}
+
+.year-group:not(.collapsed) .year-marker-label::after {
+    content: ' ▸'; /* open = right */
+}
+
+/* Title slots fronting each row - no year, no marker line, sit in the
+   space before 2026 like an unlabeled quote card would. No background/
+   border needed; each just carries whatever title info that row wants. */
+.timeline-title-card {
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px 6px;
+}
+
+.timeline-title-card.row-1 { grid-row: 1; }
+.timeline-title-card.row-2 { grid-row: 2; }
+
+.timeline-title-card h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bc-blue-dark);
+    line-height: 1.3;
+}
+
+.timeline-title-card p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Card type reference deck - standalone, NOT part of the year timeline grid.
+   All 7 card-type/status variations sit in one plain flex row so they can be
+   compared side by side, independent of how wide any given year's row-1 is. */
+.card-type-deck {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 24px;
+    background: #F1F5F9;
+    border-radius: 8px;
+}
+
+.card-type-deck .grid-slot {
+    flex: 0 0 220px;
+    width: 220px;
+}
+
+/* ============================================================
+   LIGHTBOX PROTOTYPE — isolated to the "LOREM IPSUM LIVE" card
+   in the Card Type Reference Deck only. Not wired to any real
+   timeline card yet. Built on native <dialog> so focus-trap,
+   ESC-to-close and the backdrop come from the browser, not
+   hand-rolled JS - see the discussion in this file's history
+   for why (repeated JS regressions during this redesign).
+   Delete this whole block + the matching HTML/JS once the real
+   design is settled, or promote it to the real cards.
+   ============================================================ */
+
+/* Turns the one demo card into a real, keyboard-accessible
+   button without changing how it looks - .doc-card already
+   supplies background/border/shadow/layout, this just strips
+   the browser's default <button> chrome. */
+button.doc-card.lightbox-trigger {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+button.doc-card.lightbox-trigger:focus-visible {
+    outline: 3px solid var(--bc-gold);
+    outline-offset: 2px;
+}
+
+.doc-lightbox {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    width: 90%;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+.doc-lightbox::backdrop {
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.lightbox-accent-bar {
+    height: 5px;
+    border-radius: 12px 12px 0 0;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: var(--border-light);
+    color: var(--text-muted);
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-close:hover {
+    background: var(--border-medium);
+    color: var(--text-main);
+}
+
+.lightbox-body {
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.lightbox-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.lightbox-doc-id {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+}
+
+.lightbox-title {
+    margin: 4px 0 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--bc-blue-dark);
+    line-height: 1.3;
+}
+
+.lightbox-summary {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.lightbox-section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 0 0 6px;
+}
+
+/* Status description - mandatory on every real card, per the
+   "no data by omission" rule: every status gets an explanation,
+   not just the non-live ones. */
+.lightbox-status-desc {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-main);
+    background: #F8FAFC;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+/* Disclaimer/note - optional, only on cards that need one.
+   type-red / type-amber reuse the same severity colors as the
+   status badges themselves, so a red note and the "REMOVED"
+   badge read as the same tier of concern instead of introducing
+   a third color language. Label text (Disclaimer / Flag / Note)
+   is set in the markup, not hardcoded here. */
+.lightbox-note {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    border: 1px solid;
+}
+
+.lightbox-note.type-amber {
+    background: var(--status-orphaned-bg);
+    border-color: var(--status-orphaned-border);
+    color: #7A4A00;
+}
+
+.lightbox-note.type-red {
+    background: var(--status-absent-bg);
+    border-color: var(--status-absent-border);
+    color: var(--status-absent-text);
+}
+
+.lightbox-note-label {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.lightbox-key-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lightbox-key-points li {
+    display: flex;
+    gap: 8px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.lightbox-key-point-ref {
+    flex-shrink: 0;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--bc-blue);
+    background: var(--accent-blue-soft);
+    border-radius: 4px;
+    padding: 2px 6px;
+    height: fit-content;
+    white-space: nowrap;
+}
+
+.lightbox-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.icon-container {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0px 4px 0px 0px;/* Adds space between icon and text */
+  vertical-align: middle; /* Keeps it centered vertically with the text */
+  
+  background-color: transparent; /* was a solid grey fallback - showed through every icon's transparent pixels and muddied them */
+  flex-shrink: 0; /* Prevents the container from squishing in a flex row */
+}
+
+.icon-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* Removes baseline gap issues */
+}
+
+.catalogue-hero {
+            background: linear-gradient(rgba(0, 34, 68, 0.85), rgba(0, 34, 68, 0.85)), url('../vancouver-island-regional-database.github.io/assets/ladysmith-vip703.png');
+            background-size: cover;
+            background-position: center;
+            color: #FFFFFF;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--bc-gold);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .breadcrumbs a {
+            color: var(--bc-gold);
+            text-decoration: none;
+        }
+
+        .breadcrumbs span {
+            color: #FFFFFF;
+            opacity: 0.6;
+            margin: 0 6px;
+        }
+
+        .hero-inner h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-inner p {
+            font-size: 14px;
+            color: #CBD5E1;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        /* Footer Frame — matches index.html / catalogues.html */
+        footer {
+            background-color: var(--bc-blue-dark);
+            color: #FFFFFF;
+            padding: 40px 20px;
+            border-top: 4px solid var(--bc-gold);
+        }
+
+        .footer-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-copyright {
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .footer-disclaimer {
+            font-size: 11px;
+            color: #CBD5E1;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            opacity: 0.75;
+        }
+
+        .footer-disclaimer b {
+            color: var(--bc-gold);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="prototype-container">
+        <span class="prototype-label">VIRD Evidence Registry Wireframe</span>
+        <div class="prototype-header">
+            <h2>Additional Design Ideas</h2>
+            <p>
+            The code blocks below are bits and pieces of ideas that I'd like to keep at the bottom of this page so I can map things out visually. This entire page is currently in the wireframing aspect of development.
+            </p>
+        </div>
+
+        <!-- ============ CARD TYPE REFERENCE DECK ============ -->
+        <!-- All 7 card-type/status variations, standalone and not tied to any
+             year column, so they always sit in one clean row regardless of
+             how much real content row-1 has for a given year. Row-2 in the
+             main timeline above is unmanaged (space) everywhere for now -
+             use this deck as the reference while deciding what goes where. -->
+        <div class="drawer-title-strip">📇 Card Type Reference Deck</div>
+        <div class="card-type-deck">
+            <!--🟢 LOREM IPSUM LIVE - LIGHTBOX PROTOTYPE: this one card
+                 is a <button> wired to open #lightbox-demo below. The
+                 other reference-deck cards are untouched. -->
+            <button type="button" class="doc-card status-live authority-federal lightbox-trigger" onclick="document.getElementById('lightbox-demo').showModal()">
+                <div class="doc-card-status-bar"></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                <div class="doc-card-body">
+                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
+                    <h5>Lorem Ipsum Advisory: Placeholder Facility (Permit 000, Effluent)</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Level 1, Category B.</p>
+                </div>
+                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+            </button> <!-- /card -->
+            <!--🟡 LOREM IPSUM HIDDEN/ORPHANED -->
+            <a href="#" class="doc-card status-orphaned authority-provincial">
+                <div class="doc-card-status-bar"></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge orphaned">⊘ HIDDEN (301)</span></div>
+                <div class="doc-card-body">
+                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
+                    <h5>Lorem Ipsum Conditional Plan</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+                </div>
+                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
+            </a> <!-- /card -->
+            <!--🔴 LOREM IPSUM ABSENT/REMOVED -->
+            <a href="#" class="doc-card status-absent authority-ladysmith">
+                <div class="doc-card-status-bar"></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge absent">✕ REMOVED (404)</span></div>
+                <div class="doc-card-body">
+                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
+                    <h5>Lorem Ipsum Source Report</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Original source no longer accessible.</p>
+                </div>
+                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
+            </a> <!-- /card -->
+            <!--🚫 LOREM IPSUM UNPUBLISHED -->
+            <div class="doc-card status-unpublished">
+                <div class="doc-card-status-bar"></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
+                <div class="doc-card-body">
+                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
+                    <h5>Lorem Ipsum Draft Review</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, not yet released publicly.</p>
+                </div>
+                <div class="doc-card-footer" style="background: var(--text-muted);"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_w.png" alt="Icon"></div><span>Lorem Ipsum Authority</span></div>
+            </div> <!-- /card -->
+            <!--💬 LOREM IPSUM VOID QUOTE -->
+            <div class="grid-slot void">
+                <div class="grid-slot-date">
+                    <span>YYYY, Mon DD</span>
+                    <a href="#" class="status-badge quote">Press Release↗</a>
+                </div>
+                <div class="quote-container">
+                    <blockquote class="quote-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."</blockquote>
+                    <div class="quote-signature">
+                        <cite class="quote-credit">Lorem Ipsum</cite>
+                        <cite class="quote-role">Placeholder Title,<br>Lorem Ipsum Organization</cite>
+                    </div>
+                </div>
+            </div> <!-- /card -->
+            <!--⚪ VOID -->
+            <div class="grid-slot void">
+                <div class="grid-slot-body"></div>
+            </div> <!-- /card -->
+            <!--▫️ SPACE -->
+            <div class="grid-slot space">
+                <div class="grid-slot-body"></div>
+            </div> <!-- /card -->
+        </div> <!-- /card-type-deck -->
+
+        <!-- ============================================================
+             LIGHTBOX PROTOTYPE - content demo only, triggered by the
+             single "LOREM IPSUM LIVE" card above. Mirrors the four
+             pieces of content that don't have a home on the real cards
+             yet: the 3 links, the mandatory status description, the
+             optional disclaimer/note, and the extracted key points.
+             All lorem/placeholder text - not real document data.
+             ============================================================ -->
+        <dialog id="lightbox-demo" class="doc-lightbox">
+            <div class="lightbox-accent-bar" style="background: var(--status-live-text);"></div>
+            <button type="button" class="lightbox-close" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
+            <div class="lightbox-body">
+                <div>
+                    <div class="lightbox-meta-row">
+                        <span class="lightbox-doc-id">ID# LI-0000</span>
+                        <span>&bull;</span>
+                        <span>YYYY, Mon DD</span>
+                        <span class="status-badge live">✓ LIVE (200)</span>
+                    </div>
+                    <h3 class="lightbox-title">Lorem Ipsum Advisory: Placeholder Facility (Permit 000, Effluent)</h3>
+                </div>
+
+                <p class="lightbox-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Level 1, Category B.</p>
+
+                <!-- Optional block - only present when a document actually
+                     has one. type-red / type-amber are the two severity
+                     tiers; label text (Disclaimer/Flag/Note) is set here,
+                     not baked into the class. -->
+                <div class="lightbox-note type-amber">
+                    <span class="lightbox-note-label">Disclaimer</span>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</span>
+                </div>
+
+                <div>
+                    <p class="lightbox-section-label">Extracted Key Points</p>
+                    <ul class="lightbox-key-points">
+                        <li><span class="lightbox-key-point-ref">Page 1</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</span></li>
+                        <li><span class="lightbox-key-point-ref">Page 3</span><span>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</span></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="lightbox-section-label">Link Status</p>
+                    <p class="lightbox-status-desc">At time of indexing, this link is online and accessible at the original public domain.</p>
+                </div>
+
+                <div>
+                    <p class="lightbox-section-label">Links</p>
+                    <div class="lightbox-links">
+                        <a href="#" class="source-action-button" target="_blank">Primary Source ↗</a>
+                        <a href="#" class="source-action-button mirror">PDF Mirror (Local)</a>
+                        <a href="#" class="source-action-button mirror">HTML Archive (Local)</a>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+        <script>
+            // Click-on-backdrop-to-close for #lightbox-demo. Native <dialog>
+            // only closes on ESC or an explicit .close() call by default -
+            // this is the one bit of custom JS the prototype needs.
+            document.getElementById('lightbox-demo').addEventListener('click', function (e) {
+                if (e.target === this) this.close();
+            });
+        </script>
+
+</body>
+</html>

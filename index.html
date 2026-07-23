@@ -388,7 +388,7 @@
 
 /* Issuing-authority-at-a-glance footer treatments. */
 .grid-slot-footer.authority-provincial,
-.grid-slot-footer.authority-municipal,
+.grid-slot-footer.authority-ladysmith,
 .grid-slot-footer.authority-federal {
     margin-top: auto; /* keeps the footer pinned to the bottom of the card, same as the default footer */
     margin-left: -14px;
@@ -400,11 +400,11 @@
 }
 
 .grid-slot-footer.authority-provincial { background: #1A5A96; } /* Province of British Columbia */
-.grid-slot-footer.authority-municipal { background: #0885AD; } /* Town of Ladysmith */
+.grid-slot-footer.authority-ladysmith { background: #0885AD; } /* Town of Ladysmith */
 .grid-slot-footer.authority-federal { background: #26374A; } /* Government of Canada */
 
 .grid-slot-footer.authority-provincial span,
-.grid-slot-footer.authority-municipal span,
+.grid-slot-footer.authority-ladysmith span,
 .grid-slot-footer.authority-federal span {
     color: #FFFFFF;
     font-weight: 600;
@@ -522,7 +522,7 @@
 
 .doc-card.authority-federal .doc-card-footer { background: #26374A; }
 .doc-card.authority-provincial .doc-card-footer { background: #1A5A96; }
-.doc-card.authority-municipal .doc-card-footer { background: #0885AD; }
+.doc-card.authority-ladysmith .doc-card-footer { background: #0885AD; }
 
 /* ============================================================
    MONTHS: a subtle grey label above a group of cards for that
@@ -634,7 +634,7 @@
 }
 
 .stack-count-badge.authority-provincial { background: #1A5A96; }
-.stack-count-badge.authority-municipal { background: #0885AD; }
+.stack-count-badge.authority-ladysmith { background: #0885AD; }
 .stack-count-badge.authority-federal { background: #26374A; }
 
 /* Expanded state: the fan flattens into a normal side-by-side row so every
@@ -1889,7 +1889,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <span class="month-group-label">October</span>
                         <div class="month-group-content">
                         <!--🟡 2022 - LADYSMITH WWTP CONDITIONAL MANAGEMENT PLAN -->
-                        <a href="#dossier-cmp2022" class="doc-card status-orphaned authority-municipal">
+                        <a href="#dossier-cmp2022" class="doc-card status-orphaned authority-ladysmith">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2022, Oct 31</span><span class="status-badge orphaned">⊘ HIDDEN (301)</span></div>
                                 <div class="doc-card-body">
@@ -2651,411 +2651,6 @@ button.doc-card.lightbox-trigger:focus-visible {
         </div>
     </div>
 </div> <!-- /area-block -->
-
-<!-- ==========================================
-     ADDITIONAL DESIGN
-     ========================================== -->
-    <div class="prototype-container">
-        <span class="prototype-label">VIRD Evidence Registry Wireframe</span>
-        <div class="prototype-header">
-            <h2>Additional Design Ideas</h2>
-            <p>
-            The code blocks below are bits and pieces of ideas that I'd like to keep at the bottom of this page so I can map things out visually. This entire page is currently in the wireframing aspect of development.
-            </p>
-        </div>
-
-        <!-- ============ CARD TYPE REFERENCE DECK ============ -->
-        <!-- All 7 card-type/status variations, standalone and not tied to any
-             year column, so they always sit in one clean row regardless of
-             how much real content row-1 has for a given year. Row-2 in the
-             main timeline above is unmanaged (space) everywhere for now -
-             use this deck as the reference while deciding what goes where. -->
-        <div class="drawer-title-strip">📇 Card Type Reference Deck</div>
-        <div class="card-type-deck">
-            <!--🟢 LOREM IPSUM LIVE - LIGHTBOX PROTOTYPE: this one card
-                 is a <button> wired to open #lightbox-demo below. The
-                 other reference-deck cards are untouched. -->
-            <button type="button" class="doc-card status-live authority-federal lightbox-trigger" onclick="document.getElementById('lightbox-demo').showModal()">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge live">✓ LIVE (200)</span></div>
-                <div class="doc-card-body">
-                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
-                    <h5>Lorem Ipsum Advisory: Placeholder Facility (Permit 000, Effluent)</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Level 1, Category B.</p>
-                </div>
-                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
-            </button> <!-- /card -->
-            <!--🟡 LOREM IPSUM HIDDEN/ORPHANED -->
-            <a href="#" class="doc-card status-orphaned authority-provincial">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge orphaned">⊘ HIDDEN (301)</span></div>
-                <div class="doc-card-body">
-                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
-                    <h5>Lorem Ipsum Conditional Plan</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-                </div>
-                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-            </a> <!-- /card -->
-            <!--🔴 LOREM IPSUM ABSENT/REMOVED -->
-            <a href="#" class="doc-card status-absent authority-municipal">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge absent">✕ REMOVED (404)</span></div>
-                <div class="doc-card-body">
-                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
-                    <h5>Lorem Ipsum Source Report</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Original source no longer accessible.</p>
-                </div>
-                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
-            </a> <!-- /card -->
-            <!--🚫 LOREM IPSUM UNPUBLISHED -->
-            <div class="doc-card status-unpublished">
-                <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
-                <div class="doc-card-body">
-                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
-                    <h5>Lorem Ipsum Draft Review</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, not yet released publicly.</p>
-                </div>
-                <div class="doc-card-footer" style="background: var(--text-muted);"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_w.png" alt="Icon"></div><span>Lorem Ipsum Authority</span></div>
-            </div> <!-- /card -->
-            <!--💬 LOREM IPSUM VOID QUOTE -->
-            <div class="grid-slot void">
-                <div class="grid-slot-date">
-                    <span>YYYY, Mon DD</span>
-                    <a href="#" class="status-badge quote">Press Release↗</a>
-                </div>
-                <div class="quote-container">
-                    <blockquote class="quote-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt."</blockquote>
-                    <div class="quote-signature">
-                        <cite class="quote-credit">Lorem Ipsum</cite>
-                        <cite class="quote-role">Placeholder Title,<br>Lorem Ipsum Organization</cite>
-                    </div>
-                </div>
-            </div> <!-- /card -->
-            <!--⚪ VOID -->
-            <div class="grid-slot void">
-                <div class="grid-slot-body"></div>
-            </div> <!-- /card -->
-            <!--▫️ SPACE -->
-            <div class="grid-slot space">
-                <div class="grid-slot-body"></div>
-            </div> <!-- /card -->
-        </div> <!-- /card-type-deck -->
-
-        <!-- ============================================================
-             LIGHTBOX PROTOTYPE - content demo only, triggered by the
-             single "LOREM IPSUM LIVE" card above. Mirrors the four
-             pieces of content that don't have a home on the real cards
-             yet: the 3 links, the mandatory status description, the
-             optional disclaimer/note, and the extracted key points.
-             All lorem/placeholder text - not real document data.
-             ============================================================ -->
-        <dialog id="lightbox-demo" class="doc-lightbox">
-            <div class="lightbox-accent-bar" style="background: var(--status-live-text);"></div>
-            <button type="button" class="lightbox-close" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
-            <div class="lightbox-body">
-                <div>
-                    <div class="lightbox-meta-row">
-                        <span class="lightbox-doc-id">ID# LI-0000</span>
-                        <span>&bull;</span>
-                        <span>YYYY, Mon DD</span>
-                        <span class="status-badge live">✓ LIVE (200)</span>
-                    </div>
-                    <h3 class="lightbox-title">Lorem Ipsum Advisory: Placeholder Facility (Permit 000, Effluent)</h3>
-                </div>
-
-                <p class="lightbox-summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Level 1, Category B.</p>
-
-                <!-- Optional block - only present when a document actually
-                     has one. type-red / type-amber are the two severity
-                     tiers; label text (Disclaimer/Flag/Note) is set here,
-                     not baked into the class. -->
-                <div class="lightbox-note type-amber">
-                    <span class="lightbox-note-label">Disclaimer</span>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</span>
-                </div>
-
-                <div>
-                    <p class="lightbox-section-label">Extracted Key Points</p>
-                    <ul class="lightbox-key-points">
-                        <li><span class="lightbox-key-point-ref">Page 1</span><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</span></li>
-                        <li><span class="lightbox-key-point-ref">Page 3</span><span>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</span></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <p class="lightbox-section-label">Link Status</p>
-                    <p class="lightbox-status-desc">At time of indexing, this link is online and accessible at the original public domain.</p>
-                </div>
-
-                <div>
-                    <p class="lightbox-section-label">Links</p>
-                    <div class="lightbox-links">
-                        <a href="#" class="source-action-button" target="_blank">Primary Source ↗</a>
-                        <a href="#" class="source-action-button mirror">PDF Mirror (Local)</a>
-                        <a href="#" class="source-action-button mirror">HTML Archive (Local)</a>
-                    </div>
-                </div>
-            </div>
-        </dialog>
-        <script>
-            // Click-on-backdrop-to-close for #lightbox-demo. Native <dialog>
-            // only closes on ESC or an explicit .close() call by default -
-            // this is the one bit of custom JS the prototype needs.
-            document.getElementById('lightbox-demo').addEventListener('click', function (e) {
-                if (e.target === this) this.close();
-            });
-        </script>
-
-            <!-- Fully Expanded Detail Panel for Key Wastewater Scenarios -->
-            <div class="evidence-drawer-section" id="dossier-cmp2022">
-                <div class="drawer-title-strip">
-                    📂 Scenario Template: Orphaned/Hidden Record Detail (2022 WWTP Conditional Management Plan)
-                </div>
-                <div class="drawer-expanded-panel">
-                    <div class="panel-findings-log">
-                        <h4 class="document-title-header">Ladysmith Wastewater Treatment Plant Conditional Management Plan</h4>
-                        <p class="abstract-text">
-                            A highly sensitive administrative agreement drafted following the plant's April 2022 transition to provincial Operational Certificate 110161. It details the strict, federally mandated reporting parameters required when the municipality executes emergency raw sewage bypasses into local shellfish biomes.
-                        </p>
-                        <div class="audit-docket-box">
-                            <div class="docket-box-header">Primary Factual Highlights & Page References</div>
-                            <div class="citation-matrix-list">
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 1</span>
-                                    <span>Agreement formalized on October 31, 2022, carrying a static expiration limit set to January 31, 2026.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 2</span>
-                                    <span>Establishes federal oversight directives by Environment Canada and DFO specifically to protect harbor shellfish ecosystems based on hydrographical flow and plant bypass discharge limits.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 4</span>
-                                    <span>Mandates immediate reporting of plant failures or unauthorized bypass events to the DFO within a strict hour-scaled window to coordinate emergency sanitary closures.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-meta-actions">
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Issuing Authority</span>
-                            <span class="meta-property-value">Town of Ladysmith & Environment Canada</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Document ID</span>
-                            <span class="meta-property-value">escribemeetings / DocumentId=5393</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Technical Status</span>
-                            <div class="system-status-banner orphaned">⊘ HIDDEN (Orphaned ca. 2025)</div>
-                        </div>
-                        <p style="font-size: 11px; color: var(--text-muted); margin: 0; line-height: 1.4;">
-                            * Note: Unlinked from the public directory layout during administrative migration; only accessible via a direct database query ID.
-                        </p>
-                        <div style="display:flex; flex-direction:column; gap:8px;">
-                            <a href="https://pub-ladysmith.escribemeetings.com/FileStream.ashx?DocumentId=5393" target="_blank" class="source-action-button">Primary Source ↗</a>
-                            <a href="#" class="source-action-button mirror">⌠PDF Mirror Archive⌡</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fully Expanded Detail Panel for Key DFO Scenarios -->
-            <div class="evidence-drawer-section" id="dossier-dfo2023">
-                <div class="drawer-title-strip">
-                    📂 Scenario Template: Live Federal Record Cluster Detail (2023 DFO Emergency Shellfish Closures)
-                </div>
-                <div class="drawer-expanded-panel">
-                    <div class="panel-findings-log">
-                        <h4 class="document-title-header">DFO Emergency Sanitary Shellfish Closure FN1073 & FN1074</h4>
-                        <p class="abstract-text">
-                            Federal regulatory emergency actions issued in rapid sequence by Fisheries and Oceans Canada during September 2023. Stacking these notices chronologically demonstrates their tight temporal correlation with the unauthorized municipal outfall bypass events recorded in Block 1 compliance letter logs.
-                        </p>
-                        <div class="audit-docket-box">
-                            <div class="docket-box-header">Environmental Receptor Impact & Data Points</div>
-                            <div class="citation-matrix-list">
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">FN1073</span>
-                                    <span>Issued September 21, 2023, imposing an immediate, legal emergency sanitary ban on harvesting bivalve shellfish in Ladysmith Harbour due to an active, un-disinfected municipal WWTP effluent bypass.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">FN1074</span>
-                                    <span>Issued September 29, 2023, formally revoking the emergency closure after follow-up water sample incubation metrics demonstrated that bacteriological indicators had returned to baseline limits.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-meta-actions">
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Federal Issuer</span>
-                            <span class="meta-property-value">Fisheries and Oceans Canada (DFO)</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Geographical Scope</span>
-                            <span class="meta-property-value">Ladysmith Harbour - Shellfish Area 17-7</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Technical Status</span>
-                            <div class="system-status-banner live">✓ LIVE (Indexed Public Release)</div>
-                        </div>
-                        <div style="display:flex; flex-direction:column; gap:8px;">
-                            <a href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&DOC_ID=290745" target="_blank" class="source-action-button">Primary Source ↗</a>
-                            <a href="#" class="source-action-button mirror">⌠PDF Mirror Archive⌡</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fully Expanded Detail Panel for Key Monthly QA Scenarios -->
-            <div class="evidence-drawer-section" id="dossier-sep24">
-                <div class="drawer-title-strip">
-                    📂 Scenario Template: Monthly Laboratory QA Log Detail (September 2024)
-                </div>
-                <div class="drawer-expanded-panel">
-                    <div class="panel-findings-log">
-                        <h4 class="document-title-header">September 2024 Arbutus Water Treatment Plant Monthly Report</h4>
-                        <p class="abstract-text">
-                            A highly detailed regulatory monthly submission prepared for Island Health (VIHA) and the Ministry of Environment. The primary operational field and laboratory logs contain serious, unflagged quality control deviations and procedural errors that challenge the mathematical integrity of the treatment metrics.
-                        </p>
-                        <div class="audit-docket-box">
-                            <div class="docket-box-header">Primary Factual Highlights & Page References</div>
-                            <div class="citation-matrix-list">
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 6</span>
-                                    <span>Laboratory workorder receiving notes document that incoming water samples were received at temperatures exceeding the 10°C maximum compliance threshold.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 6, 28, 73</span>
-                                    <span>Treated potable water samples exceeded the recommended statutory laboratory preservation and holding times prior to active chemical analysis.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 7, 9</span>
-                                    <span>Raw timestamps show that sample containers were in transit for 25 hours and 40 minutes prior to lab receipt, left entirely unflagged by the testing facility.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 51</span>
-                                    <span>Raw data reveals a major procedural omission: the mandatory sample container for Dissolved Inorganic Carbon (DIC) was missing upon receipt, preventing mandatory analysis (left unflagged).</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-meta-actions">
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Primary Authority</span>
-                            <span class="meta-property-value">Town of Ladysmith & VIHA</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Testing Laboratory</span>
-                            <span class="meta-property-value">ALS Environmental Services (Burnaby)</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Technical Status</span>
-                            <div class="system-status-banner live">✓ LIVE (Indexed Public Release)</div>
-                        </div>
-                        <div style="display:flex; flex-direction:column; gap:8px;">
-                            <a href="https://www.ladysmith.ca/docs/default-source/water-data-2021/viha-arbutus-wtp-reports/2024/september-2024-arbutus-wtp-viha-report.pdf" target="_blank" class="source-action-button">Primary Source ↗</a>
-                            <a href="#" class="source-action-button mirror">⌠PDF Mirror Archive⌡</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fully Expanded Detail Panels for Key Stats & Audit Scenarios -->
-            <div class="evidence-drawer-section" id="dossier-void2023">
-                <div class="drawer-title-strip">
-                    📂 Scenario Template: Unpublished / Absent Grid Omission Void Detail (2023 Annual Water Quality Report)
-                </div>
-                <div class="drawer-expanded-panel">
-                    <div class="panel-findings-log">
-                        <h4 class="document-title-header">Town of Ladysmith 2023 Annual Drinking Water Quality Report</h4>
-                        <p class="abstract-text" style="color: var(--status-absent-text); font-weight: 600;">
-                            REPORTING INDEX HOLE: This document has no verified public release path. The report is completely absent from all municipal servers, local databases, and community distribution archives for the 2023 calendar monitoring year block.
-                        </p>
-                        <div class="audit-docket-box" style="background: #FFF8F8; border-color: var(--status-absent-border);">
-                            <div class="docket-box-header">Statutory Framework & Tracking Gap Evaluation</div>
-                            <div class="citation-matrix-list">
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag" style="background: var(--status-absent-border); color: var(--status-absent-text);">Statutory Obligation</span>
-                                    <span>Under Section 15 of the British Columbia Drinking Water Protection Act, water monitoring data records constitute a mandatory public register. Ceasing publication of this document breaks standard statutory transparency baselines.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-meta-actions" style="border-left-color: var(--status-absent-text);">
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Mandated Issuer</span>
-                            <span class="meta-property-value">Town of Ladysmith Operations</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Oversight Body</span>
-                            <span class="meta-property-value">Island Health (VIHA)</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Technical Status</span>
-                            <div class="system-status-banner unpublished">UNPUBLISHED INTERNAL DATA</div>
-                        </div>
-                        <div style="display:flex; flex-direction:column; gap:8px;">
-                            <span class="source-action-button disabled">No Source URL</span>
-                            <span class="source-action-button mirror disabled">No Mirror Available</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="evidence-drawer-section" id="dossier-lss17">
-                <div class="drawer-title-strip">
-                    📂 Scenario Template: Removed / Server 404 Detail (2017 Tetra Tech Ladysmith Secondary School Investigation)
-                </div>
-                <div class="drawer-expanded-panel">
-                    <div class="panel-findings-log">
-                        <h4 class="document-title-header">Tetra Tech Water Investigation 2017 — Ladysmith Secondary School (Pt. 1)</h4>
-                        <p class="abstract-text">
-                            A comprehensive environmental engineering assessment documenting heavy metal lead contamination inside the active drinking water loops of Ladysmith Secondary School. This record was completely deleted and delisted (404 Removed) from School Board servers around 2023.
-                        </p>
-                        <div class="audit-docket-box">
-                            <div class="docket-box-header">Granular Citation Mapping</div>
-                            <div class="citation-matrix-list">
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 3</span>
-                                    <span>Ten out of twenty initial pre-flush system water samples exceeded the 10 µg/L Maximum Acceptable Concentration guidelines.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 4</span>
-                                    <span>Three targeted sampling hubs (LS08, LS12, LS17) failed to meet safe levels even after a standard 5-minute continuous purge. Location LS07 documented a raw un-flushed peak reading of 287 µg/L (exceeding Health Canada legal limits by 5,640%).</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 6</span>
-                                    <span>Location LS08 documented a 5-minute flush sample (10.6 µg/L) that was higher than the 2-minute flush sample (8.63 µg/L), indicating systemic piping degradation and lead leaching from core pipes rather than a simple isolated fixture.</span>
-                                </div>
-                                <div class="citation-node-item">
-                                    <span class="citation-anchor-tag">Page 7</span>
-                                    <span>Recommends immediate physical installation of permanent technical placards stating lines are unfit for human consumption of water.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-meta-actions" style="border-left-color: var(--status-absent-text);">
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Primary Authority</span>
-                            <span class="meta-property-value">School District 68 (Nanaimo-Ladysmith)</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Assessment Consultant</span>
-                            <span class="meta-property-value">Tetra Tech Engineering</span>
-                        </div>
-                        <div class="meta-property-group">
-                            <span class="meta-property-label">Technical Status</span>
-                            <div class="system-status-banner absent">✕ REMOVED (Server 404 Disruption)</div>
-                        </div>
-                        <div style="display:flex; flex-direction:column; gap:8px;">
-                            <span class="source-action-button disabled">Source Link Broken (404)</span>
-                            <a href="https://www.sd68.bc.ca/wp-content/uploads/Ladysmith-SD-68-Water-Investigation-2017-Part-1.pdf" target="_blank" class="source-action-button mirror" style="border-color:var(--status-absent-text); color:var(--status-absent-text);">Primary Source ↗</a>
-                            <a href="#" class="source-action-button mirror">⌠PDF Mirror Archive⌡</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
 </div> <!-- /ws-content -->
 
     <!-- Footer Frame — matches index.html / catalogues.html -->
