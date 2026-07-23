@@ -544,6 +544,15 @@
 .doc-card.status-absent .doc-card-status-bar { background: var(--status-absent-text); }
 .doc-card.status-unpublished .doc-card-status-bar { background: var(--status-unpub-text); }
 
+/* Slight grey-out for unpublished cards - background recedes to match the
+   page canvas (instead of standing out bright white like a real available
+   document) and opacity is nudged down a touch, without hurting legibility
+   of the title/summary/report-state note still shown on the card. */
+.doc-card.status-unpublished {
+    background: var(--bg-canvas);
+    opacity: 0.85;
+}
+
 /* New 5-state taxonomy card-wrapper classes -- kept alongside the old ones
    above until the 37 existing cards are migrated. */
 .doc-card.status-live-200 .doc-card-status-bar { background: var(--status-live-text); }
@@ -1857,7 +1866,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                          taller quote here just grows that one row slightly rather than
                          distorting anything else in the timeline (verified live). -->
                     <div class="timeline-title-card row-1">
-                        <span class="ws-row-context-label">Marine Ecosystem Management</span>
+                        <span class="ws-row-context-label">Row 1: Marine Ecosystem Management</span>
                         <blockquote class="ws-row-context-quote">"This was our paradise... Year round the uplands and the ocean provided for us... all around in the harbour you'll see middens, clam shells.<br><br>Today, for the last 30 years, there has not been a clam in this harbour fit for human consumption. Maybe longer than that. So there's work to be done."</blockquote>
                         <div class="ws-row-context-signature">
                             <span class="ws-row-context-credit">Elder Ray Harris (Shulqwilum), Stz'uminus First Nation</span>
@@ -1866,7 +1875,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                         </div>
                     </div>
                     <div class="timeline-title-card row-2">
-                        <span class="ws-row-context-label">Freshwater Quality Monitoring</span>
+                        <span class="ws-row-context-label">Row 2: Freshwater Quality Monitoring</span>
                         <blockquote class="ws-row-context-quote">"Ensuring that the public has access to clean, safe, and reliable drinking water is imperative for public health... access to accurate and timely data on water systems is an essential component of maintaining water system safety and quality"</blockquote>
                         <div class="ws-row-context-signature">
                             <span class="ws-row-context-credit">B.C. Ministry of Water, Land and Resource Stewardship</span>
