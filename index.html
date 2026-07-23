@@ -710,6 +710,19 @@
     gap: 16px;
 }
 
+/* Bug fix: when a bare .doc-card (e.g. an Annual Water Quality Report,
+   which has no month and so isn't wrapped in a .month-group) sits in the
+   same row as a real .month-group, the .month-group-label + its 8px gap
+   (~24.5px total) pushes the labeled sibling's card down while the bare
+   card starts flush at the top - same row height, but the two cards'
+   tops don't line up, reading as one card randomly sitting lower for no
+   visible reason. Found in 2017 and 2019's row-2. Scoped with :has() so
+   it only applies where an actual .month-group sibling exists - doesn't
+   touch years where the report card is alone in its row. */
+.year-row-slot:has(> .month-group) > .doc-card {
+    margin-top: 24.5px;
+}
+
 /* Several documents in one month: fanned stack + count badge instead of
    each one taking its own spot. Click toggles .stack-open (see script).
    No fixed height here - doc-card height is dynamic (text wraps), so the
@@ -997,34 +1010,40 @@
    neighbour's cards overlap it. The divider line keeps the SAME thickness as
    a normal open year (2px, not the wide hatch pattern), just centred in the
    wider box. Uses fixed muted colours (not opacity) so it stays clearly
-   faded regardless of what the canvas background is. */
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .grid-slot {
+   faded regardless of what the canvas background is.
+
+   row-1's condition is :first-child rather than :only-child so a year can
+   ALSO have a .key-event-marker sitting after the void (e.g. 2026's Dec 31
+   deadline) and still collapse - the marker isn't a .grid-slot so this rule
+   never hides it, it just floats over the narrow/faded column instead of
+   forcing the whole year back to full card width to display one label. */
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .grid-slot {
     display: none;
 }
 
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker {
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker {
     width: 60px;
     cursor: default;
 }
 
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker::before {
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker::before {
     left: 29px;
     background: var(--border-light);
 }
 
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover::before {
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover::before {
     background: var(--border-light);
 }
 
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label {
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label {
     color: #9AA5B1;
 }
 
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover .year-marker-label {
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover .year-marker-label {
     color: #9AA5B1;
 }
 
-.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label::after {
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:first-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label::after {
     content: none;
 }
 
@@ -2001,23 +2020,34 @@ button.doc-card.lightbox-trigger:focus-visible {
 
         <!-- ---------- 2026 ROW-1 ---------- -->
                     <div class="year-row-slot row-1">
+                    <!-- ⚪ VOID (kept as first-child so the auto-collapse
+                         rule at CSS ~line 1014 still matches this year -
+                         narrow 60px, faded, same as 2025 - instead of
+                         ballooning to full card width just to show one
+                         label. Two earlier attempts got this wrong: giving
+                         the marker a .grid-slot.void card to fill the row
+                         (commit 68827d0) made a giant empty box, and
+                         dropping the void entirely (commit 9398fee) made
+                         the whole column full-width for no reason - row-1's
+                         shared height (~330px, from unrelated 2018/2019
+                         content on the far side of the timeline) was never
+                         actually the problem, it's a shared grid track and
+                         can't shrink without touching those cards. This is
+                         collapsed-narrow like every other genuinely-empty
+                         year; the marker below just floats over it. -->
+                    <div class="grid-slot void">
+                        <div class="grid-slot-body"></div>
+                    </div>
     <!-- KEY EVENT: title reworded from "UV Disinfection Legally Required
          (Operational Certificate deadline)" to plain language. This is a
          forward-looking compliance deadline, not a past event - it's the
          same Operational Certificate 110161 that took effect Apr 4, 2022
          (see that year's key event above), which sets this date as the
          deadline for adding a disinfection step. Citation: BC Ministry of
-         Environment, Operational Certificate 110161. row-1 no longer being
-         a lone .grid-slot.void means the auto-collapse rule (CSS ~line
-         1001) no longer matches this year, so 2026 renders as a normal
-         full-width column instead of the faded/collapsed empty-year
-         treatment - intentional, this deadline is worth surfacing. Tried
-         pairing this with a .grid-slot.void card to fill the leftover row
-         height (commit 68827d0) - reverted, read as a giant empty box
-         rather than an improvement. Marker stands alone; row-1's shared
-         height (~330px, from unrelated 2018/2019 content) still applies
-         since it's a shared grid track, but at least the column itself
-         stays narrow (24px) instead of ballooning to card-width too. -->
+         Environment, Operational Certificate 110161. Not a .grid-slot, so
+         the auto-collapse rule above never hides it - stays visible (and
+         fully coloured, not faded like .year-marker-label) even though the
+         column itself renders collapsed/narrow. -->
                     <div class="key-event-marker">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Dec 31, 2026</span>
