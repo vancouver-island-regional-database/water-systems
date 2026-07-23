@@ -553,6 +553,132 @@
     gap: 16px;
 }
 
+/* Several documents in one month: fanned stack + count badge instead of
+   each one taking its own spot. Click toggles .stack-open (see script).
+   No fixed height here - doc-card height is dynamic (text wraps), so the
+   stack sizes to whatever its real front card actually needs. */
+.month-stack {
+    position: relative;
+    width: 252px; /* card width (240px) + 12px for the widest (ghost-1) fan offset */
+    cursor: pointer;
+}
+
+/* The front card is in normal flow (not absolutely positioned), so the
+   stack's own height always matches the real, current card height - the
+   ghosts below (anchored top:0, same as the front card) are then always
+   guaranteed to be at least as short as the front card, since both share
+   .doc-card's same min-height and the front can only be taller (longer
+   text), never shorter. Explicit classes, not nth-child - nth-child
+   counts ALL siblings (including badge wrappers), which silently shifted
+   which card got which transform depending on ghost count. */
+.month-stack .stack-card-front {
+    position: relative;
+    margin: 0;
+    transform: translate(6px, 6px) rotate(2.5deg);
+    z-index: 3;
+}
+
+.month-stack .stack-card-ghost-1,
+.month-stack .stack-card-ghost-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+.month-stack .stack-card-ghost-1 { transform: translate(12px, 12px) rotate(5deg); z-index: 2; }
+
+/* The flat "anchor" card - only present for stacks of 3+ (two ghosts).
+   No rotation, no offset: it's what makes the fan read as a deliberate
+   stack of documents rather than everything drunkenly tilted with no
+   flat reference to judge the angle against. */
+.month-stack .stack-card-ghost-2 { transform: none; z-index: 1; }
+
+.month-stack:hover .stack-card-front { transform: translate(6px, 6px) rotate(2.5deg) translateY(-3px); }
+
+/* Stack counts, split one badge per issuing authority present in that
+   stack (e.g. a stack of 5 with 1 provincial + 4 federal documents shows
+   two badges, each colored/iconed to match that authority's own tier)
+   instead of one generic aggregate count that hides which authority the
+   documents come from. */
+.month-stack-counts {
+    position: absolute;
+    bottom: calc(100% + 6px); /* sits entirely above the stack, clear of the card's own LIVE pill */
+    right: -6px;
+    z-index: 4;
+    display: flex;
+    flex-direction: row; /* side by side, not stacked - keeps the same height whether there's 1 badge or 2, so a mixed-authority stack never reaches high enough to crowd the year-marker-label above it */
+    gap: 4px;
+}
+
+.stack-count-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #FFFFFF;
+    padding: 2px 8px 2px 3px;
+    border-radius: 9999px;
+    border: 2px solid #FFFFFF;
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+}
+
+.stack-count-badge .icon-container {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+.stack-count-badge.authority-provincial { background: #1A5A96; }
+.stack-count-badge.authority-municipal { background: #0885AD; }
+.stack-count-badge.authority-federal { background: #26374A; }
+
+/* Expanded state: the fan flattens into a normal side-by-side row so every
+   document in that month is individually visible and readable */
+.month-stack-expanded {
+    display: none;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 760px;
+}
+
+.month-group.stack-open .month-stack {
+    display: none;
+}
+
+.month-group.stack-open .month-stack-expanded {
+    display: flex;
+}
+
+/* Explicit close control - the expanded cards are hyperlinked, so relying
+   on "click empty space to close" isn't discoverable once cards fill most
+   of the area. This button is always visible on its own line above them. */
+.stack-close-btn {
+    flex: 1 0 100%;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bc-blue);
+    background: #FFFFFF;
+    border: 1px solid var(--border-medium);
+    border-radius: 9999px;
+    padding: 6px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.stack-close-btn:hover {
+    background: var(--bg-canvas);
+    border-color: var(--bc-blue);
+}
+
 /* 1. Prepare the container for positioning */
 .has-tooltip {
     position: relative;
@@ -1324,8 +1450,12 @@
                     <div class="month-group">
                         <span class="month-group-label">September</span>
                         <div class="month-group-content">
-                        <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×6</span>
+                            </div>
+                            <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1335,9 +1465,25 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                            <div class="doc-card status-live authority-federal stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!--🟢 2023 - FN1074-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN1074-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2023 - FN1073-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1347,9 +1493,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2023 - FN1038-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 21</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1359,9 +1505,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2023 - FN1037-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 21</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1371,9 +1517,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2023 - FN0929-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 1</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1383,9 +1529,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2023 - FN0928-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Sep 1</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1396,13 +1542,18 @@
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                         </div>
+                        </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">August</span>
                         <div class="month-group-content">
-                        <!-- /card -->
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×2</span>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2023 - FN0870-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1412,9 +1563,25 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!-- /card -->
+<!--🟢 2023 - FN0870-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN0870-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2023 - FN0869-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2023, Aug 18</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1424,6 +1591,7 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -1478,9 +1646,13 @@
                     <div class="month-group">
                         <span class="month-group-label">December</span>
                         <div class="month-group-content">
-                        <!-- /card -->
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×2</span>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2021 - FN1299-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1490,9 +1662,25 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!-- /card -->
+<!--🟢 2021 - FN1299-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN1299-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2021 - FN1298-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Dec 7</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1503,13 +1691,18 @@
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                         </div>
+                        </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">November</span>
                         <div class="month-group-content">
-                        <!-- /card -->
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×4</span>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2021 - FN1247-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1519,9 +1712,26 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                            <div class="doc-card status-live authority-federal stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!-- /card -->
+<!--🟢 2021 - FN1247-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN1247-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>A portion of the emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2021 - FN1246-SANITARY AMMENDED CLOSURE NOTICE - AMMENDED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1531,9 +1741,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2021 - FN1195-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1543,9 +1753,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2021 - FN1196-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Nov</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1556,12 +1766,18 @@
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                         </div>
+                        </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">January</span>
                         <div class="month-group-content">
-                        <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                        <a href="#dossier-ir163340" class="doc-card status-live authority-provincial">
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-provincial"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></span>×1</span>
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×4</span>
+                            </div>
+                            <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                            <a href="#dossier-ir163340" class="doc-card status-live authority-provincial stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1572,9 +1788,26 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
                             </a>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                            <div class="doc-card status-live authority-federal stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                            <a href="#dossier-ir163340" class="doc-card status-live authority-provincial">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# IR163340 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h6>
+                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Categoty B.</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
+                            </a>
+                            <!-- /card -->
 <!--🟢 2021 - FN0073-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1585,9 +1818,9 @@
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span>
                         </div>
                     </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2021 - FN0072-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1597,9 +1830,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2021 - FN0001-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 2</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1609,9 +1842,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2021 - FN0002-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1621,6 +1854,7 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -1643,9 +1877,13 @@
                     <div class="month-group">
                         <span class="month-group-label">September</span>
                         <div class="month-group-content">
-                        <!-- /card -->
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×2</span>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2020 - FN0640-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1655,9 +1893,25 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!-- /card -->
+<!--🟢 2020 - FN0640-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN0640-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2020 - FN0639-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Sep 6</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1668,13 +1922,18 @@
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
                         </div>
+                        </div>
                     </div>
                     <div class="month-group">
                         <span class="month-group-label">June</span>
                         <div class="month-group-content">
-                        <!-- /card -->
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×2</span>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2020 - FN0578-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1684,9 +1943,25 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!-- /card -->
+<!--🟢 2020 - FN0578-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN0578-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2020 - FN0577-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Jun 23</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1696,6 +1971,7 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <div class="month-group">
@@ -1718,9 +1994,13 @@
                     <div class="month-group">
                         <span class="month-group-label">February</span>
                         <div class="month-group-content">
-                        <!-- /card -->
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×4</span>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2020 - FN0104-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1730,9 +2010,26 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                            <div class="doc-card status-live authority-federal stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!-- /card -->
+<!--🟢 2020 - FN0104-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
+                            <div class="doc-card status-live authority-federal">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# FN0104-SANITARY</h6>
+                                <h5>Ladysmith Harbour Sanitary Contamination Closure Notice</h5>
+                                <p>Emergency closure for bivalve shellfish near Ladysmith (Area 17) due to Wastewater Treatment Plant discharge revoked</p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2020 - FN0103-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 10</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1742,9 +2039,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2020 - FN0080-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 1</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1754,9 +2051,9 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
-                        <!-- /card -->
+                            <!-- /card -->
 <!--🟢 2020 - FN0079-SANITARY EMERGENCY CLOSURE NOTICE - CLOSURE -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2020, Feb 1</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1766,6 +2063,7 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -1788,8 +2086,13 @@
                     <div class="month-group">
                         <span class="month-group-label">January</span>
                         <div class="month-group-content">
-                        <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                        <div class="doc-card status-live authority-provincial">
+                        <div class="month-stack">
+                            <div class="month-stack-counts">
+                                <span class="stack-count-badge authority-provincial"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></span>×1</span>
+                                <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×1</span>
+                            </div>
+                            <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                            <div class="doc-card status-live authority-provincial stack-card-front">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1800,9 +2103,25 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
                             </div>
-                        <!-- /card -->
+                            <div class="doc-card status-live authority-federal stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
+                        </div>
+                        <div class="month-stack-expanded">
+                            <button type="button" class="stack-close-btn">✕ Collapse</button>
+                            <!--🟢 2019 - IR115167 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
+                            <div class="doc-card status-live authority-provincial">
+                                <div class="doc-card-status-bar"></div>
+                                <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 28</span><span class="status-badge live">✓ LIVE (200)</span></div>
+                                <div class="doc-card-body">
+                                <h6>ID# IR115167 <b class="has-tooltip" data-tooltip="Internal data parameters contradict the minor designated advisory level. Please refer directly to the BC Environmental non-compliance decision matrix at www2.gov.bc.ca for accurate severity assessment and impact mapping.">ⓘ Disclaimer</b>
+</h6>
+                                <h5>Non-Compliance Advisory: Ladysmith Wastewater Treatment Plant (Permit 120, Effluent)</h5>
+                                <p>Environmental Protection Advisory for discharge rate exceedances, characteristic (BOD5) exceedances, chlorine residuals outside of required range and a lapse of outfall inspection frequency. Level 1, Category B. </p>
+                                </div>
+                                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
+                            </div>
+                            <!-- /card -->
 <!--🟢 2019 - FN0031-SANITARY EMERGENCY CLOSURE NOTICE - REVOKED -->
-                        <div class="doc-card status-live authority-federal">
+                            <div class="doc-card status-live authority-federal">
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2019, Jan 11</span><span class="status-badge live">✓ LIVE (200)</span></div>
                                 <div class="doc-card-body">
@@ -1812,6 +2131,7 @@
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
                             </div>
+                        </div>
                         </div>
                     </div>
                     </div> <!-- /row-1 -->
@@ -2392,10 +2712,34 @@
     </footer>
 
 <script>
-    document.querySelectorAll('.year-group').forEach(function (group) {
-        group.addEventListener('click', function (e) {
-            if (e.target.closest('.grid-slot')) return; /* let card links/content work normally */
-            group.classList.toggle('collapsed');
+    /* Listen on .year-marker itself, not the whole .year-group. .year-group
+       is display:contents, so it's a DOM ancestor of every card/stack/link
+       in that year's row - a listener there catches every click anywhere
+       in the row (an exclude-list like ".grid-slot" goes stale the moment
+       new content types like .doc-card/.month-stack are added, which is
+       exactly what caused clicking any card to also toggle collapse,
+       expand a stack, AND follow its link all at once). .year-marker is
+       the one element actually meant to be clickable (cursor:pointer). */
+    document.querySelectorAll('.year-marker').forEach(function (marker) {
+        marker.addEventListener('click', function () {
+            marker.closest('.year-group').classList.toggle('collapsed');
+        });
+    });
+
+    /* Month density: click a stack to expand it into a flattened row in
+       place. Closing is via the explicit .stack-close-btn, not a click
+       anywhere in the expanded area - those cards are hyperlinked, so a
+       "click empty space to close" pattern would be unreliable/hidden
+       behind the cards themselves. */
+    document.querySelectorAll('.month-stack').forEach(function (stack) {
+        stack.addEventListener('click', function () {
+            stack.closest('.month-group').classList.add('stack-open');
+        });
+    });
+    document.querySelectorAll('.stack-close-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            btn.closest('.month-group').classList.remove('stack-open');
         });
     });
 </script>
