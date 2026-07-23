@@ -185,27 +185,31 @@
             line-height: 1.6;
         }
 
-        /* 2D HORIZONTAL MATRIX GRID STYLING */
-        .area-block {
-            background: var(--surface-card);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            margin-bottom: 40px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
+        /* Bridge card: floats over the hero's bottom edge the same way
+           .stats-strip (home) / .console-card (catalogues) do, capped to
+           the same 1040px content width as those pages even though the
+           timeline below runs much wider - the width mismatch is what
+           reads as "this transitions into a wide timeline". */
+        .ws-title-bridge-outer {
+            max-width: 1040px;
+            margin: -30px auto 30px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
         }
 
-        .area-header {
-            background: #F1F5F9;
-            color: var(--bc-blue-dark);
+        .ws-title-bridge-card {
+            background: var(--surface-card);
+            border-radius: 12px;
             padding: 18px 24px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-medium);
         }
 
-        .area-header h3 {
+        .ws-title-bridge-card h3 {
             margin: 0;
             font-size: 18px;
             font-weight: 700;
@@ -219,12 +223,18 @@
             color: var(--text-muted);
         }
 
+        /* 2D HORIZONTAL MATRIX GRID STYLING - no card wrapper: the timeline
+           sits flat on the page canvas like the rest of the site, with
+           individual doc-cards/grid-slots doing the "card" work instead of
+           one big box around everything. */
+        .area-block {
+            margin-bottom: 40px;
+        }
+
         /* Horizontal Scroll Wrapper */
         .grid-scroll-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            background: #F1F5F9;
-            border-bottom: 1px solid var(--border-light);
         }
 
         .grid-scroll-container::-webkit-scrollbar {
@@ -1783,15 +1793,18 @@ button.doc-card.lightbox-trigger:focus-visible {
         </div>
     </section>
 
+    <div class="ws-title-bridge-outer">
+        <div class="ws-title-bridge-card">
+            <h3>Sewage and Stormwater Management, Ladysmith</h3>
+            <span class="area-header-stats">Last modified: July 2026</span>
+        </div>
+    </div>
+
 <div class="ws-content">
 <!-- ==========================================
      BLOCK 1
      ========================================== -->
 <div class="area-block">
-    <div class="area-header">
-        <h3>Sewage and Stormwater Management, Ladysmith</h3>
-        <span class="area-header-stats">Last modified: July 2026</span>
-    </div>
 
     <div class="grid-scroll-container">
         <div class="matrix-grid matrix-grid-flex">
