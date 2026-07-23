@@ -24,14 +24,23 @@ Neutrality rule (from the root `CLAUDE.md`, applies to every component below): s
 
 ## Status colors
 
-Every status has a matched bg/text/border triplet, used consistently across `.status-badge`, `.doc-card-status-bar`, and `.system-status-banner`:
+Finalized 5-state taxonomy. Two axes, not one: whether the address *loads* (a code fact) and whether it's *findable* through normal navigation (a separate, non-code fact). Hidden (403) and Absent (404) intentionally share one color — both mean "you can't see it," a hard line rather than a sliding scale like the other three. Icon + label are the only differentiator between them; no new color token was added for Hidden (403), it reuses `absent`'s triplet directly.
 
-| Status | Meaning | bg | text | border |
-|---|---|---|---|---|
-| `live` | ✓ LIVE (200) — online and accessible at original source | `#E6F4EA` | `#137333` | `#A8DAB5` |
-| `orphaned` | ⊘ HIDDEN (301/etc) — reachable but unlinked from public navigation | `#FEF7E0` | `#B06000` | `#FAD28C` |
-| `absent` | ✕ REMOVED (404) — no longer published anywhere | `#FCE8E6` | `#C5221F` | `#F5B4B1` |
-| `unpublished` | ◌ UNPUBLISHED — not yet released | `#DCE0E3` | `#3C4043` | `#C6CBCF` |
+Wording rule for all five: describe the transaction, never the actor's intent. See `authority-classes.md`'s sibling doc (private context, not in this repo) for the full reasoning — the short version is every word here has already been fought over once, don't casually reword these.
+
+| Status | Badge | Description (goes in the lightbox's Link Status field) | bg | text | border |
+|---|---|---|---|---|---|
+| `live` | `✓ LIVE (200)` | "Available at the original web address." | `#E6F4EA` | `#137333` | `#A8DAB5` |
+| `delisted` | `⊘ DELISTED (200)` | "The path is still active via direct query ID, but has been unlinked from public indexing and layout directories." | `#FEF7E0` | `#B06000` | `#FAD28C` |
+| `hidden403` | `🔒 HIDDEN (403)` | "This link has been actively restricted/hidden by the source website." | `#FCE8E6` | `#C5221F` | `#F5B4B1` |
+| `absent` | `✕ ABSENT (404)` | "This link has broken or been removed entirely from the source website." | `#FCE8E6` | `#C5221F` | `#F5B4B1` |
+| `unpublished` | `◌ UNPUBLISHED` | "No verified public release. Document absent from local government records." | `#DCE0E3` | `#3C4043` | `#C6CBCF` |
+
+Notes:
+- "Absent," not "removed" — removed implies someone's action; absent doesn't. The one place "removed" is still allowed is inside the Absent description itself ("broken **or** been removed"), because the "or" is what makes it safe — it's offering two possible causes side by side, not asserting one.
+- Delisted's description deliberately doesn't say "intentionally" unlinked. The fact pattern (still resolves, removed from every navigable path) already implies a choice without the word doing that work for it.
+- Every Primary Source link stays a real, clickable `<a href>` even when the status is known-broken (Delisted/Hidden/Absent) — never `.source-action-button.disabled`. Letting someone click through and hit the wall themselves is treated as part of the evidence, not a UX problem to smooth over. The one exception is Unpublished, where there's no known address to link in the first place.
+- HTTP codes in badges should reflect what was actually observed per document, not a stock label — "(200)" on Live/Delisted and "(404)" on Absent are examples, not defaults to copy blindly. Verify before publishing.
 
 ## Other tokens
 

@@ -45,9 +45,9 @@
             --status-live-text: #137333;
             --status-live-border: #A8DAB5;
 
-            --status-orphaned-bg: #FEF7E0;
-            --status-orphaned-text: #B06000;
-            --status-orphaned-border: #FAD28C;
+            --status-delisted-bg: #FEF7E0;
+            --status-delisted-text: #B06000;
+            --status-delisted-border: #FAD28C;
 
             --status-absent-bg: #FCE8E6;
             --status-absent-text: #C5221F;
@@ -331,7 +331,12 @@
         }
 
         .status-badge.live { background: var(--status-live-bg); color: var(--status-live-text); border-color: var(--status-live-border); }
-        .status-badge.orphaned { background: var(--status-orphaned-bg); color: var(--status-orphaned-text); border-color: var(--status-orphaned-border); }
+        .status-badge.delisted { background: var(--status-delisted-bg); color: var(--status-delisted-text); border-color: var(--status-delisted-border); }
+        /* hidden403 intentionally reuses .absent's exact color tokens - Hidden
+           (403) and Absent (404) both mean "you can't see it", a hard line
+           rather than a sliding scale like the other statuses. Icon + label
+           text are the only differentiator between them, not color. */
+        .status-badge.hidden403 { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
         .status-badge.absent { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
         .status-badge.unpublished { background: var(--status-unpub-bg); color: var(--status-unpub-text); border-color: var(--status-unpub-border); }
 
@@ -464,7 +469,8 @@
 }
 
 .doc-card.status-live .doc-card-status-bar { background: var(--status-live-text); }
-.doc-card.status-orphaned .doc-card-status-bar { background: var(--status-orphaned-text); }
+.doc-card.status-delisted .doc-card-status-bar { background: var(--status-delisted-text); }
+.doc-card.status-hidden403 .doc-card-status-bar { background: var(--status-absent-text); }
 .doc-card.status-absent .doc-card-status-bar { background: var(--status-absent-text); }
 .doc-card.status-unpublished .doc-card-status-bar { background: var(--status-unpub-text); }
 
@@ -1024,7 +1030,8 @@
         }
 
         .system-status-banner.live { background: var(--status-live-bg); color: var(--status-live-text); border-color: var(--status-live-border); }
-        .system-status-banner.orphaned { background: var(--status-orphaned-bg); color: var(--status-orphaned-text); border-color: var(--status-orphaned-border); }
+        .system-status-banner.delisted { background: var(--status-delisted-bg); color: var(--status-delisted-text); border-color: var(--status-delisted-border); }
+        .system-status-banner.hidden403 { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
         .system-status-banner.absent { background: var(--status-absent-bg); color: var(--status-absent-text); border-color: var(--status-absent-border); }
         .system-status-banner.unpublished { background: var(--status-unpub-bg); color: var(--status-unpub-text); border-color: var(--status-unpub-border); }
 
@@ -1440,10 +1447,10 @@ button.doc-card.lightbox-trigger:focus-visible {
 
 /* Disclaimer/note - optional, only on cards that need one.
    type-red / type-amber reuse the same severity colors as the
-   status badges themselves, so a red note and the "REMOVED"
-   badge read as the same tier of concern instead of introducing
-   a third color language. Label text (Disclaimer / Flag / Note)
-   is set in the markup, not hardcoded here. */
+   status badges themselves, so a red note and the "ABSENT"/
+   "HIDDEN (403)" badges read as the same tier of concern instead
+   of introducing a third color language. Label text (Disclaimer /
+   Flag / Note) is set in the markup, not hardcoded here. */
 .lightbox-note {
     display: flex;
     gap: 10px;
@@ -1456,8 +1463,8 @@ button.doc-card.lightbox-trigger:focus-visible {
 }
 
 .lightbox-note.type-amber {
-    background: var(--status-orphaned-bg);
-    border-color: var(--status-orphaned-border);
+    background: var(--status-delisted-bg);
+    border-color: var(--status-delisted-border);
     color: #7A4A00;
 }
 
@@ -1647,10 +1654,14 @@ button.doc-card.lightbox-trigger:focus-visible {
                 </div>
                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
             </button> <!-- /card -->
-            <!--🟡 LOREM IPSUM HIDDEN/ORPHANED -->
-            <a href="#" class="doc-card status-orphaned authority-provincial">
+            <!--🟡 LOREM IPSUM DELISTED - still resolves (200) at its original
+                 address, but no path of links from the site's own navigation
+                 leads to it. Source link stays real/clickable on purpose -
+                 see style-guide.html's lightbox notes and the private
+                 context doc for why. -->
+            <a href="#" class="doc-card status-delisted authority-provincial">
                 <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge orphaned">⊘ HIDDEN (301)</span></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge delisted">⊘ DELISTED (200)</span></div>
                 <div class="doc-card-body">
                     <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
                     <h5>Lorem Ipsum Conditional Plan</h5>
@@ -1658,14 +1669,30 @@ button.doc-card.lightbox-trigger:focus-visible {
                 </div>
                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
             </a> <!-- /card -->
-            <!--🔴 LOREM IPSUM ABSENT/REMOVED -->
+            <!--🔴 LOREM IPSUM HIDDEN (403) - the source server actively
+                 denies this specific request. Same red as Absent (404) on
+                 purpose - both mean "you can't see it," it's a hard line,
+                 not a sliding scale. Icon/label is the only differentiator. -->
+            <a href="#" class="doc-card status-hidden403 authority-federal">
+                <div class="doc-card-status-bar"></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge hidden403">🔒 HIDDEN (403)</span></div>
+                <div class="doc-card-body">
+                    <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
+                    <h5>Lorem Ipsum Restricted Report</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Access to this address is denied by the source server.</p>
+                </div>
+                <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></div><span>Department of Fisheries and Oceans</span></div>
+            </a> <!-- /card -->
+            <!--🔴 LOREM IPSUM ABSENT (404) - "absent" not "removed": removed
+                 implies someone did it on purpose, and that's not something
+                 to assert without evidence. Same red as Hidden (403). -->
             <a href="#" class="doc-card status-absent authority-ladysmith">
                 <div class="doc-card-status-bar"></div>
-                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge absent">✕ REMOVED (404)</span></div>
+                <div class="doc-card-date-row"><span class="doc-card-date">YYYY, Mon DD</span><span class="status-badge absent">✕ ABSENT (404)</span></div>
                 <div class="doc-card-body">
                     <h6>ID# LI-0000 <b class="has-tooltip" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.">ⓘ Disclaimer</b></h6>
                     <h5>Lorem Ipsum Source Report</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Original source no longer accessible.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Not available at its original web address.</p>
                 </div>
                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
             </a> <!-- /card -->
