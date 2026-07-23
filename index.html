@@ -846,23 +846,19 @@
 .grid-slot.row1-shelf {
     background: transparent;
     border: none;
+    border-top: 1px dashed var(--border-medium);
     box-shadow: none;
     cursor: default;
 }
 
 .grid-slot.row1-shelf::before {
-    background: var(--border-medium);
+    display: none;
 }
 
 .grid-slot.row1-shelf:hover {
     transform: none;
     box-shadow: none;
-    border-color: transparent;
-}
-
-.grid-slot.row1-shelf:hover::before {
-    height: 3px;
-    background: var(--border-medium);
+    border-top: 1px dashed var(--border-medium);
 }
 
 /* Years with month-groups in row-2 (e.g. 2024's 12 monthly columns) make
