@@ -458,6 +458,11 @@
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
     border-color: rgba(0, 51, 102, 0.15);
+    /* transform above creates a new stacking context, which traps the
+       disclaimer tooltip's own z-index inside it -- without this, a
+       hovered card's tooltip can render BEHIND a later sibling card in
+       DOM order no matter how high the tooltip's own z-index is set. */
+    z-index: 5;
 }
 
 .doc-card-status-bar {
@@ -536,6 +541,27 @@
     font-size: 11px;
     color: var(--text-muted);
     line-height: 1.5;
+}
+
+/* Always-visible inline note on the card itself -- unlike .has-tooltip
+   (hover-to-reveal, used when a disclaimer is secondary info), this is
+   for a fact important enough that it shouldn't be hidden behind a
+   hover at all. Currently only used for unpublished docs' "no verified
+   public release" state, but not status-specific by design. */
+.doc-card-inline-note {
+    margin-top: 6px;
+    font-size: 10px;
+    line-height: 1.4;
+    font-weight: 500;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid;
+}
+
+.doc-card-inline-note.type-red {
+    background: var(--status-absent-bg);
+    color: var(--status-absent-text);
+    border-color: var(--status-absent-border);
 }
 
 .doc-card-footer {
@@ -1081,6 +1107,19 @@
             pointer-events: none;
         }
 
+        /* Unpublished-only: there's genuinely nothing to link to (never
+           published means no address ever existed), so this needs its
+           own dedicated pale-grey palette rather than just dimming the
+           normal blue/white buttons with opacity -- the point is to look
+           deliberately empty, not just faded. */
+        .source-action-button.unavailable {
+            background: #E2E8F0;
+            color: #64748B;
+            border: 1px solid #CBD5E1;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         /* Primary Source button, toned down for restricted-403/absent-404 --
            still a real, clickable link (the dead end IS the evidence), just
            not competing visually with the live-status blue. Charcoal, not
@@ -1088,6 +1127,7 @@
            not a warning. */
         .source-action-button.muted {
             background: #475569;
+            color: #E2E8F0;
         }
 
         .source-action-button.muted:hover {
@@ -1549,6 +1589,17 @@ button.doc-card.lightbox-trigger:focus-visible {
 }
 
 .lightbox-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Same 8px gap as .lightbox-links' own button-to-button spacing, so the
+   status blurb sits exactly as far from the Primary Source button as
+   that button sits from the PDF mirror -- one continuous rhythm instead
+   of the bigger 18px lightbox-body gap making the status line read as
+   a separate section. */
+.lightbox-links-wrap {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -2138,7 +2189,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="doc-card-date-row"><span class="doc-card-date">2023</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
                         <h5>Ladysmith 2023 Annual Water Quality Report</h5>
-                        <p>REPORT STATE: No verified public release. Document absent from local government records</p>
+                        <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                        <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
                     </button>
@@ -2176,7 +2228,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="doc-card-date-row"><span class="doc-card-date">2022</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
                         <h5>Ladysmith 2022 Annual Water Quality Report</h5>
-                        <p>REPORT STATE: No verified public release. Document absent from local government records</p>
+                        <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                        <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
                     </button>
@@ -2413,7 +2466,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="doc-card-date-row"><span class="doc-card-date">2021</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
                         <h5>Ladysmith 2021 Annual Water Quality Report</h5>
-                        <p>REPORT STATE: No verified public release. Document absent from local government records</p>
+                        <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                        <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
                     </button>
@@ -2628,7 +2682,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="doc-card-date-row"><span class="doc-card-date">2020</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
                         <h5>Ladysmith 2020 Annual Water Quality Report</h5>
-                        <p>REPORT STATE: No verified public release. Document absent from local government records</p>
+                        <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                        <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
                     </button>
@@ -2719,7 +2774,8 @@ button.doc-card.lightbox-trigger:focus-visible {
                         <div class="doc-card-date-row"><span class="doc-card-date">2019</span><span class="status-badge unpublished">◌ UNPUBLISHED</span></div>
                         <div class="doc-card-body">
                         <h5>Ladysmith 2019 Annual Water Quality Report</h5>
-                        <p>REPORT STATE: No verified public release. Document absent from local government records</p>
+                        <p>Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring</p>
+                        <div class="doc-card-inline-note type-red">REPORT STATE: No verified public release. Document absent from local government records.</div>
                         </div>
                         <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_ladysmith.png" alt="Town of Ladysmith icon"></div><span>Town of Ladysmith</span></div>
                     </button>
@@ -3059,12 +3115,8 @@ button.doc-card.lightbox-trigger:focus-visible {
         <div class="lightbox-accent-bar" id="lb-accent"></div>
         <button type="button" class="lightbox-close" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
         <div class="lightbox-body">
-            <div>
-                <div class="lightbox-meta-row">
-                    <span id="lb-date"></span>
-                </div>
-                <h3 class="lightbox-title" id="lb-title"></h3>
-                <p class="lightbox-doc-id" id="lb-docid" style="display:none;"></p>
+            <div class="lightbox-meta-row">
+                <span id="lb-date"></span>
             </div>
 
             <div id="lb-note-wrap" style="display:none;">
@@ -3074,6 +3126,11 @@ button.doc-card.lightbox-trigger:focus-visible {
                 </div>
             </div>
 
+            <div>
+                <h3 class="lightbox-title" id="lb-title"></h3>
+                <p class="lightbox-doc-id" id="lb-docid" style="display:none;"></p>
+            </div>
+
             <p class="lightbox-summary" id="lb-summary"></p>
 
             <div id="lb-keypoints-wrap" style="display:none;">
@@ -3081,10 +3138,11 @@ button.doc-card.lightbox-trigger:focus-visible {
                 <ul class="lightbox-key-points" id="lb-keypoints"></ul>
             </div>
 
-            <p class="lightbox-status-desc" id="lb-status-desc"></p>
-
-            <div id="lb-links-wrap" style="display:none;">
-                <div class="lightbox-links" id="lb-links"></div>
+            <div class="lightbox-links-wrap">
+                <p class="lightbox-status-desc" id="lb-status-desc"></p>
+                <div id="lb-links-wrap" style="display:none;">
+                    <div class="lightbox-links" id="lb-links"></div>
+                </div>
             </div>
         </div>
     </dialog>
@@ -4089,11 +4147,15 @@ button.doc-card.lightbox-trigger:focus-visible {
     "docId": "",
     "date": "2023",
     "title": "Ladysmith 2023 Annual Water Quality Report",
-    "summary": "REPORT STATE: No verified public release. Document absent from local government records",
+    "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring",
     "status": "unpublished",
     "badgeText": "◌ UNPUBLISHED",
     "statusDesc": "This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-    "note": null,
+    "note": {
+      "label": "Report State",
+      "type": "red",
+      "text": "No verified public release. Document absent from local government records."
+    },
     "keyPoints": [],
     "source": "",
     "pdfMirror": "",
@@ -4103,11 +4165,15 @@ button.doc-card.lightbox-trigger:focus-visible {
     "docId": "",
     "date": "2022",
     "title": "Ladysmith 2022 Annual Water Quality Report",
-    "summary": "REPORT STATE: No verified public release. Document absent from local government records",
+    "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring",
     "status": "unpublished",
     "badgeText": "◌ UNPUBLISHED",
     "statusDesc": "This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-    "note": null,
+    "note": {
+      "label": "Report State",
+      "type": "red",
+      "text": "No verified public release. Document absent from local government records."
+    },
     "keyPoints": [],
     "source": "",
     "pdfMirror": "",
@@ -4117,11 +4183,15 @@ button.doc-card.lightbox-trigger:focus-visible {
     "docId": "",
     "date": "2021",
     "title": "Ladysmith 2021 Annual Water Quality Report",
-    "summary": "REPORT STATE: No verified public release. Document absent from local government records",
+    "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring",
     "status": "unpublished",
     "badgeText": "◌ UNPUBLISHED",
     "statusDesc": "This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-    "note": null,
+    "note": {
+      "label": "Report State",
+      "type": "red",
+      "text": "No verified public release. Document absent from local government records."
+    },
     "keyPoints": [],
     "source": "",
     "pdfMirror": "",
@@ -4131,11 +4201,15 @@ button.doc-card.lightbox-trigger:focus-visible {
     "docId": "",
     "date": "2020",
     "title": "Ladysmith 2020 Annual Water Quality Report",
-    "summary": "REPORT STATE: No verified public release. Document absent from local government records",
+    "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring",
     "status": "unpublished",
     "badgeText": "◌ UNPUBLISHED",
     "statusDesc": "This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-    "note": null,
+    "note": {
+      "label": "Report State",
+      "type": "red",
+      "text": "No verified public release. Document absent from local government records."
+    },
     "keyPoints": [],
     "source": "",
     "pdfMirror": "",
@@ -4145,11 +4219,15 @@ button.doc-card.lightbox-trigger:focus-visible {
     "docId": "",
     "date": "2019",
     "title": "Ladysmith 2019 Annual Water Quality Report",
-    "summary": "REPORT STATE: No verified public release. Document absent from local government records",
+    "summary": "Mandated public report to Island Health documenting municipal water sources, distribution infrastructure, and safety monitoring",
     "status": "unpublished",
     "badgeText": "◌ UNPUBLISHED",
     "statusDesc": "This link has been excluded from the scope of this dataset as no publication path has been established on the public web server.",
-    "note": null,
+    "note": {
+      "label": "Report State",
+      "type": "red",
+      "text": "No verified public release. Document absent from local government records."
+    },
     "keyPoints": [],
     "source": "",
     "pdfMirror": "",
@@ -4414,41 +4492,43 @@ button.doc-card.lightbox-trigger:focus-visible {
                 var linksWrap = document.getElementById('lb-links-wrap');
                 var linksEl = document.getElementById('lb-links');
                 linksEl.innerHTML = '';
-                var linkDefs = [
-                    { url: d.source, label: 'Primary Source ↗', cls: 'source-action-button', external: true },
-                    { url: d.pdfMirror, label: 'PDF Mirror (Local)', cls: 'source-action-button mirror', external: false },
-                    { url: d.htmlArchive, label: 'HTML Archive (Local)', cls: 'source-action-button mirror', external: false }
-                ];
                 var anyLink = false;
-                linkDefs.forEach(function (def) {
-                    if (!def.url) {
-                        // Unpublished: nothing to link to at all (never
-                        // published means no address exists), so show a
-                        // real but genuinely disabled placeholder instead
-                        // of silently omitting the button -- makes the
-                        // absence itself visible rather than invisible.
-                        // Every other status keeps the "omit if blank"
-                        // rule; broken-but-real links (403/404) always
-                        // stay clickable, this is only for true absence.
-                        if (d.status !== 'unpublished') return;
-                        anyLink = true;
-                        var span = document.createElement('span');
-                        span.className = def.cls + ' disabled';
-                        span.textContent = def.label;
-                        linksEl.appendChild(span);
-                        return;
-                    }
+
+                if (d.status === 'unpublished') {
+                    // Nothing was ever published, so there's no address
+                    // to omit-if-blank -- show exactly 2 real, genuinely
+                    // disabled placeholders instead (no HTML Archive slot
+                    // at all here, unlike every other status's 3 slots).
                     anyLink = true;
-                    var a = document.createElement('a');
-                    a.href = def.url;
-                    a.className = def.cls;
-                    if (def.external && (d.status === 'restricted-403' || d.status === 'absent-404')) {
-                        a.className += ' muted';
-                    }
-                    a.textContent = def.label;
-                    if (def.external) a.target = '_blank';
-                    linksEl.appendChild(a);
-                });
+                    var noSource = document.createElement('span');
+                    noSource.className = 'source-action-button unavailable';
+                    noSource.textContent = '⊘ no primary source link';
+                    linksEl.appendChild(noSource);
+
+                    var noMirror = document.createElement('span');
+                    noMirror.className = 'source-action-button unavailable';
+                    noMirror.textContent = '⊘ local mirror unavailable';
+                    linksEl.appendChild(noMirror);
+                } else {
+                    var linkDefs = [
+                        { url: d.source, label: 'Primary Source ↗', cls: 'source-action-button', external: true },
+                        { url: d.pdfMirror, label: 'PDF Mirror (Local)', cls: 'source-action-button mirror', external: false },
+                        { url: d.htmlArchive, label: 'HTML Archive (Local)', cls: 'source-action-button mirror', external: false }
+                    ];
+                    linkDefs.forEach(function (def) {
+                        if (!def.url) return; // no fabricated/placeholder links -- omit if not yet populated
+                        anyLink = true;
+                        var a = document.createElement('a');
+                        a.href = def.url;
+                        a.className = def.cls;
+                        if (def.external && (d.status === 'restricted-403' || d.status === 'absent-404')) {
+                            a.className += ' muted';
+                        }
+                        a.textContent = def.label;
+                        if (def.external) a.target = '_blank';
+                        linksEl.appendChild(a);
+                    });
+                }
                 linksWrap.style.display = anyLink ? '' : 'none';
 
                 return true;
