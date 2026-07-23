@@ -206,7 +206,8 @@
             border: 1px solid var(--border-light);
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
+            text-align: center;
             gap: 4px;
         }
 
@@ -1203,7 +1204,7 @@
     column-gap: 16px;
     row-gap: 16px;
     align-items: stretch;
-    padding-top: 145px; /* reserves room for the year-marker label, and the taller (now up to 3-line-title) key-event-marker label above it */
+    padding-top: 90px; /* reserves room for the year-marker label (and the key-event-marker label, whose own top offset was tightened to match) - most columns only need the year-marker's ~46px, so this trims the dead space that used to be sized for the rare tall key-event-marker case */
 }
 
 /* Retains your original 220px card width design */
@@ -1304,7 +1305,7 @@
 .key-event-marker::before {
     content: '';
     position: absolute;
-    top: -38px;
+    top: -14px;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -1315,7 +1316,7 @@
 
 .key-event-marker-label {
     position: absolute;
-    top: -128px; /* raised from -90px to leave headroom for a 2-3 line title instead of the short placeholder it was designed against */
+    top: -71px; /* tightened to fit inside the reduced 90px shared padding-top without overlapping row-1 content below it */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
