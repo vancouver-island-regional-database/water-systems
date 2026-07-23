@@ -1058,7 +1058,7 @@
     column-gap: 16px;
     row-gap: 16px;
     align-items: stretch;
-    padding-top: 92px; /* reserves room for the year-marker label, and the taller key-event-marker label above it */
+    padding-top: 100px; /* reserves room for the year-marker label, and the taller key-event-marker label above it */
 }
 
 /* Retains your original 220px card width design */
@@ -1134,31 +1134,35 @@
 
 /* ============================================================
    KEY EVENT MARKER - a notable date that isn't itself a document
-   (a grand opening, a policy change, etc). A real duplicate of
-   .year-marker's own structure (own grid column, spanning both
-   row bands the same way) rather than a bespoke nested design -
-   that's what makes it behave exactly like a separator: reads as
-   its own thing at a glance, and is automatically immune to
-   .year-group.collapsed (no existing collapse rule targets this
-   class, so it's never touched, the same reason .year-marker
-   itself survives collapse). Sits between the two year-groups
-   nearest its date, not nested inside a row's card flow - a
-   precise day-level slot inside one year's flex row is what broke
-   before. Line/label positioned a bit higher than the year-marker's
-   own, so the two read as two tiers instead of competing. */
+   (a grand opening, a policy change, etc). Sits as a direct flex
+   child of .year-row-slot.row-1, placed in DOM order at its exact
+   chronological position - immediately before the card (or
+   card-group) whose date is the same as or the next one earlier
+   than the event's own date, so it reads left-to-right in the
+   correct place, not just parked at a year boundary. Not a
+   .grid-slot/.doc-card/.month-group, so no existing collapse rule
+   touches it - it stays visible even with its year collapsed,
+   the same way .year-marker itself does, without needing its own
+   collapse-specific CSS. Line/label positioned higher than the
+   year-marker's own so the two read as separate tiers. The label
+   is top-anchored (not centered/bottom-anchored), so its position
+   doesn't shift depending on whether the title wraps to one line
+   or two - only the bottom of the label block grows or shrinks. */
 .key-event-marker {
-    grid-row: 1 / 3;
+    flex: 0 0 auto;
+    width: 24px;
+    min-height: 160px;
     position: relative;
-    width: 1px;
     cursor: default;
 }
 
 .key-event-marker::before {
     content: '';
     position: absolute;
-    top: -34px;
+    top: -38px;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 3px;
     background: var(--bc-gold);
     border-radius: 2px;
@@ -1166,7 +1170,7 @@
 
 .key-event-marker-label {
     position: absolute;
-    top: -84px;
+    top: -90px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -2231,7 +2235,21 @@
                         </div>
                     </div>
                     <!-- /card -->
+    <!-- KEY EVENT: WWTP Grand Opening (Jun 18, 2018) - placed immediately
+         before the next-earlier-dated card (Apr 11), same left-to-right
+         chronological position as everything else in this row. Not a
+         .grid-slot/.doc-card/.month-group, so .year-group.collapsed never
+         hides it - stays visible even with 2018 fully collapsed. -->
+                    <div class="key-event-marker">
+                        <div class="key-event-marker-label">
+                            <span class="key-event-marker-date">Jun 18, 2018</span>
+                            <span class="key-event-marker-title">WWTP Grand Opening</span>
+                        </div>
+                    </div>
 <!--💬 2018 - LADYSMITH WWTP HONOURED FOR ENGINEERING EXCELLENCE (PRESS RELEASE QUOTE) -->
+                    <div class="month-group">
+                        <span class="month-group-label">April</span>
+                        <div class="month-group-content">
                     <div class="grid-slot void">
                         <div class="grid-slot-date">
                             <span>2018, Apr 11</span>
@@ -2244,6 +2262,8 @@
                                 <cite class="quote-credit">Guillermo Ferrero</cite>
                                 <cite class="quote-role">Chief Administrative Officer,<br>Town of Ladysmith</cite>
                             </div>
+                        </div>
+                    </div>
                         </div>
                     </div>
                     <div class="month-group">
@@ -2307,17 +2327,6 @@
                     </div> <!-- /card -->
                     </div> <!-- /row-2 -->
                     </div> <!-- /2018 -->
-
-    <!-- KEY EVENT: WWTP Grand Opening (Jun 18, 2018) - its own separator column,
-         same structural pattern as .year-marker, not nested inside a row's
-         card flow. Immune to .year-group.collapsed (no rule targets this
-         class), so it stays visible even with every year collapsed. -->
-                    <div class="key-event-marker">
-                        <div class="key-event-marker-label">
-                            <span class="key-event-marker-date">Jun 18, 2018</span>
-                            <span class="key-event-marker-title">WWTP Grand Opening</span>
-                        </div>
-                    </div>
 
     <!-- +++++++++++++++++++++++++++++ YEAR 2017 +++++++++++++++++++++++++++++ -->
                     <div class="year-group" data-year="2017">
