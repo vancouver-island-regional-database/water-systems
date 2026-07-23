@@ -2011,22 +2011,18 @@ button.doc-card.lightbox-trigger:focus-visible {
          a lone .grid-slot.void means the auto-collapse rule (CSS ~line
          1001) no longer matches this year, so 2026 renders as a normal
          full-width column instead of the faded/collapsed empty-year
-         treatment - intentional, this deadline is worth surfacing at full
-         size. The marker itself is only 72px tall (see align-self:
-         flex-start above) so it doesn't force row-1's shared height up,
-         but row-1's height is still ~330px because of unrelated content
-         elsewhere in the timeline (2018/2019) - a void card is added back
-         below as a sibling to fill that leftover space with the same
-         "deliberately nothing else here" dashed treatment every other
-         empty slot uses, instead of leaving it blank canvas. -->
+         treatment - intentional, this deadline is worth surfacing. Tried
+         pairing this with a .grid-slot.void card to fill the leftover row
+         height (commit 68827d0) - reverted, read as a giant empty box
+         rather than an improvement. Marker stands alone; row-1's shared
+         height (~330px, from unrelated 2018/2019 content) still applies
+         since it's a shared grid track, but at least the column itself
+         stays narrow (24px) instead of ballooning to card-width too. -->
                     <div class="key-event-marker">
                         <div class="key-event-marker-label">
                             <span class="key-event-marker-date">Dec 31, 2026</span>
                             <span class="key-event-marker-title">Legal Deadline to Add Wastewater Disinfection Step</span>
                         </div>
-                    </div>
-                    <div class="grid-slot void">
-                        <div class="grid-slot-body"></div>
                     </div>
                     </div> <!-- /row-1 -->
 
@@ -2653,7 +2649,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <span class="stack-count-badge authority-federal"><span class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_gov-ca.png" alt="Government of Canada icon"></span>×4</span>
                             </div>
 <!--🟢 2021 - IR163340 EFFLUENT NON-COMPLIANCE ADVISORY LETTER -->
-                            <a href="#dossier-ir163340" class="doc-card status-live-200 authority-provincial eao stack-card-front">
+                            <div class="doc-card status-live-200 authority-provincial eao stack-card-front">
                                 <div class="stack-hover-overlay"><span>View all (5)</span></div>
                                 <div class="doc-card-status-bar"></div>
                                 <div class="doc-card-date-row"><span class="doc-card-date">2021, Jan 29</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
@@ -2664,7 +2660,7 @@ button.doc-card.lightbox-trigger:focus-visible {
                                 <p>Environmental Protection Advisory for discharge rate exceedances and unauthorized bypass. Level 1, Category B.</p>
                                 </div>
                                 <div class="doc-card-footer"><div class="icon-container"><img src="../vancouver-island-regional-database.github.io/assets/fav_bc-ca.png" alt="Province of British Columbia icon"></div><span>BC Environmental Assessment Office</span></div>
-                            </a>
+                            </div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-1"><div class="doc-card-status-bar"></div></div>
                             <div class="doc-card status-live-200 authority-federal dfo stack-card-ghost-2"><div class="doc-card-status-bar"></div></div>
                         </div>
