@@ -187,10 +187,9 @@
         }
 
         .area-header {
-            background: var(--bc-blue-dark);
-            color: #FFFFFF;
+            background: #F1F5F9;
+            color: var(--bc-blue-dark);
             padding: 18px 24px;
-            border-bottom: 4px solid var(--bc-gold);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -201,15 +200,13 @@
             font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.01em;
+            color: var(--bc-blue-dark);
         }
 
         .area-header-stats {
-            background: rgba(255, 255, 255, 0.12);
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
         }
 
         /* Horizontal Scroll Wrapper */
@@ -506,23 +503,37 @@
 /* Auto-collapse: year columns where row-1 is a lone VOID and row-2 is a lone
    SPACE have nothing in them at all, so shrink the column automatically - no
    click needed. Unlike the manual year-collapse toggle, this is passive: no
-   divider line, no gold triangle, no hover colour change, since there's
-   nothing to reveal by interacting with it. */
+   gold triangle, no hover colour change, since there's nothing to reveal by
+   interacting with it. Width matches the manual-collapsed width (60px) -
+   using a narrower width here left too little buffer and let an open
+   neighbour's cards overlap it. The divider line keeps the SAME thickness as
+   a normal open year (2px, not the wide hatch pattern), just centred in the
+   wider box. Uses fixed muted colours (not opacity) so it stays clearly
+   faded regardless of what the canvas background is. */
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .grid-slot {
     display: none;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker {
-    width: 1px;
+    width: 60px;
     cursor: default;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker::before {
-    display: none;
+    left: 29px;
+    background: var(--border-light);
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover::before {
+    background: var(--border-light);
+}
+
+.year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label {
+    color: #9AA5B1;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker:hover .year-marker-label {
-    color: var(--text-muted);
+    color: #9AA5B1;
 }
 
 .year-group:has(> .year-row-slot.row-1 > .grid-slot.void:only-child):has(> .year-row-slot.row-2 > .grid-slot.space:only-child) .year-marker-label::after {
@@ -1085,7 +1096,7 @@
 <div class="area-block">
     <div class="area-header">
         <h3>Block Title (Undecided)</h3>
-        <span class="area-header-stats">Undecided</span>
+        <span class="area-header-stats">Last modified: July 2026</span>
     </div>
 
     <div class="grid-scroll-container">
