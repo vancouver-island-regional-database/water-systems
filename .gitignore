@@ -6,3 +6,6 @@ venv/
 redact_terms.local.txt
 scrub.py
 requirements.txt
+
+# Local backups (never publish)
+*.bak*
