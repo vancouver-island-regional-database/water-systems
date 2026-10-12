@@ -2492,6 +2492,23 @@ a.dataset-source-button {
       .chart-figure-header h4 { font-size: 21px; }
       .wwtp-chart-scroll { padding: 10px 7px 0; }
     }
+
+  .chart-questions { margin: 0 0 36px; }
+  .chart-questions > summary { padding: 20px 24px; }
+  .chart-questions #chart-questions-title { font-size: 24px; font-weight: 700; line-height: 30px; letter-spacing: -0.6px; color: #002244; }
+  .chart-question { padding: 22px 24px; border-top: 1px solid var(--border-light, #e3e8ec); }
+  .chart-question h5 { margin: 0 0 12px; font-size: 18px; font-weight: 650; line-height: 1.35; color: #002244; }
+  .chart-answer { border-left: 3px solid var(--marine-cue, #1A5A96); padding-left: 16px; }
+  .chart-answer p { margin: 0 0 10px; font-size: 15px; line-height: 1.65; color: #1f2933; max-width: 820px; }
+  .chart-answer p:last-child { margin-bottom: 0; }
+  .chart-answer-sources { list-style: none; margin: 12px 0 0; padding: 0 0 0 19px; }
+  .chart-answer-sources li { font-size: 13px; line-height: 1.5; color: #4d626f; margin: 0 0 3px; }
+  .chart-answer-sources sup { margin-right: 3px; }
+  @media (max-width: 768px) {
+    .chart-questions > summary { padding: 16px; }
+    .chart-questions #chart-questions-title { font-size: 20px; line-height: 26px; }
+    .chart-question { padding: 18px 16px; }
+  }
 </style>
 
 <style id="section-organization-prototype">
@@ -6569,6 +6586,91 @@ a.dataset-source-button {
         </div>
       </div>
 
+
+      <!-- Chart questions -->
+      <details class="viz-disclosure viz-understanding chart-questions" id="chart-questions">
+        <summary>
+          <span><strong class="viz-disclosure-title" id="chart-questions-title">Questions about these charts</strong></span>
+        </summary>
+        <div class="viz-disclosure-body">
+          <section aria-labelledby="chart-questions-title">
+            <div class="chart-question" id="chart-q-measure">
+              <h5>What do these charts measure?</h5>
+              <div class="chart-answer">
+                <p>"Both methods of testing, CBOD and microbiological testing, serve different purposes. Microbiological testing is more focused on public health since it identifies the presence of harmful pathogens in the effluent. CBOD monitoring is more focused on protecting the environment and aquatic life."</p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><cite class="paragraph-citation"><a href="https://gazette.gc.ca/rp-pr/p1/2023/2023-05-27/html/reg2-eng.html" target="_blank" rel="cite noopener" itemprop="citation">2023 Federal ammendments to the Wastewater Systems Effluent Regulations</a></cite>, IDEXX Laboratories Inc. commentary</li>
+              </ul>
+            </div>
+            <div class="chart-question" id="chart-q-transfer-beach">
+              <h5>Who monitors water quality at Transfer Beach?</h5>
+              <div class="chart-answer">
+                <p>"The Vancouver Island Health Authority (VIHA) has a program to routinely monitor recreational beaches within its jurisdiction. Beaches are monitored to protect swimmers from illnesses that may be linked to unacceptable bacteria levels."</p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><cite class="paragraph-citation"><a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-lwmp-stage-1-and-2-report-figures-extracted.pdf" target="_blank" rel="cite noopener" itemprop="citation">Town of Ladysmith, Liquid Waste Management Plan Stages 1 &amp; 2</a></cite>, p. 3-17 (PDF p. 49)</li>
+                <li>Sample results: <cite class="paragraph-citation"><a href="https://inspections.myhealthdepartment.com/island-health/water-sample-history/?permitID=0C2C3347-8920-49F5-B59C-9523B2B779BD" target="_blank" rel="cite noopener" itemprop="citation">Island Health, Transfer Beach North</a></cite></li>
+                <li>Sample results: <cite class="paragraph-citation"><a href="https://inspections.myhealthdepartment.com/island-health/water-sample-history/?permitID=42ACAF1A-42CA-4701-A2C7-B14972E419A8" target="_blank" rel="cite noopener" itemprop="citation">Island Health, Transfer Beach South</a></cite></li>
+              </ul>
+            </div>
+            <div class="chart-question" id="chart-q-shellfish-closures">
+              <h5>What causes shellfish harvesting closures in Ladysmith Harbour?</h5>
+              <div class="chart-answer">
+                <p>"The Ladysmith WWTP has reported a sample of their treated effluent that was above the threshold established for the safe harvest of bivalve shellfish."<sup>1</sup></p>
+                <p>"The Ladysmith WWTP has reported a discharge above the threshold established for the safe harvest of bivalve shellfish."<sup>2</sup></p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><sup>1 </sup><cite class="paragraph-citation"><a href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&amp;DOC_ID=290325" target="_blank" rel="cite noopener" itemprop="citation">Fisheries and Oceans Canada, Fishery Notice FN1037-SANITARY</a></cite>, September 21, 2023</li>
+                <li><sup>2 </sup><cite class="paragraph-citation"><a href="https://notices.dfo-mpo.gc.ca/fns-sap/index-eng.cfm?pg=view_notice&amp;DOC_ID=229382" target="_blank" rel="cite noopener" itemprop="citation">Fisheries and Oceans Canada, Fishery Notice FN0079-SANITARY</a></cite>, January 31, 2020</li>
+              </ul>
+            </div>
+            <div class="chart-question" id="chart-q-rainfall">
+              <h5>Why is rainfall shown on the charts?</h5>
+              <div class="chart-answer">
+                <p>Weather is an important factor in water quality analysis because heavy rain events can cause plants to bypass treatment,<sup>1</sup> but also can alleviate risk with further dilution within the receiving water.<sup>2</sup></p>
+                <p>"According to a recent Environment Canada report, Closure 17.1 is in place mainly due to bypass discharges of untreated wastewater from the Ladysmith Sewage Treatment Plant during wet weather; these bypass discharges are not disinfected, and therefore are a potential source of fecal contamination."<sup>3</sup></p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><sup>1 </sup><cite class="paragraph-citation"><a href="https://eocp.ca/operator-digest/whats-new-in-ladysmith/" target="_blank" rel="cite noopener" itemprop="citation">Environmental Operators Certification Program, &ldquo;What's New in Ladysmith?&rdquo;</a></cite></li>
+                <li><sup>2 </sup><cite class="paragraph-citation"><a href="https://pubmed.ncbi.nlm.nih.gov/39233086/" target="_blank" rel="cite noopener" itemprop="citation">2024 study of sanitary sewer overflows and rainfall dynamics</a></cite></li>
+                <li><sup>3 </sup><cite class="paragraph-citation"><a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-lwmp-stage-1-and-2-report-figures-extracted.pdf" target="_blank" rel="cite noopener" itemprop="citation">Town of Ladysmith, Liquid Waste Management Plan Stages 1 &amp; 2</a></cite>, p. 3-15 (PDF p. 47)</li>
+              </ul>
+            </div>
+            <div class="chart-question" id="chart-q-upgrade">
+              <h5>What is the marked upgrade period?</h5>
+              <div class="chart-answer">
+                <p>The shaded band marks 2016 to 2018. The Ladysmith wastewater treatment plant upgrade "was completed in 2017 and included a new secondary treatment facility."</p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><cite class="paragraph-citation"><a href="https://www.wsp.com/en-ca/projects/town-of-ladysmith-wastewater-treatment-plant-upgrade" target="_blank" rel="cite noopener" itemprop="citation">WSP, Town of Ladysmith Wastewater Treatment Plant Upgrade</a></cite></li>
+              </ul>
+            </div>
+            <div class="chart-question" id="chart-q-reference-lines">
+              <h5>What do the reference lines mean?</h5>
+              <div class="chart-answer">
+                <p>"The Water Quality Criteria for the protection of aquatic life (shellfish harvesting) for fecal coliforms is less than or equal to 43/100 mL 90th percentile or 14/100 mL median."</p>
+                <p>"The Water Quality Criteria for the protection of aquatic life (shellfish harvesting) for enterococci are less than or equal to: 11/100 mL 90th percentile or 4/100 mL median."</p>
+                <p>The reference values apply to groups of samples, not individual-sample pass or fail decisions.</p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><cite class="paragraph-citation"><a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-lwmp-stage-1-and-2-report-figures-extracted.pdf" target="_blank" rel="cite noopener" itemprop="citation">Town of Ladysmith, Liquid Waste Management Plan Stages 1 &amp; 2</a></cite>, p. 3-22 (PDF p. 54)</li>
+              </ul>
+            </div>
+            <div class="chart-question" id="chart-q-2020-gap">
+              <h5>Why are there no Transfer Beach samples for 2020?</h5>
+              <div class="chart-answer">
+                <p>The Island Health sample histories for Transfer Beach North and South list no results for 2020.</p>
+              </div>
+              <ul class="chart-answer-sources">
+                <li><cite class="paragraph-citation"><a href="https://inspections.myhealthdepartment.com/island-health/water-sample-history/?permitID=0C2C3347-8920-49F5-B59C-9523B2B779BD" target="_blank" rel="cite noopener" itemprop="citation">Island Health, Transfer Beach North</a></cite></li>
+                <li><cite class="paragraph-citation"><a href="https://inspections.myhealthdepartment.com/island-health/water-sample-history/?permitID=42ACAF1A-42CA-4701-A2C7-B14972E419A8" target="_blank" rel="cite noopener" itemprop="citation">Island Health, Transfer Beach South</a></cite></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </details>
+
       <article class="viz-study" aria-labelledby="pathogen-chart-heading" itemscope itemtype="https://schema.org/CreativeWork">
         <meta itemprop="description" content="Visualization of fecal coliform and enterococci monitoring data for Ladysmith Harbour, with shellfish-harvesting criteria and rainfall context.">
         <meta itemprop="temporalCoverage" content="2008/2026">
@@ -6706,7 +6808,7 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
 <p>"Both methods of testing, CBOD and microbiological testing, serve different purposes. Microbiological testing is more focused on public health since it identifies the presence of harmful pathogens in the effluent. CBOD monitoring is more focused on protecting the environment and aquatic life."<sup>4</sup>
  "When wastewater with a high CBOD5 value is returned to a natural water body, it poses a greater risk of depleting oxygen, harming aquatic organisms and disrupting ecological processes."<sup>5</sup></p>
 <div class="helpful-tip"><strong><em>Understand complex wastewater parameters better with this helpful <a href="https://www.linkedin.com/posts/shawky-ramadan-880a9865_environmentalengineering-wastewater-waterquality-share-7485664263924281344-8IMQ/" target="_blank" rel="noopener noreferrer">infographic and discussion on LinkedIn ↗</a></em></strong></div>
-            <p class="chart-context-sources"><em>Direct quotes: <sup>1</sup><cite class="paragraph-citation"><a href="https://www.ladysmith.ca/docs/default-source/reports-2021/ladysmith-lwmp-stage-1-and-2-report-figures-extracted.pdf" target="_blank" rel="cite noopener" itemprop="citation">
+            <p class="chart-context-sources"><em>Direct quotes: <sup>1</sup><cite class="paragraph-citation"><a href="https://www.abbotsford.ca/wastewatertreatment" target="_blank" rel="cite noopener" itemprop="citation">
               City of Abbotsford, Waste Water</a></cite>
               ; <sup>2</sup><cite class="paragraph-citation"><a href="https://rdn.bc.ca/dms/documents/wastewater-services/liquid-waste-management-plan/liquid-waste-management-plan-amendment/appendix_b.pdf" target="_blank" rel="cite noopener" itemprop="citation">
               Regional District of Nanaimo, Wastewater Treatment Basics</a></cite>, p.5-6 (PDF p. 11-12);
