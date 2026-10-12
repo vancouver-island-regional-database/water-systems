@@ -2066,6 +2066,7 @@ a.status-badge.quote:hover { background: var(--bc-blue); color: #FFF; }
 
 
 .mobile-milestone-title { font-size: 14px; font-weight: 700; color: #FFF; line-height: 1.35; }
+.mobile-milestone-title a { color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,.5); text-underline-offset: 2px; }
 
 
 
@@ -2481,6 +2482,15 @@ a.dataset-source-button {
 .wwtp-quarter-dot { stroke: #fff; stroke-width: 1.1; }
 .wwtp-quarter-dot-cbod { fill: #07577F; }
 .wwtp-quarter-dot-tss { fill: #874522; }
+.wwtp-data-chart.is-compact { min-width: 0; }
+.is-compact .wwtp-axis-text { font-size: 17px; }
+.is-compact .wwtp-axis-title { font-size: 13px; }
+.is-compact .wwtp-reference-label { font-size: 15px; stroke-width: 5px; }
+.is-compact .wwtp-band-label { font-size: 14px; }
+.is-compact .wwtp-gap-label { font-size: 12px; }
+.is-compact .wwtp-mean-line { stroke-width: 3.6; }
+.is-compact .wwtp-quarter-line { stroke-width: 4; }
+.is-compact .wwtp-shellfish-reference, .is-compact .wwtp-reference-grid { stroke-width: 1.8; }
 @media (max-width: 760px) {
       .viz-disclosure-hint { display: none; }
       .indicator-columns { display: none; }
@@ -7016,6 +7026,22 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
     }).join(' ');
   }
 
+  function layout(svg, fullWidth, fullHeight, compactHeight) {
+    var host = svg.parentNode;
+    var compact = !!host && host.clientWidth > 0 && host.clientWidth < 640;
+    var width = compact ? 560 : fullWidth;
+    var height = compact ? compactHeight : fullHeight;
+    svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+    svg.classList.toggle('is-compact', compact);
+    return {
+      compact: compact,
+      k: compact ? 1.5 : 1,
+      width: width,
+      height: height,
+      pad: compact ? { left: 70, right: 18, top: 52, bottom: 48 } : { left: 70, right: 34, top: 52, bottom: 52 }
+    };
+  }
+
   function addTitle(parent, text) {
     svgElement('title', {}, parent, text);
   }
@@ -7043,19 +7069,19 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
     addTitle(area, 'Weekly rainfall context, independently scaled from 0 to ' + scaleMax + ' mm');
   }
 
-  function drawUpgradeBand(svg, x, pad, height) {
+  function drawUpgradeBand(svg, x, pad, height, compact) {
     var start = x('2016-01-01');
     var end = x('2018-12-31');
     svgElement('rect', { x: start, y: pad.top, width: end - start, height: height - pad.top - pad.bottom, 'class': 'wwtp-upgrade-band' }, svg);
-    svgElement('text', { x: (start + end) / 2, y: 26, 'text-anchor': 'middle', 'class': 'wwtp-band-label' }, svg, 'Wastewater Treatment Upgrade');
+    svgElement('text', { x: (start + end) / 2, y: 26, 'text-anchor': 'middle', 'class': 'wwtp-band-label' }, svg, compact ? 'WWTP UPGRADE' : 'Wastewater Treatment Upgrade');
     svgElement('path', { d: 'M' + start + ',34 V42 M' + start + ',38 H' + end + ' M' + end + ',34 V42', 'class': 'wwtp-band-bracket' }, svg);
   }
 
-  function drawYearGrid(svg, years, x, pad, height) {
-    years.forEach(function (year) {
+  function drawYearGrid(svg, years, x, pad, height, step) {
+    years.forEach(function (year, index) {
       var xpos = x(year + '-01-01');
       svgElement('line', { x1: xpos, x2: xpos, y1: pad.top, y2: height - pad.bottom, 'class': 'wwtp-year-grid' }, svg);
-      svgElement('text', { x: xpos, y: height - 20, 'text-anchor': 'middle', 'class': 'wwtp-axis-text' }, svg, String(year));
+      if (index % (step || 1) === 0) svgElement('text', { x: xpos, y: height - 20, 'text-anchor': 'middle', 'class': 'wwtp-axis-text' }, svg, String(year));
     });
   }
 
@@ -7089,9 +7115,11 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
     if (!svg || !DATA.cssp || !DATA.tb) return;
     clearPlot(svg);
 
-    var width = 1120;
-    var height = 444;
-    var pad = { left: 70, right: 34, top: 52, bottom: 52 };
+    var L = layout(svg, 1120, 444, 540);
+    var width = L.width;
+    var height = L.height;
+    var pad = L.pad;
+    var k = L.k;
     var domain = ['2008-01-01', '2026-12-31'];
     var x = xScale(domain, width, pad);
     var y = logScale(1, 1000, height, pad);
@@ -7099,47 +7127,47 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
     var ticks = [1, 10, 100, 1000];
 
     addRainfall(svg, DATA.precip_weekly_tb, domain, width, pad, height, x);
-    drawUpgradeBand(svg, x, pad, height);
+    drawUpgradeBand(svg, x, pad, height, L.compact);
 
     var gapStart = x('2020-01-01');
     var gapEnd = x('2020-12-31');
     svgElement('rect', { x: gapStart, y: pad.top, width: gapEnd - gapStart, height: height - pad.top - pad.bottom, 'class': 'wwtp-sample-gap' }, svg);
 
-    drawYearGrid(svg, years, x, pad, height);
+    drawYearGrid(svg, years, x, pad, height, L.compact ? 2 : 1);
     drawValueGrid(svg, ticks, y, pad, width, []);
     svgElement('text', { x: 18, y: height / 2, 'text-anchor': 'middle', transform: 'rotate(-90 18 ' + (height / 2) + ')', 'class': 'wwtp-axis-title' }, svg, 'MPN / 100 mL · LOG SCALE');
 
     DATA.cssp.forEach(function (point) {
-      var circle = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 2.7, fill: COLORS.harbour, 'fill-opacity': .42 }, svg);
+      var circle = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 2.7 * k, fill: COLORS.harbour, 'fill-opacity': .42 }, svg);
       addTitle(circle, point.t + ' · ' + (point.s || 'harbour station') + ' · fecal coliform ' + point.v + ' MPN/100 mL');
     });
     DATA.tb.forEach(function (point) {
-      addTriangle(svg, x(point.t), y(point.v), 4.7, COLORS.copper, .72, point.t + ' · Transfer Beach ' + (point.s || 'station') + ' · enterococci ' + point.v + ' MPN/100 mL');
+      addTriangle(svg, x(point.t), y(point.v), 4.7 * k, COLORS.copper, .72, point.t + ' · Transfer Beach ' + (point.s || 'station') + ' · enterococci ' + point.v + ' MPN/100 mL');
     });
 
     var fecalMeans = annualGeometricMeans(DATA.cssp);
     var enteroMeans = annualGeometricMeans(DATA.tb);
     svgElement('path', { d: linePath(fecalMeans, x, y), 'class': 'wwtp-mean-line wwtp-mean-line-fecal' }, svg);
     fecalMeans.forEach(function (point) {
-      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 4.4, 'class': 'wwtp-mean-dot wwtp-mean-dot-fecal' }, svg);
+      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 4.4 * k, 'class': 'wwtp-mean-dot wwtp-mean-dot-fecal' }, svg);
       addTitle(dot, point.year + ' fecal coliform annual geometric mean: ' + point.v.toFixed(1) + ' MPN/100 mL');
     });
     svgElement('path', { d: linePath(enteroMeans, x, y, [2020]), 'class': 'wwtp-mean-line wwtp-mean-line-entero' }, svg);
     enteroMeans.forEach(function (point) {
-      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 4.4, 'class': 'wwtp-mean-dot wwtp-mean-dot-entero' }, svg);
+      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 4.4 * k, 'class': 'wwtp-mean-dot wwtp-mean-dot-entero' }, svg);
       addTitle(dot, point.year + ' enterococci annual geometric mean: ' + point.v.toFixed(1) + ' MPN/100 mL');
     });
 
     
-    drawShellfishReference(svg, 43, 'FC 90th percentile · 43', 'fecal', 'percentile', 'left', y, pad, width);
+    drawShellfishReference(svg, 43, L.compact ? 'FC 90th pct · 43' : 'FC 90th percentile · 43', 'fecal', 'percentile', 'left', y, pad, width);
     drawShellfishReference(svg, 14, 'FC median · 14', 'fecal', 'median', 'left', y, pad, width);
-    drawShellfishReference(svg, 11, 'Enterococci 90th percentile · 11', 'entero', 'percentile', 'right', y, pad, width);
-    drawShellfishReference(svg, 4, 'Enterococci median · 4', 'entero', 'median', 'right', y, pad, width);
+    drawShellfishReference(svg, 11, L.compact ? 'Ent. 90th pct · 11' : 'Enterococci 90th percentile · 11', 'entero', 'percentile', 'right', y, pad, width);
+    drawShellfishReference(svg, 4, L.compact ? 'Ent. median · 4' : 'Enterococci median · 4', 'entero', 'median', 'right', y, pad, width);
 
     
     var gapLabel = svgElement('text', {
       x: (gapStart + gapEnd) / 2,
-      y: height - pad.bottom - 100,
+      y: L.compact ? pad.top + 26 : height - pad.bottom - 100,
       'text-anchor': 'middle',
       'class': 'wwtp-gap-label'
     }, svg);
@@ -7152,9 +7180,11 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
     if (!svg || !DATA.cbod || !DATA.tss || !DATA.wser) return;
     clearPlot(svg);
 
-    var width = 1120;
-    var height = 402;
-    var pad = { left: 70, right: 34, top: 52, bottom: 52 };
+    var L = layout(svg, 1120, 402, 500);
+    var width = L.width;
+    var height = L.height;
+    var pad = L.pad;
+    var k = L.k;
     var domain = ['2013-01-01', '2026-12-31'];
     var x = xScale(domain, width, pad);
     var y = logScale(1, 1000, height, pad);
@@ -7164,35 +7194,55 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
     var tssAverage = DATA.wser.filter(function (point) { return point.tss !== null; }).map(function (point) { return { t: point.t, v: point.tss }; });
 
     addRainfall(svg, DATA.precip_weekly_wwtp, domain, width, pad, height, x);
-    drawUpgradeBand(svg, x, pad, height);
-    drawYearGrid(svg, years, x, pad, height);
+    drawUpgradeBand(svg, x, pad, height, L.compact);
+    drawYearGrid(svg, years, x, pad, height, L.compact ? 2 : 1);
     drawValueGrid(svg, ticks, y, pad, width, [45]);
     svgElement('text', { x: 18, y: height / 2, 'text-anchor': 'middle', transform: 'rotate(-90 18 ' + (height / 2) + ')', 'class': 'wwtp-axis-title' }, svg, 'MG / L · LOG SCALE');
 
     svgElement('path', { d: linePath(cbodAverage, x, y), 'class': 'wwtp-quarter-line wwtp-quarter-line-cbod' }, svg);
     svgElement('path', { d: linePath(tssAverage, x, y), 'class': 'wwtp-quarter-line wwtp-quarter-line-tss' }, svg);
     cbodAverage.forEach(function (point) {
-      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 3.5, 'class': 'wwtp-quarter-dot wwtp-quarter-dot-cbod' }, svg);
+      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 3.5 * k, 'class': 'wwtp-quarter-dot wwtp-quarter-dot-cbod' }, svg);
       addTitle(dot, point.t + ' · CBOD quarterly average ' + point.v + ' mg/L');
     });
     tssAverage.forEach(function (point) {
-      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 3.5, 'class': 'wwtp-quarter-dot wwtp-quarter-dot-tss' }, svg);
+      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 3.5 * k, 'class': 'wwtp-quarter-dot wwtp-quarter-dot-tss' }, svg);
       addTitle(dot, point.t + ' · TSS quarterly average ' + point.v + ' mg/L');
     });
     DATA.cbod.forEach(function (point) {
-      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 2.9, fill: COLORS.harbour, 'fill-opacity': .55 }, svg);
+      var dot = svgElement('circle', { cx: x(point.t), cy: y(point.v), r: 2.9 * k, fill: COLORS.harbour, 'fill-opacity': .55 }, svg);
       addTitle(dot, point.t + ' · CBOD raw sample ' + point.v + ' mg/L');
     });
     DATA.tss.forEach(function (point) {
-      addTriangle(svg, x(point.t), y(point.v), 4, COLORS.copper, .64, point.t + ' · TSS raw sample ' + point.v + ' mg/L');
+      addTriangle(svg, x(point.t), y(point.v), 4 * k, COLORS.copper, .64, point.t + ' · TSS raw sample ' + point.v + ' mg/L');
     });
 
     
     svgElement('text', { x: width - pad.right - 5, y: y(45) - 7, 'text-anchor': 'end', 'class': 'wwtp-reference-label' }, svg, '45 mg/L · Operational Certificate limit');
   }
 
+  var compactState = null;
+  function redrawIfLayoutChanged() {
+    var svg = document.getElementById('wwtp-bacteria-chart');
+    var host = svg && svg.parentNode;
+    if (!host || !host.clientWidth) return;
+    var compact = host.clientWidth < 640;
+    if (compact === compactState) return;
+    compactState = compact;
+    drawBacteriaChart();
+    drawEffluentChart();
+  }
+
   drawBacteriaChart();
   drawEffluentChart();
+  redrawIfLayoutChanged();
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(redrawIfLayoutChanged, 150);
+  });
+  document.addEventListener('toggle', redrawIfLayoutChanged, true);
 })();
 </script>
     
