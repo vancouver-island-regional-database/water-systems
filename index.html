@@ -4420,6 +4420,35 @@ a.dataset-source-button {
     </div>
     <!-- /1985 -->
 
+    <!-- +++++++++++++++++++++++++++++ YEAR 1981 +++++++++++++++++++++++++++++ -->
+    <div class="year-group collapsed" data-year="1981">
+        <div class="year-marker" role="button" tabindex="0" aria-expanded="false" aria-label="Expand 1981 timeline records">
+            <span class="year-marker-label">1981<span class="year-marker-count">(1)</span></span>
+        </div>
+        <div class="year-row-slot">
+            <div class="month-group">
+                <span class="month-group-label">August</span>
+                <div class="month-group-content">
+                    <!--🟢 1981 - FEDERAL STUDY: WATER QUALITY AND OYSTER LARVAE IN LADYSMITH HARBOUR, 1979–1980-->
+                    <div class="doc-card status-live-200 authority-federal dfo lightbox-trigger" data-key="id-ctrfas-1026" role="button" tabindex="0">
+                        <div class="doc-card-status-bar"></div>
+                        <div class="doc-card-date-row"><span class="doc-card-date">1981, Aug</span><span class="status-badge live-200">✓ LIVE (200)</span></div>
+                        <div class="doc-card-body">
+                        <h4>Federal Study: Water Quality and Oyster Larvae in Ladysmith Harbour, 1979–1980</h4>
+                        <h5>Technical Report ID# 1026</h5>
+                        <p>Fisheries and Oceans Canada technical report on 1979 oyster embryo tests of surface water at five stations from the mouth to the head of Ladysmith Harbour, with 1979–1980 chemical analyses of water, sediment and oysters.</p>
+
+                                <a class="doc-card-source-link" href="https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/841.pdf" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View Source ↗</a>
+                        </div>
+                        <div class="doc-card-footer"><div class="icon-container"><img src="https://vancouver-island-regional-database.github.io/assets/authority-icons/fav_gov-ca_26374A.png" alt="Department of Fisheries and Oceans icon"></div><span>Department of Fisheries and Oceans</span></div>
+                    </div>
+                    <!-- /card -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /1981 -->
+
     <!-- +++++++++++++++++++++++++++++ YEAR 1975 +++++++++++++++++++++++++++++ -->
     <div class="year-group collapsed" data-year="1975">
         <div class="year-marker" role="button" tabindex="0" aria-expanded="false" aria-label="Expand 1975 timeline records">
@@ -5819,6 +5848,53 @@ a.dataset-source-button {
     "source": "https://publications.gc.ca/collections/collection_2019/eccc/en40-240/En40-240-84-18-eng.pdf",
     "pdfMirror": "./files/1985-08-XX_TOL-WWTP-Ladysmith-Harbour-Bacteria-Study_DOE-RPR-84-18.pdf",
     "htmlArchive": "./files/1985-08-XX_TOL-WWTP-Ladysmith-Harbour-Bacteria-Study_DOE-RPR-84-18.html"
+  },
+  "id-ctrfas-1026": {
+    "docId": "Technical Report ID# 1026",
+    "date": "1981, Aug",
+    "title": "Federal Study: Water Quality and Oyster Larvae in Ladysmith Harbour, 1979–1980",
+    "summary": "Fisheries and Oceans Canada technical report on 1979 oyster embryo tests of surface water at five stations from the mouth to the head of Ladysmith Harbour, with 1979–1980 chemical analyses of water, sediment and oysters.",
+    "status": "live-200",
+    "badgeText": "✓ LIVE (200)",
+    "statusDesc": "At time of indexing, this link is online and accessible at its original web address.",
+    "note": null,
+    "keyPoints": [
+      {
+        "ref": "Page 5",
+        "text": "Water quality, measured by oyster embryo tests, was poorer in harbour water than in clean control water; it was best at the mouth of the harbour and poorest at the head."
+      },
+      {
+        "ref": "Page 5",
+        "text": "No single cause was identified; wood extractives, chlorophenols, fuel additives and dimethyl sulphide, all of which can be toxic to oyster larvae, were found."
+      },
+      {
+        "ref": "Page 7",
+        "text": "Oyster harvesting in the harbour ceased in June 1965 when it was closed because of sewage contamination; the last commercial oyster set occurred in 1971."
+      },
+      {
+        "ref": "Page 15",
+        "text": "The Town sewage outfall (876 m into the outer harbour at 19 m depth) is named as another possible source; sewage was reported reaching the narrows."
+      },
+      {
+        "ref": "Page 19, 20",
+        "text": "A resin acid from softwood, most likely from log booms, and a tire and gasoline additive, most likely from a marina, were detected; input from the sewage outfall could not be ruled out for the additive."
+      },
+      {
+        "ref": "Page 17, 21",
+        "text": "Tetrachlorophenol and pentachlorophenol were detected in a foam sample beside a log boom; their probable origin is sawmill lumber treatment."
+      },
+      {
+        "ref": "Page 23",
+        "text": "Copper, mercury and arsenic levels were too low to explain the poor water quality."
+      },
+      {
+        "ref": "Page 24",
+        "text": "Recommendations include keeping sawmill chlorophenols out of the harbour, removing wood waste piles at the head of the harbour, regular monitoring of the sewage outfall, and studying leachates from stored logs."
+      }
+    ],
+    "source": "https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/841.pdf",
+    "pdfMirror": "./files/1981-08-XX_TOL-HARBOUR-Ladysmith-Harbour-Water-Quality-Study_DFO-CTRFAS-1026.pdf",
+    "htmlArchive": "./files/1981-08-XX_TOL-HARBOUR-Ladysmith-Harbour-Water-Quality-Study_DFO-CTRFAS-1026.html"
   },
   "proposed-water-and-sewer-capital-list-20": {
     "docId": "Attachment-A",
@@ -12279,12 +12355,12 @@ unrecognizable... Primary treatment is the next level of treatment... During thi
 
   function marineGroup(title) {
     var t = normalise(title);
-    if (/prohibition order|contamination closure|closure notice/.test(t)) return 'fisheries';
+    if (/prohibition order|harvest prohibition|contamination closure|closure notice/.test(t)) return 'fisheries';
     if (/non compliance advisory|advisory/.test(t)) return 'advisories';
     if (/liquid waste management plan|conditional management plan/.test(t)) return 'lwmp';
     if (/staff report to council|committee minutes|motions regarding|grant application|capital list/.test(t)) return 'governance';
     if (/job tender|addendum|request for engineering consultant proposals/.test(t)) return 'procurement';
-    if (/environmental site assessment|bathymetric|sidescan|geotechnical|sediment|remedial cost/.test(t)) return 'studies';
+    if (/environmental site assessment|bathymetric|sidescan|geotechnical|sediment|remedial cost|seabed|contaminated soil|cost to clean up|earthquake/.test(t)) return 'studies';
     return 'historical';
   }
 
